@@ -2,11 +2,11 @@
 **RadioG** is an application used to manage an internet radio implemented
 on a *Raspberry Pi*.
 
-It is a webapp built in the framework of [Angular](https://angular.io/)
+It is a webapp built in the framework of [Angular](https://angular.io/) forked from the original [RadioK](https://github.com/jplf/radiok).
 
 The documentation of the original version is available in french from 
 the [RadioK](http://www.fonteny.org/radiok) dedicated web site:
-http://www.fonteny.org/radiok
+http://www.fonteny.org/radiok.
 
 Here is a brief summary in english of what is detailed in the full web site.
 
@@ -15,12 +15,11 @@ Here is a brief summary in english of what is detailed in the full web site.
 |--------------|---------|
 | 04 April 2020 | A first version is pushed to github |
 | 20 March 2020 | Make a copy of the original radiok |
-|
+
 ### Hardware
 
 A computer with a sound card, a loud speaker and an internet
-connection are needed. A *Raspberry* is an excellent choice to implement
-this application.
+connection are needed. A *Raspberry* is an excellent choice to implement this application.
 
 ### Design
 

@@ -4,7 +4,7 @@
     
     <div class=" m-2 p-2 ">
       <div class="form-check"
-           *ngFor="let station of stations" (click)="onSelect(station)">
+           *ngFor="let station of stationList" (click)="onSelect(station)">
         <label class="form-check-label">
           <input type="radio" class="form-check-input"
                  name="optionsRadios"
@@ -18,11 +18,12 @@
 
   <div class="d-flex flex-row p-2 ">
 
-    <div class=
-         "col-sm-3 my-1 py-1 custom-control custom-switch">
+    <div class="col-sm-3 my-1 py-1 custom-control custom-switch">
       <input type="checkbox" class="custom-control-input" id="onOff"
              checked="">
-      <label class="custom-control-label" for="onOff">Off</label>
+      <label class="custom-control-label" for="onOff">
+        Off
+      </label>
     </div>
 
     <div class="col volume  ml-2 pt-2">
@@ -30,7 +31,7 @@
     </div>
   </div>
   
-  <app-radio class="d-flex justify-content-center mt-4"
-             [station]="setStation">
-  </app-radio>
+  <app-station class="d-flex justify-content-center mt-4"
+             [station]="selectedStation">
+  </app-station>
 </div>

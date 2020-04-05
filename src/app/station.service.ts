@@ -11,7 +11,7 @@ export class StationService {
 
     constructor(private messageService: MessageService) {}
     
-    getStations(): Station[] {
+    getStationList(): Station[] {
         return STATIONS;
     }
 }

@@ -4,29 +4,29 @@ import { StationService } from '../station.service';
 import { MessageService } from '../message.service';
 
 @Component({
-  selector: 'app-stations',
-  templateUrl: './stations.component.html',
-  styleUrls: ['./stations.component.scss']
+  selector: 'app-station-list',
+  templateUrl: './station-list.component.html',
+  styleUrls: ['./station-list.component.scss']
 })
 
-export class StationsComponent implements OnInit {
+export class StationListComponent implements OnInit {
 
     constructor(private stationService: StationService,
                 private messageService: MessageService) {}
 
     ngOnInit(): void {
-        this.getStations();
+        this.getStationList();
     }
 
-    stations: Station[];
+    stationList: Station[];
     
-    getStations(): void {
-        this.stations = this.stationService.getStations();
+    getStationList(): void {
+        this.stationList = this.stationService.getStationList();
     }    
 
-    setStation: Station;
+    selectedStation: Station;
     
     onSelect(s: Station): void {
-        this.setStation = s;
+        this.selectedStation = s;
     }
 }

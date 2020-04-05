@@ -2,12 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Station } from '../station';
 
 @Component({
-  selector: 'app-radio',
-  templateUrl: './radio.component.html',
-  styleUrls: ['./radio.component.scss']
+  selector: 'app-station',
+  templateUrl: './station.component.html',
+  styleUrls: ['./station.component.scss']
 })
 
-export class RadioComponent implements OnInit {
+export class StationComponent implements OnInit {
     
     @Input() station: Station;
 

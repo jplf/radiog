@@ -8,22 +8,24 @@ import { AppComponent } from './app.component';
 import { StationListComponent } from './station-list/station-list.component';
 import { StationComponent } from './station/station.component';
 import { MessagesComponent } from './messages/messages.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    StationListComponent,
-    MessagesComponent,
-    StationComponent
-  ],
-  imports: [
-    BrowserModule,
-      AppRoutingModule,
-      NgbPopoverModule,
-      NgbTooltipModule,
-      NgbButtonsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        StationListComponent,
+        MessagesComponent,
+        StationComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgbPopoverModule,
+        NgbTooltipModule,
+        NgbButtonsModule,
+        FormsModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

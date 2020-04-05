@@ -19,11 +19,11 @@
   <div class="d-flex flex-row p-2 ">
 
     <div class="col-sm-3 my-1 py-1 custom-control custom-switch">
+      
       <input type="checkbox" class="custom-control-input" id="onOff"
-             checked="">
-      <label class="custom-control-label" for="onOff">
-        Off
-      </label>
+             [(ngModel)] = "onOff" (click)="onSwitch(onOff)">
+      
+      <label class="custom-control-label" for="onOff"></label>
     </div>
 
     <div class="col volume  ml-2 pt-2">

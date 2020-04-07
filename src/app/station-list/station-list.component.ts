@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Station }  from '../station';
 import { StationService } from '../station.service';
 import { MessageService } from '../message.service';
-import { RadioService } from '../radio.service';
 
 @Component({
   selector: 'app-station-list',
@@ -30,22 +29,5 @@ export class StationListComponent implements OnInit {
     onSelect(s: Station): void {
         this.selectedStation = s;
         this.messageService.display(`${s.id} ${s.name}`)
-    }
-    
-    onOff: Boolean;
-
-    onSwitch(value: Boolean): void {
-        
-        var radioStatus;
-        this.onOff = value;
-        
-        if (value) {
-            radioStatus = 'Radio is switched off'
-        }
-        else {
-            radioStatus =  'Radio is switched on'
-        }
-        
-        this.messageService.display(radioStatus)
     }
 }

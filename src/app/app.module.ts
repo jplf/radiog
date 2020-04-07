@@ -9,13 +9,15 @@ import { StationListComponent } from './station-list/station-list.component';
 import { StationComponent } from './station/station.component';
 import { MessagesComponent } from './messages/messages.component';
 import { FormsModule } from '@angular/forms';
+import { RadioComponent } from './radio/radio.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         StationListComponent,
         MessagesComponent,
-        StationComponent
+        StationComponent,
+        RadioComponent
     ],
     imports: [
         BrowserModule,

@@ -18,4 +18,18 @@ export class RadioService {
     getStatus() : boolean {
         return this.on;
     }
+
+    displayStatus() : void {
+        
+        var radioStatus;
+        
+        if (this.on) {
+            radioStatus = 'Radio is switched off';
+        }
+        else {
+            radioStatus = 'Radio is switched on';
+        }
+        
+        this.messageService.display(radioStatus);
+    }
 }

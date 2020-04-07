@@ -9,7 +9,7 @@ import { RadioService } from '../radio.service';
 
 export class RadioComponent implements OnInit {
 
-    constructor(private radioService: RadioService) { }
+    constructor(private radioService: RadioService) { console.log('built')}
 
     ngOnInit(): void {
     }
@@ -18,8 +18,12 @@ export class RadioComponent implements OnInit {
     onOff: boolean;
     
     onSwitch(value: boolean): void {
-        
         this.radioService.switch(value);
-        this.radioService.displayStatus();
+    }
+    
+    volume: number;
+    
+    onChange(value: number): void {
+        this.radioService.setVolume(value);
     }
 }

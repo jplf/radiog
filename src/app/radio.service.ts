@@ -13,6 +13,7 @@ export class RadioService {
     
     switch(status : boolean) {
         this.on = status;
+        this.displayStatus();
     }
 
     getStatus() : boolean {
@@ -31,5 +32,12 @@ export class RadioService {
         }
         
         this.messageService.display(radioStatus);
+    }
+    
+    volume: number = 40;
+    
+    setVolume(value: number) {
+        this.volume = value;
+        this.messageService.display(value.toString());
     }
 }

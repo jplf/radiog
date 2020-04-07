@@ -4,14 +4,15 @@
   <div class="col-sm-3 my-1 py-1 custom-control custom-switch">
     
     <input type="checkbox" class="custom-control-input" id="onOff"
-           [value]="true" 
-           [(ngModel)] = "onOff" (click)="onSwitch(onOff)">
+           [value]="true" [(ngModel)]="onOff" (click)="onSwitch(onOff)">
     
     <label class="custom-control-label" for="onOff"></label>
   </div>
 
   <div class="col volume ml-2 pt-2">
-    <input type="range" class="custom-range" min="0" max="110" id="volume">
+    <input type="range" class="custom-range"
+           [value]="20.0" [(ngModel)]="volume" (change)="onChange(volume)"
+           min="0" max="100" id="volume">
   </div>
   
 </div>

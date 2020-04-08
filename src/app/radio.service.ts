@@ -38,6 +38,5 @@ export class RadioService {
     
     setVolume(value: number) {
         this.volume = value;
-        this.messageService.display(value.toString());
     }
 }

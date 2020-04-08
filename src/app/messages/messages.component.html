@@ -1,7 +1,6 @@
 
-<div *ngIf="messageService.message">
+<div *ngIf="messageService.message" style="height: 100px;">
 
   <span> {{ messageService.message }} </span>
 
-  <button class="clear m-4" (click)="messageService.clear()">clear</button>
 </div>

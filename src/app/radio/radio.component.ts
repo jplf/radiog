@@ -14,7 +14,6 @@ export class RadioComponent implements OnInit {
     ngOnInit(): void {
     }
 
-
     onOff: boolean;
     
     onSwitch(value: boolean): void {
@@ -26,4 +25,6 @@ export class RadioComponent implements OnInit {
     onChange(value: number): void {
         this.radioService.setVolume(value);
     }
+}
+export class NgbdTooltipDelay {
 }

@@ -1,6 +1,10 @@
 
-<div *ngIf="messageService.message" style="height: 100px;">
 
-  <span> {{ messageService.message }} </span>
+<div *ngIf="messageService.message" (click)="onClick()">
+
+  <span class="badge badge-pill badge-primary">
+    {{ messageService.message }}
+  </span>
 
 </div>
+

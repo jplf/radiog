@@ -28,6 +28,5 @@ export class StationListComponent implements OnInit {
     
     onSelect(s: Station): void {
         this.selectedStation = s;
-        this.messageService.display(`${s.id} ${s.name}`)
     }
 }

@@ -16,6 +16,7 @@ export class StationListComponent implements OnInit {
 
     ngOnInit(): void {
         this.getStationList();
+        this.selectedStation = this.stationList[0];
     }
 
     stationList: Station[];

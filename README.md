@@ -31,6 +31,10 @@ This application is my first attempt to build something useful with the new vers
 This application can run on any computer running the linux operating system.
 It is primarily intended to be installed on a raspberry pi box.
 
+It is worth reading the [tutorial](https://angular.io/tutorial/toh-pt0) since this application is very similar to the one proposed by the Angular.
+
+The target is a [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) 1GB running Ubuntu 19.10 (Eoan Ermine).
+
 ### Directories
 
 # Gontrol

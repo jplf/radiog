@@ -35,10 +35,11 @@ It is worth reading the [tutorial](https://angular.io/tutorial/toh-pt0) since th
 
 The target is a [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) 1GB running Ubuntu 19.10 (Eoan Ermine).
 
+The first commands to run are :
 ```
 node -v
 npm -v
-sudo npm install -g @angular/cli
+npm install @angular/cli
 ng --version
 ng new --create-application=false --skip-git --style=scss -v radiog
 cd radiog
@@ -46,6 +47,19 @@ git init
 git remote add origin git@github.com:jplf/radiog.git
 git pull
 ```
+Versions of *node* and *npm* are checked and a new angular application is generated then the content of this github repository is fetched.
+This application needs also a bunch of node modules which must be installed :
+
+```
+npm install @angular-devkit/architect \
+@angular-devkit/build-angular @angular-devkit/build-optimizer \
+@angular-devkit/build-webpack @angular-devkit/core \
+@angular-devkit/schematics @ngtools/webpack @schematics/angular \
+@schematics/update rxjs typescript webpack bootstrap@4.4.1 \
+@angular/compiler-cli tslib @angular/compiler  \
+bootstrap bootswatch
+```
+Finally try `ng serve --host my-hostname --port 4200` to make sure everything is ok.
 
 ### Directories
 

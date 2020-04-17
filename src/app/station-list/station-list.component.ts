@@ -32,5 +32,6 @@ export class StationListComponent implements OnInit {
     
     onSelect(s: Station): void {
         this.selectedStation = s;
+        this.loggerService.log('Selected station : ' + s.name);
     }
 }

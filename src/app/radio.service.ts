@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from './message.service';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,8 @@ import { MessageService } from './message.service';
 
 export class RadioService {
     
-    constructor(private messageService: MessageService) {}
+    constructor(private messageService: MessageService,
+                private loggerService: LoggerService) {}
 
     on : boolean = false;
     
@@ -30,7 +32,8 @@ export class RadioService {
         else {
             radioStatus = 'Radio is switched on';
         }
-        
+
+        this.loggerService.log(radioStatus);
         this.messageService.display(radioStatus);
     }
     

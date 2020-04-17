@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { DatePipe  } from '@angular/common';
 import { NgbButtonsModule, NgbPopoverModule,
          NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -27,7 +28,9 @@ import { RadioComponent } from './radio/radio.component';
         NgbButtonsModule,
         FormsModule
     ],
-    providers: [],
+    exports: [
+    ],
+    providers: [DatePipe],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

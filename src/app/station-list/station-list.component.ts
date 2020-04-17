@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Station }  from '../station';
 import { StationService } from '../station.service';
 import { MessageService } from '../message.service';
+import { LoggerService } from '../logger.service';
 
 @Component({
   selector: 'app-station-list',
@@ -12,11 +13,13 @@ import { MessageService } from '../message.service';
 export class StationListComponent implements OnInit {
 
     constructor(private stationService: StationService,
+                private loggerService: LoggerService,
                 private messageService: MessageService) {}
 
     ngOnInit(): void {
         this.getStationList();
         this.selectedStation = this.stationList[0];
+        this.loggerService.log("StationList component ready");
     }
 
     stationList: Station[];

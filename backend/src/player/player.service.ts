@@ -12,4 +12,12 @@ export class PlayerService {
     getStatus(): boolean {
         return this.player.switchedOn;
     }
+    
+    switchOn(): void {
+        this.player.switchedOn = true;
+    }
+
+    switchOff(): void {
+        this.player.switchedOn = false;
+    }
 }

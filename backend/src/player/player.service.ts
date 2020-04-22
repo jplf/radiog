@@ -9,6 +9,10 @@ export class PlayerService {
         switchedOn: false
     };
     
+    getPlayer(): Player {
+        return this.player;
+    }
+    
     getStatus(): boolean {
         return this.player.switchedOn;
     }

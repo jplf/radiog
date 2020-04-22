@@ -1,4 +1,5 @@
 import { Controller, Get, Headers } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Journal } from '../journal/journal.service';
 import { PlayerService } from './player.service';
@@ -7,7 +8,8 @@ import { PlayerService } from './player.service';
 export class PlayerController {
     
     constructor(private playerService: PlayerService,
-                private journal: Journal) {};
+                private journal: Journal,
+                private configService: ConfigService) {};
 
     @Get()
     getStatus(@Headers('user-agent') agent:string) : string {
@@ -19,9 +21,10 @@ export class PlayerController {
         }
 
         this.journal.log(agent);
-        //     this.journal.log(JSON.stringify(request.headers, null, 4));
+        this.journal.log(this.configService.get<string>('AUTHOR'));
+        this.journal.log(this.configService.get<string>('VERSION'));
         
-        return "Player is switched off !";
+        return JSON.stringify(this.playerService.getPlayer());
     }
 
     @Get('on')

@@ -11,7 +11,7 @@ import { Journal } from './journal/journal.service';
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
-            envFilePath: 'radiog.conf'
+            envFilePath: process.env.RADIOG_HOME + '/etc/radiog.conf'
         })
     ],
     controllers: [AppController, PlayerController],

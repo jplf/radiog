@@ -31,9 +31,15 @@ export class PlayerController {
         this.playerService.play(file);
     }
 
+    @Get('listen/:uri')
+    listen(@Param() params) : void {
+        
+        this.journal.log(params.uri);
+       // this.playerService.listen(uri);
+    }
+
     @Get('off')
     switchOff() : void {
         this.playerService.switchOff();
     }
-    
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Headers } from '@nestjs/common';
+import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Journal } from '../journal/journal.service';
@@ -20,22 +20,19 @@ export class PlayerController {
             return "Player is playing !";
         }
 
-        this.journal.log(agent);
-        this.journal.log(this.configService.get<string>('AUTHOR'));
         this.journal.log(this.configService.get<string>('VERSION'));
         
         return JSON.stringify(this.playerService.getPlayer());
     }
 
-    @Get('on')
-    switchOn() : void {
+    @Get('play')
+    play(@Query('file') file: string) : void {
         
-        this.playerService.switchOn();
+        this.playerService.play(file);
     }
 
     @Get('off')
     switchOff() : void {
-        
         this.playerService.switchOff();
     }
     

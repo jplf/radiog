@@ -3,13 +3,16 @@ import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Journal } from '../journal/journal.service';
 import { PlayerService } from './player.service';
+import { StationsService } from '../stations/stations.service';
 
 @Controller('player')
 export class PlayerController {
     
     constructor(private playerService: PlayerService,
+                private stationsService: StationsService,
                 private journal: Journal,
-                private configService: ConfigService) {};
+                private configService: ConfigService) {
+    };
 
     @Get()
     getStatus(@Headers('user-agent') agent:string) : string {
@@ -23,6 +26,13 @@ export class PlayerController {
         this.journal.log(this.configService.get<string>('VERSION'));
         
         return JSON.stringify(this.playerService.getPlayer());
+    }
+
+    @Get('station')
+    station(@Query('key') key: string) : string {
+        
+        var s = this.stationsService.get(key);
+        return JSON.stringify(s);
     }
 
     @Get('play')

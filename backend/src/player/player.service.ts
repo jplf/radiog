@@ -25,14 +25,12 @@ export class PlayerService {
     }
     
     play(file : string): void {
-        
         var dir = this.configService.get<string>('MP3_DIR');
         var pathname = dir + '/' + file;
         this.run(pathname);
     }
     
     listen(uri : string): void {
-        
         this.run(uri);
     }
     

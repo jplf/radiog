@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { PlayerController } from './player/player.controller';
 import { PlayerService } from './player/player.service';
 import { Journal } from './journal/journal.service';
+import { StationsService } from './stations/stations.service';
 
 @Module({
     imports: [
@@ -15,7 +16,7 @@ import { Journal } from './journal/journal.service';
         })
     ],
     controllers: [AppController, PlayerController],
-    providers: [AppService, PlayerService, Journal],
+    providers: [AppService, PlayerService, Journal, StationsService],
 })
 
 export class AppModule {}

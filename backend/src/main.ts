@@ -11,6 +11,7 @@ async function bootstrap() {
     
     app.useLogger(app.get(Journal));
     
+    await app.get(StationsService);
     let stationsService = await app.get(StationsService);
     await stationsService.load();
     

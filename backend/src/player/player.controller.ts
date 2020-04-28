@@ -2,8 +2,8 @@ import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Journal } from '../journal/journal.service';
-import { PlayerService } from './player.service';
 import { StationsService } from '../stations/stations.service';
+import { PlayerService } from './player.service';
 
 @Controller('player')
 export class PlayerController {
@@ -41,11 +41,12 @@ export class PlayerController {
         this.playerService.play(file);
     }
 
-    @Get('listen/:uri')
+    @Get('listen/:key')
     listen(@Param() params) : void {
         
-        this.journal.log(params.uri);
-       // this.playerService.listen(uri);
+        var s = this.stationsService.get(params.key);
+        this.journal.log('Listening to ' + s.name);
+        this.playerService.listen(s.stream);
     }
 
     @Get('off')

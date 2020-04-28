@@ -3,10 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PlayerController } from './player/player.controller';
-import { PlayerService } from './player/player.service';
 import { Journal } from './journal/journal.service';
 import { StationsService } from './stations/stations.service';
+import { PlayerController } from './player/player.controller';
+import { PlayerService } from './player/player.service';
 
 @Module({
     imports: [
@@ -16,7 +16,7 @@ import { StationsService } from './stations/stations.service';
         })
     ],
     controllers: [AppController, PlayerController],
-    providers: [AppService, PlayerService, Journal, StationsService],
+    providers: [AppService, StationsService, Journal, PlayerService],
 })
 
 export class AppModule {}

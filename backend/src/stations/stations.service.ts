@@ -3,8 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 import { Station } from './station.interface';
 
-import * as fs from 'fs';
+const fs = require('fs').promises;
 
+/**
+ * This service manages the list of stations.
+ */
 @Injectable()
 export class StationsService {
     
@@ -13,20 +16,45 @@ export class StationsService {
     constructor(private journal: Journal,
                 private configService: ConfigService) {};
 
-    async load() : Promise<Station[]> {
-        var path = this.configService.get<string>('STATION_LIST');
-        this.journal.log('List of stations in ' + path);
+    // Loads the list from a file. Called from main.ts
+    // The file path is given in the configuration
+    async load() : Promise<string[]> {
         
-        var content = fs.readFileSync(path, 'utf-8');
-        this.stations = JSON.parse(content).stations;
-        this.journal.log('Number of stations : ' + this.stations.length);
-
-        return this.stations;
-    }
-
-    get(key : string) : Station {
-
-        return this.stations.find(s => s.key === key);
+        var path = this.configService.get<string>('STATION_LIST');
+        this.journal.log('Stations in ' + path);
+        
+        return Promise.resolve(path)
+            .then(file => {
+                return fs.readFile(file, 'utf-8');
+            })
+            .then (content => {
+                var list = JSON.parse(content).stations;
+                this.stations = list.map(e => ({ ... e }));
+                this.size()
+                
+                return list;
+            })
+           .catch((err) => {
+                console.log("wtf ? " + err);
+            });
     }
     
+    // Returns the number of known stations.
+    size() : string {
+        var nbr = this.stations.length.toString();
+        this.journal.log('Number of stations : '  + nbr);
+        return nbr;
+    }
+  
+    // Retrieves a station object knowing its key.
+    get(key : string) : Station {
+        
+        var station = this.stations.find(s => s.key === key);
+        
+        if (station == undefined) {
+           this.journal.log('Cannot find station ' + key); 
+        }
+        
+        return station;
+    }
 }

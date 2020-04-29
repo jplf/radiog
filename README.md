@@ -13,9 +13,13 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 29 April 2020 | Backend ready |
 | 10 April 2020 | Layout acceptable |
 | 04 April 2020 | A first version is pushed to github |
 | 20 March 2020 | Make a copy of the original radiok |
+
+### Layout
+This application is split in 2 parts : the backend implementing the sound player services and the frontend giving users a nice web interface to the the services.
 
 ### Hardware
 

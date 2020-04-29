@@ -5,7 +5,7 @@ import { Logger } from '@nestjs/common';
 export class Journal extends Logger {
     
   log(message: string) {
-    // add your tailored logic here
+    // Inserts the RadioG tag
     super.log(message, 'RadioG');
   }
 }

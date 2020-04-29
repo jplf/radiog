@@ -10,7 +10,8 @@ async function bootstrap() {
     });
     
     app.useLogger(app.get(Journal));
-    
+
+    // This service retrieves the list of known radios
     await app.get(StationsService);
     let stationsService = await app.get(StationsService);
     await stationsService.load();

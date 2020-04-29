@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+// Manages the log files
 import { Journal } from './journal/journal.service';
+// Manages the list of radio stations
 import { StationsService } from './stations/stations.service';
+// Controls the radio player
 import { PlayerController } from './player/player.controller';
+// Handles the player commands
 import { PlayerService } from './player/player.service';
 
 @Module({
@@ -15,8 +17,8 @@ import { PlayerService } from './player/player.service';
             envFilePath: process.env.RADIOG_HOME + '/etc/radiog.conf'
         })
     ],
-    controllers: [AppController, PlayerController],
-    providers: [AppService, StationsService, Journal, PlayerService],
+    controllers: [PlayerController],
+    providers: [StationsService, Journal, PlayerService],
 })
 
 export class AppModule {}

@@ -5,6 +5,12 @@ import { Journal } from '../journal/journal.service';
 import { StationsService } from '../stations/stations.service';
 import { PlayerService } from './player.service';
 
+/**
+ * The main component of the backend application
+ * It routes the incoming requests to the player service
+ * Usage : curl http://localhost:3000/player
+ */
+
 @Controller('player')
 export class PlayerController {
     
@@ -14,6 +20,7 @@ export class PlayerController {
                 private configService: ConfigService) {
     };
 
+    // Just gives back the status
     @Get()
     getStatus(@Headers('user-agent') agent:string) : string {
         
@@ -28,19 +35,27 @@ export class PlayerController {
         return JSON.stringify(this.playerService.getPlayer());
     }
 
+    // Gets a station info :  "/player/station?key=12 | jq"
     @Get('station')
     station(@Query('key') key: string) : string {
         
         var s = this.stationsService.get(key);
         return JSON.stringify(s);
     }
-
+    
+    // Plays a file with white spaces encoded :
+    // curl -G --data-urlencode "file=68/Miles Davis-Summertime.mp3"
+    //         localhost:3000/player/play
+    // Plays another one : "/player/play?file=78/Debademba-Agakamina.mp3"
+    
     @Get('play')
     play(@Query('file') file: string) : void {
         
+        this.journal.log("Playing " + file);
         this.playerService.play(file);
     }
 
+    // Listens a radio : "/player/listen/13"
     @Get('listen/:key')
     listen(@Param() params) : void {
         
@@ -49,6 +64,7 @@ export class PlayerController {
         this.playerService.listen(s.stream);
     }
 
+    // Stops playing
     @Get('off')
     switchOff() : void {
         this.playerService.switchOff();

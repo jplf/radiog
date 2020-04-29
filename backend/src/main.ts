@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 import { Journal } from './journal/journal.service';
 import { StationsService } from './stations/stations.service';
 
@@ -16,7 +17,10 @@ async function bootstrap() {
     let stationsService = await app.get(StationsService);
     await stationsService.load();
     
-    await app.listen(3000);
+    let configService = await app.get(ConfigService);
+    let port = configService.get<number>('BACKEND_PORT');
+    
+    await app.listen(port);
 }
 
 bootstrap();

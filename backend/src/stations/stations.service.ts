@@ -46,6 +46,11 @@ export class StationsService {
         return nbr;
     }
   
+    // Retrieves the list of stations.
+    getList() : Station[] {
+        return this.stations;
+    }
+  
     // Retrieves a station object knowing its key.
     get(key : string) : Station {
         

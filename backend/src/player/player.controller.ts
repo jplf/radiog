@@ -35,6 +35,14 @@ export class PlayerController {
         return JSON.stringify(this.playerService.getPlayer());
     }
 
+    // Gets the list of stations :  "/player/station-list | jq"
+    @Get('station-list')
+    stationList() : string {
+        
+        var list = this.stationsService.getList();
+        return JSON.stringify(list);
+    }
+
     // Gets a station info :  "/player/station?key=12 | jq"
     @Get('station')
     station(@Query('key') key: string) : string {

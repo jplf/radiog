@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 
+/**
+ * This service display messages on the web page.
+ */
 export class MessageService {
     
     message: string = 'Enjoy RadioG !';

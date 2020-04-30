@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Station }  from '../station';
-import { StationService } from '../station.service';
-import { MessageService } from '../message.service';
-import { LoggerService } from '../logger.service';
+import { Station }  from '../station/station';
+import { StationService } from '../station/station.service';
+import { MessageService } from '../messages/message.service';
+import { LoggerService }  from '../messages/logger.service';
 
 @Component({
   selector: 'app-station-list',
@@ -15,20 +15,22 @@ export class StationListComponent implements OnInit {
     constructor(private stationService: StationService,
                 private loggerService: LoggerService,
                 private messageService: MessageService) {}
+    
+    stationList: Station[] = [];
+    selectedStation: Station;
 
     ngOnInit(): void {
-        this.getStationList();
-        this.selectedStation = this.stationList[0];
-        this.loggerService.log("StationList component ready");
+        this.stationService.fetchStationList()
+            .subscribe((data) => {
+                this.stationList = JSON.parse(JSON.stringify(data));
+                this.loggerService.log('Fetched stations : '
+                                       + this.stationList.length);
+            });
     }
 
-    stationList: Station[];
-     
-    getStationList(): void {
-        this.stationList = this.stationService.getStationList();
+    getStationList(): Station[] {
+        return this.stationList;
     }    
-
-    selectedStation: Station;
     
     onSelect(s: Station): void {
         this.selectedStation = s;

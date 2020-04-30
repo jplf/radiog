@@ -20,6 +20,7 @@ async function bootstrap() {
     let configService = await app.get(ConfigService);
     let port = configService.get<number>('BACKEND_PORT');
     
+    app.enableCors();
     await app.listen(port);
 }
 

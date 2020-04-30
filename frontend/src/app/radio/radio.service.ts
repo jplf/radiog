@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MessageService } from './message.service';
-import { LoggerService } from './logger.service';
+import { MessageService } from '../messages/message.service';
+import { LoggerService }  from '../messages/logger.service';
 
 @Injectable({
   providedIn: 'root'

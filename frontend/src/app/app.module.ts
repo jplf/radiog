@@ -1,6 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
 import { DatePipe  } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+
 import { NgbButtonsModule, NgbPopoverModule,
          NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -22,6 +25,7 @@ import { RadioComponent } from './radio/radio.component';
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         AppRoutingModule,
         NgbPopoverModule,
         NgbTooltipModule,

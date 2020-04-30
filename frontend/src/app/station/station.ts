@@ -1,7 +1,7 @@
 
 export interface Station {
     
-    id: number;
+    key: number;
     name: string;
     frequency: string;
     stream: string;

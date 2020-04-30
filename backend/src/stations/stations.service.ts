@@ -48,6 +48,7 @@ export class StationsService {
   
     // Retrieves the list of stations.
     getList() : Station[] {
+        this.journal.log('List of stations fetched');
         return this.stations;
     }
   

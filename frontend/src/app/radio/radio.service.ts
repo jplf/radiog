@@ -19,8 +19,6 @@ export class RadioService {
     constructor(private loggerService: LoggerService,
                 private http: HttpClient) {}
 
-    on : boolean = false;
-    
     switchOnOff(status : boolean, key: string) {
         
         var url = config.backend_player;

@@ -7,28 +7,33 @@ import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse, HttpResponse }  from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { config } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-
+/**
+ * Implements the management of the stations
+ */
 export class StationService {
 
     constructor(private messageService: MessageService,
                 private loggerService: LoggerService,
                 private http: HttpClient) {}
 
+    // Retrieves the list of stations from the backend server.
     fetchStationList() {
-        
-        return this.http.get('http://localhost:18300/player/station-list',
-                             {
+
+        var url = config.backend_player + 'station-list';
+        return this.http.get(url, {
                                  headers: {'Access-Control-Allow-Origin': '*'},
                                  observe: 'body',
                                  responseType: 'json'
                              })
             .pipe(catchError(this.handleError));
     }
-    
+
+    // Take care of possible errors
     private handleError(error: HttpErrorResponse) {
         
         if (error.error instanceof ErrorEvent) {
@@ -37,11 +42,20 @@ export class StationService {
             console.log(`Backend error ${error.status} ${error.message}`);
         }
         
-        return throwError('WTF ?');
+        return throwError('Cannot process the request to the backend');
     };
-
-    getStationList(): Station[] {
         
-        return null;
+    // The current selected station
+    selectedStation: Station;
+
+    // Sets the current station
+    setSelectedStation(s: Station): void {
+        this.selectedStation = s;
     }
+    
+    // Gets the current station
+    getSelectedStation(): Station {
+        return this.selectedStation;
+    }
+
 }

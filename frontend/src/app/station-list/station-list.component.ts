@@ -10,30 +10,44 @@ import { LoggerService }  from '../messages/logger.service';
   styleUrls: ['./station-list.component.scss']
 })
 
+/**
+ * Manages the list of radio stations.
+ */
 export class StationListComponent implements OnInit {
 
     constructor(private stationService: StationService,
                 private loggerService: LoggerService,
                 private messageService: MessageService) {}
-    
+
+    // The array of stations
     stationList: Station[] = [];
-    selectedStation: Station;
 
     ngOnInit(): void {
+        // The list of stations is fetched from the backend server
         this.stationService.fetchStationList()
             .subscribe((data) => {
                 this.stationList = JSON.parse(JSON.stringify(data));
-                this.loggerService.log('Fetched stations : '
+                this.loggerService.log('Number of fetched stations : '
                                        + this.stationList.length);
+                
+                this.stationService.setSelectedStation(this.stationList[0]);
             });
     }
 
+    // Returns the list of stations
     getStationList(): Station[] {
         return this.stationList;
     }    
-    
+
+    // Sets the current station
     onSelect(s: Station): void {
-        this.selectedStation = s;
+        this.stationService.setSelectedStation(s);
         this.loggerService.log('Selected station : ' + s.name);
     }
+        
+    // Gets the current station
+    getSelectedStation(): Station {
+        return this.stationService.getSelectedStation();
+    }
+
 }

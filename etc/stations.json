@@ -4,54 +4,66 @@
       "name": "FIP Radio",
       "frequency": "105.1 MHz",
       "stream": "http://direct.fipradio.fr/live/fip-webradio4.mp3",
-      "url": "undef"
+      "url": "https://www.fip.fr/"
     },
     { "key": "11",
       "name": "France Musique",
-      "frequency": "MHz",
+      "frequency": "91.7 MHz",
       "stream": "http://direct.francemusique.fr/live/francemusique-midfi.mp3",
-      "url": "undef"
+      "url": "https://www.francemusique.fr/"
     },
     { "key": "12",
       "name": "France Inter",
-      "frequency": "MHz",
+      "frequency": "87.8 MHz",
       "stream": "http://direct.franceinter.fr/live/franceinter-midfi.mp3",
-      "url": "undef"
+      "url": "https://www.franceinter.fr/"
     },
     { "key": "13",
       "name": "France Culture",
-      "frequency": "MHz",
+      "frequency": "93.5 MHz",
       "stream": "http://direct.franceculture.fr/live/franceculture-midfi.mp3",
-      "url": "undef"
+      "url": "https://www.franceculture.fr/"
     },
     { "key": "14",
-      "name": "Chante France",
-      "frequency": "MHz",
-      "stream": "http://stream.chantefrance.com/stream_chante_france.mp3",
-      "url": "undef"
+      "name": "M Radio",
+      "frequency": "102.7 MHz",
+      "stream": "http://mfm.ice.infomaniak.ch/mfm-128.mp3",
+      "url": "https://mradio.fr/radio/webradio"
     },
     { "key": "15",
       "name": "TSF Jazz",
-      "frequency": "MHz",
+      "frequency": "89.9 MHz",
       "stream": "http://tsfjazz.ice.infomaniak.ch/tsfjazz-high.mp3",
-      "url": "undef"
+      "url": "https://www.tsfjazz.com/"
     },
     { "key": "16",
       "name": "Swiss Jazz",
-      "frequency": "MHz",
+      "frequency": "11.526 GHz",
       "stream": "http://stream.srg-ssr.ch/m/rsj/mp3_128",
-      "url": "undef"
+      "url": "http://www.radioswissjazz.ch/fr"
     },
     { "key": "17",
       "name": "Venice Classic",
-      "frequency": "MHz",
+      "frequency": "",
       "stream": "http://109.123.116.202:8020",
-      "url": "undef"
+      "url": "https://www.veniceclassicradio.eu/"
     },
     { "key": "18",
+      "name": "Nostalgie",
+      "frequency": "90.4 MHz",
+      "stream": "http://cdn.nrjaudio.fm/audio1/fr/40106/mp3_128.mp3",
+      "url": "https://www.nostalgie.fr/"
+    },
+    { "key": "19",
       "name": "Fip monde",
       "frequency": "MHz",
       "stream": "http://direct.fipradio.fr/live/fip-webradio4.mp3",
-      "url": "undef"
+      "url": "https://www.fip.fr/musiques-du-monde/"
+    },
+    { "key": "20",
+      "name": "France Bleue",
+      "frequency": " 0 MHz",
+      "stream": "http://direct.francebleu.fr/live/fbbreizizel-midfi.mp3",
+      "url": "https://www.francebleu.fr/armorique"
     }
 ]}

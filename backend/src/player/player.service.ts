@@ -13,9 +13,8 @@ export class PlayerService {
     constructor(private journal: Journal,
                 private configService: ConfigService) {};
 
-    // The current player
+    // The current player status
     private readonly player: Player = {
-        command: 'mgp123',
         switchedOn: false
     };
 

@@ -24,14 +24,6 @@ export class PlayerController {
     @Get()
     getStatus(@Headers('user-agent') agent:string) : string {
         
-        var on : boolean;
-        on = this.playerService.getStatus();
-        if (on) {
-            return "Player is playing !";
-        }
-
-        this.journal.log(this.configService.get<string>('VERSION'));
-        
         return JSON.stringify(this.playerService.getPlayer());
     }
 

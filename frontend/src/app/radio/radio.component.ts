@@ -17,7 +17,7 @@ import { Station } from '../station/station';
  */
 export class RadioComponent implements OnInit, OnChanges {
 
-    @Input() station: Station;
+    @Input() station: Station = undefined;
 
     constructor(private radioService: RadioService,
                 private loggerService: LoggerService,
@@ -27,7 +27,7 @@ export class RadioComponent implements OnInit, OnChanges {
     }
 
     // Whether the player is playing (true) or not (false)
-    onOff: boolean;
+    onOff: boolean = false;
 
     ngOnInit(): void {
         this.station = this.stationService.getSelectedStation();
@@ -37,8 +37,9 @@ export class RadioComponent implements OnInit, OnChanges {
     // If playing and the station is changed restart the player
     ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
-        var oldKey = changes.station.previousValue.key;
-        var newKey = changes.station.currentValue.key;
+        if (changes.station === undefined) {
+            return;
+        }
 
         // The radio is off so do nothing
         if ( !this.onOff) {
@@ -50,7 +51,8 @@ export class RadioComponent implements OnInit, OnChanges {
                                + this.station.name);
 
         var value = true;
-        this.radioService.switchOnOff(value, this.station.key).subscribe(() => {
+        this.radioService.switchOnOff(value,
+                                      this.station.key).subscribe(() => {
             
             this.loggerService.log('New station ' + this.station.name + ' on');
         });
@@ -61,11 +63,15 @@ export class RadioComponent implements OnInit, OnChanges {
     // Switch on or off the radio
     onSwitch(): void {
 
+        if (this.station === undefined) {
+            this.loggerService.log('Current station is undefined');
+            return;
+        }
         // Toggle the status
         var value = ! this.onOff; 
         
-        this.radioService.switchOnOff(value, this.station.key).subscribe(() => {
-            
+        this.radioService.switchOnOff(value,
+                                      this.station.key).subscribe(() => {
             this.onOff = value;
             var status = value ? 'On' : 'Off';
             

@@ -34,7 +34,7 @@ export class RadioComponent implements OnInit, OnChanges {
         this.loggerService.log('Radio component ready');
     }
 
-    // If playing and the station is changed restart the player
+    // If playing and if the station is changed restart the player
     ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
         if (changes.station === undefined) {
@@ -58,7 +58,6 @@ export class RadioComponent implements OnInit, OnChanges {
         });
         
     }
-
 
     // Switch on or off the radio
     onSwitch(): void {
@@ -87,8 +86,12 @@ export class RadioComponent implements OnInit, OnChanges {
     volume: number;
     
     onChange(value: number): void {
-        this.radioService.setVolume(value);
+        this.radioService.setVolume(value).subscribe(() => {
+            
+            this.messageService.display('Volume ' + value);
+        });
     }
 }
+
 export class NgbdTooltipDelay {
 }

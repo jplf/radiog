@@ -45,10 +45,19 @@ export class RadioService {
         
         return throwError('Cannot process the request to the backend');
     };
-
-    volume: number = 40;
     
+    // Change the outpur volume
     setVolume(value: number) {
-        this.volume = value;
+        
+        var volume : string = value.toString();
+        
+        var url = config.backend_player;
+        
+        this.loggerService.log('Request to set volume to ' + volume);
+        
+        url = url + 'set?volume=' + volume;
+        
+        return this.http.get(url).pipe(catchError(this.handleError));
+        
     }
 }

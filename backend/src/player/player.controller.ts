@@ -42,6 +42,14 @@ export class PlayerController {
         var s = this.stationsService.get(key);
         return JSON.stringify(s);
     }
+
+    // Sets the volume between 0 an 100 %:  "/player/set?volume=12" 
+    @Get('set')
+    set(@Query('volume') volume: string) : void {
+        
+        var s = this.playerService.setVolume(volume);
+        this.journal.log('Volume set to ' + volume);
+    }
     
     // Plays a file with white spaces encoded :
     // curl -G --data-urlencode "file=68/Miles Davis-Summertime.mp3"
@@ -51,7 +59,7 @@ export class PlayerController {
     @Get('play')
     play(@Query('file') file: string) : void {
         
-        this.journal.log("Playing " + file);
+        this.journal.log('Playing ' + file);
         this.playerService.play(file);
     }
 
@@ -68,5 +76,6 @@ export class PlayerController {
     @Get('off')
     switchOff() : void {
         this.playerService.switchOff();
+        this.journal.log('Stop playing');
     }
 }

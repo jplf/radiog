@@ -75,12 +75,37 @@ export class PlayerService {
 
     // No mercy for any existing player kill'em all
     switchOff(): void {
+        
         this.player.switchedOn = false;
         
-        const kill = cp.spawn('/bin/killall', ['-9', 'mpg123']);
+        const kill = cp.spawn('/bin/killall', ['-9', 'mpg123'], {
+            stdio: ['ignore', 'ignore', 'ignore']
+        });
+    }
+
+    // Change the output volume
+    setVolume(volume: string): void {
+
+        var value : number = parseInt(volume, 10);
+        
+        if (isNaN(value)) {
+            this.journal.log('Invalid volume value : ' + volume);
+            return;
+        }
+        else if (value < 0) {
+            value = 0;
+        }
+        else if (value > 100) {
+            value = 100;
+        }
+
+        var percent : string = value.toString() + '%';
+        
+        const kill = cp.spawn('/usr/bin/amixer', ['sset', 'Master', percent]);
 
         kill.stderr.on('data', (data) => {
             this.journal.log(`stderr: ${data}`);
         });
+
     }
 }

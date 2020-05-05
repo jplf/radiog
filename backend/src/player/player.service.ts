@@ -18,6 +18,14 @@ export class PlayerService {
         version: this.configService.get<string>('VERSION'),
         switchedOn: false
     };
+    
+    // The current output device
+    private readonly device: Device = {
+        name: this.configService.get<string>('DEV_NAME'),
+        alias: this.configService.get<string>('DEV_ALIAS'),
+        address: this.configService.get<string>('DEV_ADDRESS'),
+
+    };
 
     // Returns the current player : curl localhost:18300/player|jq
     getPlayer(): Player {
@@ -79,6 +87,7 @@ export class PlayerService {
         
         this.player.switchedOn = false;
         
+        // Make sure the path to killall is correct
         const kill = cp.spawn('/bin/killall', ['-9', 'mpg123'], {
             stdio: ['ignore', 'ignore', 'ignore']
         });

@@ -20,7 +20,9 @@ export class StationsService {
     // The file path is given in the configuration
     async load() : Promise<string[]> {
         
-        var path = this.configService.get<string>('STATION_LIST');
+        var path = this.configService.get<string>('RADIOG_HOME') + '/'
+        + this.configService.get<string>('STATION_LIST');
+        
         this.journal.log('Stations in ' + path);
         
         return Promise.resolve(path)
@@ -35,7 +37,9 @@ export class StationsService {
                 return list;
             })
            .catch((err) => {
-                console.log("wtf ? " + err);
+               console.log("The list of stations is not found in "
+                           + path + ' : '
+                           + err);
             });
     }
     

@@ -15,10 +15,11 @@ export class PlayerService {
 
     // The current player status
     private readonly player: Player = {
+        version: this.configService.get<string>('VERSION'),
         switchedOn: false
     };
 
-    // Returns the current player
+    // Returns the current player : curl localhost:18300/player|jq
     getPlayer(): Player {
         return this.player;
     }

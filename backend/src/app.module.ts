@@ -9,6 +9,8 @@ import { StationsService } from './stations/stations.service';
 import { PlayerController } from './player/player.controller';
 // Handles the player commands
 import { PlayerService } from './player/player.service';
+import { DeviceController } from './device/device.controller';
+import { DeviceService } from './device/device.service';
 
 @Module({
     imports: [
@@ -17,8 +19,8 @@ import { PlayerService } from './player/player.service';
             envFilePath: process.env.RADIOG_HOME + '/etc/radiog.conf'
         })
     ],
-    controllers: [PlayerController],
-    providers: [StationsService, Journal, PlayerService],
+    controllers: [PlayerController, DeviceController],
+    providers: [StationsService, Journal, PlayerService, DeviceService],
 })
 
 export class AppModule {}

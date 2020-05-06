@@ -19,12 +19,12 @@ export class PlayerService {
         switchedOn: false
     };
     
-    // The current output device
+    // The current output bluetooth device
     private readonly device: Device = {
         name: this.configService.get<string>('DEV_NAME'),
         alias: this.configService.get<string>('DEV_ALIAS'),
         address: this.configService.get<string>('DEV_ADDRESS'),
-
+        connected: false
     };
 
     // Returns the current player : curl localhost:18300/player|jq

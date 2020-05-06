@@ -78,4 +78,13 @@ export class PlayerController {
         this.playerService.switchOff();
         this.journal.log('Stop playing');
     }
+    
+
+    // Manage the bluetooth device
+    @Get('bluez/:command')
+    listen(@Param() params) : void {
+        
+        this.journal.log('Listening to ' + );
+        this.playerService.bluez(params.command);
+    }
 }

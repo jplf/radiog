@@ -23,12 +23,13 @@ export class DeviceController {
         return JSON.stringify(this.deviceService.name());
     }
 
-    //  Gest more info about the device
+    //  Gets more info about the device
     @Get('info')
-    info() : string {
+    async info() : Promise<string> {
         
         this.journal.log('Current device information');
-        return JSON.stringify(this.deviceService.info());
+
+        return JSON.stringify(await this.deviceService.info());
     }
 
     // Tries to get connected to the bluetooth device

@@ -23,7 +23,11 @@ export class DeviceController {
         return JSON.stringify(this.deviceService.name());
     }
 
-    //  Gets more info about the device
+    /**
+     * Gets more info about the device
+     * It took me a long time to figure out how to use async & await
+     * to finally returns the result of bluetoothctl.
+     */
     @Get('info')
     async info() : Promise<string> {
         
@@ -38,5 +42,13 @@ export class DeviceController {
         
         this.journal.log('Connecting to ' + this.deviceService.name());
         this.deviceService.connect();
+    }
+
+    // Disconnected to the bluetooth device
+    @Get('disconnect')
+    disconnect() : void {
+        
+        this.journal.log('Disconnecting from ' + this.deviceService.name());
+        this.deviceService.disconnect();
     }
 }

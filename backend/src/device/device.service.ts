@@ -31,15 +31,22 @@ export class DeviceService {
         return this.device.name;
     }
 
-    // Returns information about the current device
-    info() : Promise<Device> {
-        
-        var cmd : string = 'echo info ' + this.device.address
-            + ' | /usr/bin/bluetoothctl';
-        
+    /**
+     * Gets the current parameters of the bluetooth device.
+     * It returns a promise which will be resolved by nestjs
+     */
+     info() : Promise<Device> {
+
+         // Sends 'info' to bluetoothctl
+         var cmd : string = this.btctl('info');
+         
         return new Promise<Device> ((resolve, reject) => {
             
             cp.exec(cmd, (error, stdout, stderr) => {
+                if (error) {
+                    this.journal.log('Call to bluetoothctl failed');
+                    return;
+                }
                 this.parseInfo(`${stdout}`)
                 resolve(this.device);
             });
@@ -83,9 +90,32 @@ export class DeviceService {
         }
     }
     
-    // Connect the current device
+    // Connects the current device
     connect(): void {
-        this.journal.log('Connection to the device');
+        
+         // Sends 'connect' to bluetoothctl
+        var cmd : string = this.btctl('connect');
+        var out = cp.execSync(cmd);
+        
+        //this.journal.log(out.toString());
+        this.journal.log('Device connected');
     }
+    
+    // Disonnects the current device
+    disconnect(): void {
+        
+        var cmd : string = this.btctl('disconnect');
+        var out = cp.execSync(cmd);
+        
+        //this.journal.log(out.toString());
+        this.journal.log('Device disconnected');
+    }
+    
+    // Builds the bluetoothctl command
+    private btctl(command: string) : string {
 
+        return 'echo ' + command + ' ' + this.device.address
+            + ' | /usr/bin/bluetoothctl';
+        ;
+    }
 }

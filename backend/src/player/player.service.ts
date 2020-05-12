@@ -103,7 +103,8 @@ export class PlayerService {
 
         var percent : string = value.toString() + '%';
         
-        const kill = cp.spawn('/usr/bin/amixer', ['sset', 'Master', percent]);
+        const kill = cp.spawn('/usr/bin/amixer',
+                              ['-D', 'pulse', 'sset', 'Master', percent]);
 
         kill.stderr.on('data', (data) => {
             this.journal.log(`stderr: ${data}`);

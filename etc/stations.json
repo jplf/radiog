@@ -3,7 +3,7 @@
     { "key": "10",
       "name": "FIP Radio",
       "frequency": "105.1 MHz",
-      "stream": "http://direct.fipradio.fr/live/fip-webradio4.mp3",
+      "stream": "http://direct.fipradio.fr/live/fip-midfi.mp3",
       "url": "https://www.fip.fr/"
     },
     { "key": "11",

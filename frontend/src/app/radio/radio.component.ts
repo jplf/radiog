@@ -34,7 +34,7 @@ export class RadioComponent implements OnInit, OnChanges {
         this.loggerService.log('Radio component ready');
     }
 
-    // If playing and if the station is changed restart the player
+    // If playing and if the station is changed restarts the player
     ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
         if (changes.station === undefined) {
@@ -51,11 +51,14 @@ export class RadioComponent implements OnInit, OnChanges {
                                + this.station.name);
 
         var value = true;
-        this.radioService.switchOnOff(value,
-                                      this.station.key).subscribe(() => {
-            
-            this.loggerService.log('New station ' + this.station.name + ' on');
-        });
+        this.radioService.switchOnOff(value,this.station.key)
+            .subscribe(data => {
+                this.loggerService.log('New station '
+                                       + this.station.name + ' on');
+            },
+                       error => {
+                           this.messageService.display(error);
+                       });
         
     }
 
@@ -69,15 +72,18 @@ export class RadioComponent implements OnInit, OnChanges {
         // Toggle the status
         var value = ! this.onOff; 
         
-        this.radioService.switchOnOff(value,
-                                      this.station.key).subscribe(() => {
-            this.onOff = value;
-            var status = value ? 'On' : 'Off';
-            
-            this.messageService.display('Radio ' + status);
-            this.loggerService.log('Station ' + this.station.name
-                                   + ' ' + status);
-        });
+        this.radioService.switchOnOff(value, this.station.key).
+            subscribe(data => {
+                this.onOff = value;
+                var status = value ? 'On' : 'Off';
+                
+                this.messageService.display('Radio ' + status);
+                this.loggerService.log('Station ' + this.station.name
+                                       + ' ' + status);
+            },
+                      error => {
+                          this.messageService.display(error);
+                      });
     }
 
     /**
@@ -86,10 +92,13 @@ export class RadioComponent implements OnInit, OnChanges {
     volume: number;
     
     onChange(value: number): void {
-        this.radioService.setVolume(value).subscribe(() => {
-            
-            this.messageService.display('Volume ' + value);
-        });
+        this.radioService.setVolume(value)
+            .subscribe(data => {
+                this.messageService.display('Volume ' + value);
+            },
+                       error => {
+                           this.messageService.display(error);
+                       });
     }
 }
 

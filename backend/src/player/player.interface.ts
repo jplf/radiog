@@ -3,5 +3,7 @@
 export interface Player {
 
     version : string;
-    switchedOn: boolean;      // Whether the playe is on or off
+    source : string;     // The file to play
+    volume  : number;    // The volume percentage
+    switchedOn: boolean; // Whether the player is on or off
 }

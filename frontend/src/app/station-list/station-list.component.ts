@@ -25,17 +25,21 @@ export class StationListComponent implements OnInit {
     ngOnInit(): void {
         // The list of stations is fetched from the backend server
         this.stationService.fetchStationList()
-            .subscribe((data) => {
+            .subscribe(data => {
                 this.stationList = JSON.parse(JSON.stringify(data));
                 this.loggerService.log('Number of fetched stations : '
                                        + this.stationList.length);
                 
                 this.stationService.setSelectedStation(this.stationList[0]);
+            },
+                       error => {
+                           this.messageService.display(error);
             });
     }
 
     // Returns the list of stations
     getStationList(): Station[] {
+        
         return this.stationList;
     }    
 

@@ -42,7 +42,7 @@ export class StationService {
             console.log(`Backend error ${error.status} ${error.message}`);
         }
         
-        return throwError('Cannot process the request to the backend');
+        return throwError('Cannot get the stations from the backend');
     };
         
     // The current selected station

@@ -16,7 +16,7 @@ import { DeviceService } from './device/device.service';
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
-            envFilePath: process.env.RADIOG_CONF'
+            envFilePath: process.env.RADIOG_CONF
         })
     ],
     controllers: [PlayerController, DeviceController],

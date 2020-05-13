@@ -16,6 +16,8 @@ export class PlayerService {
     // The current player status
     private readonly player: Player = {
         version: this.configService.get<string>('VERSION'),
+        source: this.configService.get<string>('SOURCE'),
+        volume: this.configService.get<number>('VOLUME'),
         switchedOn: false
     };
 
@@ -71,7 +73,13 @@ export class PlayerService {
             this.journal.log(`stderr: ${data}`);
         });
         
+        this.player.source = file;
         this.player.switchedOn = true;
+    }
+
+    // Restarts what was playing
+    switchOn(): void {
+        this.run(this.player.source);
     }
 
     // No mercy for any existing player kill'em all
@@ -85,7 +93,7 @@ export class PlayerService {
         });
     }
 
-    // Change the output volume
+    // Changes the output volume
     setVolume(volume: string): void {
 
         var value : number = parseInt(volume, 10);
@@ -100,7 +108,9 @@ export class PlayerService {
         else if (value > 100) {
             value = 100;
         }
-
+        
+        this.player.volume = value;
+            
         var percent : string = value.toString() + '%';
         
         const kill = cp.spawn('/usr/bin/amixer',

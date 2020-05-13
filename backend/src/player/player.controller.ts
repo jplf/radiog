@@ -72,6 +72,13 @@ export class PlayerController {
         this.playerService.listen(s.stream);
     }
 
+    // Restarts playing
+    @Get('on')
+    switchOn() : void {
+        this.playerService.switchOn();
+        this.journal.log('Restart playing');
+    }
+
     // Stops playing
     @Get('off')
     switchOff() : void {

@@ -5,6 +5,7 @@ import { LoggerService }  from '../messages/logger.service';
 import { StationService } from '../station/station.service';
 import { MessageService } from '../messages/message.service';
 import { Station } from '../station/station';
+import { Player } from '@backend/player.interface';
 
 @Component({
   selector: 'app-radio',
@@ -29,9 +30,23 @@ export class RadioComponent implements OnInit, OnChanges {
     // Whether the player is playing (true) or not (false)
     onOff: boolean = false;
 
+    // Backend player
+    player: Player = undefined;
+    
     ngOnInit(): void {
         this.station = this.stationService.getSelectedStation();
         this.loggerService.log('Radio component ready');
+
+        // Get the player status
+        this.radioService.getPlayer()
+            .subscribe((data : string) => {
+                this.loggerService.log(data);
+                this.player = JSON.parse(JSON.stringify(data));
+                this.loggerService.log(this.player.version);
+            },
+                       error => {
+                           this.messageService.display(error);
+                       });
     }
 
     // If playing and if the station is changed restarts the player
@@ -51,7 +66,7 @@ export class RadioComponent implements OnInit, OnChanges {
                                + this.station.name);
 
         var value = true;
-        this.radioService.switchOnOff(value,this.station.key)
+        this.radioService.switchOnOff(value, this.station.key)
             .subscribe(data => {
                 this.loggerService.log('New station '
                                        + this.station.name + ' on');
@@ -72,8 +87,8 @@ export class RadioComponent implements OnInit, OnChanges {
         // Toggle the status
         var value = ! this.onOff; 
         
-        this.radioService.switchOnOff(value, this.station.key).
-            subscribe(data => {
+        this.radioService.switchOnOff(value, this.station.key)
+            .subscribe(data => {
                 this.onOff = value;
                 var status = value ? 'On' : 'Off';
                 

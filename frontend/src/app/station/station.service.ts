@@ -18,7 +18,7 @@ import { config } from '../../environments/environment';
 export class StationService {
     
     // The array of stations
-    stationList: Station[] = [];
+    private stationList: Station[] = [];
 
     constructor(private messageService: MessageService,
                 private loggerService: LoggerService,
@@ -85,7 +85,7 @@ export class StationService {
     }
     
     // Finds the station object knowing the source
-    findStation(source : string): Station {
+    private findStation(source : string): Station {
         if (source == null || undefined) {
             this.loggerService.log('No source to find !');
             return undefined;

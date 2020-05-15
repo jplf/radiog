@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { Station }  from '../station/station';
 import { StationService } from '../station/station.service';
 import { MessageService } from '../messages/message.service';
@@ -13,34 +13,33 @@ import { LoggerService }  from '../messages/logger.service';
 /**
  * Manages the list of radio stations.
  */
-export class StationListComponent implements OnInit {
+export class StationListComponent implements OnInit, DoCheck {
 
     constructor(private stationService: StationService,
                 private loggerService: LoggerService,
-                private messageService: MessageService) {}
+                private messageService: MessageService) {
+ 
+   }
 
     // The array of stations
     stationList: Station[] = [];
 
     ngOnInit(): void {
-        // The list of stations is fetched from the backend server
-        this.stationService.fetchStationList()
-            .subscribe(data => {
-                this.stationList = JSON.parse(JSON.stringify(data));
-                this.loggerService.log('Number of fetched stations : '
-                                       + this.stationList.length);
-                
-                this.stationService.setSelectedStation(this.stationList[0]);
-            },
-                       error => {
-                           this.messageService.display(error);
-            });
+        console.log('Initializing !');
     }
 
+    ngDoCheck() {
+        // Initializes when starting
+        if (this.stationList.length < 1) {
+            console.log('DoCheck !');
+            this.stationList = this.stationService.getStationList();
+            this.getSelectedStation();
+        }
+   }
+    
     // Returns the list of stations
     getStationList(): Station[] {
-        
-        return this.stationList;
+        return this.stationService.getStationList();
     }    
 
     // Sets the current station

@@ -16,10 +16,26 @@ import { config } from '../../environments/environment';
  * Implements the management of the stations
  */
 export class StationService {
+    
+    // The array of stations
+    stationList: Station[] = [];
 
     constructor(private messageService: MessageService,
                 private loggerService: LoggerService,
-                private http: HttpClient) {}
+                private http: HttpClient) {
+        
+        // The list of stations is fetched from the backend server
+        this.fetchStationList()
+            .subscribe(data => {
+                this.stationList = JSON.parse(JSON.stringify(data));
+                this.loggerService.log('Number of fetched stations : '
+                                       + this.stationList.length);
+                
+            },
+                       error => {
+                           this.messageService.display(error);
+                       });
+    }
 
     // Retrieves the list of stations from the backend server.
     fetchStationList() {
@@ -44,18 +60,38 @@ export class StationService {
         
         return throwError('Cannot get the stations from the backend');
     };
+
+    // Returns the list of stations
+    getStationList(): Station[] {
+        return this.stationList;
+    }    
         
     // The current selected station
     selectedStation: Station;
 
     // Sets the current station
-    setSelectedStation(s: Station): void {
-        this.selectedStation = s;
+    setSelectedStation(station: Station): void {
+        this.selectedStation = station;
+    }
+
+    // Sets the current station knowing the source
+    setSelectedSource(source: string): void {
+        this.setSelectedStation(this.findStation(source));
     }
     
     // Gets the current station
     getSelectedStation(): Station {
         return this.selectedStation;
+    }
+    
+    // Finds the station object knowing the source
+    findStation(source : string): Station {
+        if (source == null || undefined) {
+            this.loggerService.log('No source to find !');
+            return undefined;
+        }
+        this.loggerService.log('Finding ' + source);
+        return this.stationList.find(station => station.stream == source);
     }
 
 }

@@ -29,20 +29,29 @@ export class RadioComponent implements OnInit, OnChanges {
 
     // Whether the player is playing (true) or not (false)
     onOff: boolean = false;
+    
+    // The volume value
+    volume: number = 50;
 
     // Backend player
     player: Player = undefined;
-    
+
+    // Gets initial values from the backend
     ngOnInit(): void {
-        this.station = this.stationService.getSelectedStation();
         this.loggerService.log('Radio component ready');
 
         // Get the player status
         this.radioService.getPlayer()
             .subscribe((data : string) => {
-                this.loggerService.log(data);
                 this.player = JSON.parse(JSON.stringify(data));
+                
                 this.loggerService.log(this.player.version);
+                this.volume = this.player.volume;
+                this.onOff  = this.player.switchedOn;
+                
+                this.stationService.setSelectedSource(this.player.source);
+                this.station = this.stationService.getSelectedStation();
+                this.loggerService.log(this.station.name);
             },
                        error => {
                            this.messageService.display(error);
@@ -104,7 +113,6 @@ export class RadioComponent implements OnInit, OnChanges {
     /**
      * Manage the volume
      */
-    volume: number;
     
     onChange(value: number): void {
         this.radioService.setVolume(value)

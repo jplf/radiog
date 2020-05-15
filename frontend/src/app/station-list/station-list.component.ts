@@ -25,15 +25,22 @@ export class StationListComponent implements OnInit, DoCheck {
     stationList: Station[] = [];
 
     ngOnInit(): void {
-        console.log('Initializing !');
+        this.loggerService.log('Initializing !');
     }
 
     ngDoCheck() {
         // Initializes when starting
         if (this.stationList.length < 1) {
-            console.log('DoCheck !');
+            this.loggerService.log('DoCheck StationListComponent !');
             this.stationList = this.stationService.getStationList();
-            this.getSelectedStation();
+            
+            var s : Station = this.getSelectedStation();
+            if (s == undefined) {
+                this.loggerService.log('No selected station yet !');
+            }
+            else {
+                this.loggerService.log('Selected : ' + s.name);
+            }
         }
    }
     
@@ -44,6 +51,9 @@ export class StationListComponent implements OnInit, DoCheck {
 
     // Sets the current station
     onSelect(s: Station): void {
+        if (s == undefined) {
+            return;
+        }
         this.stationService.setSelectedStation(s);
         this.loggerService.log('Selected station : ' + s.name);
     }
@@ -52,5 +62,4 @@ export class StationListComponent implements OnInit, DoCheck {
     getSelectedStation(): Station {
         return this.stationService.getSelectedStation();
     }
-
 }

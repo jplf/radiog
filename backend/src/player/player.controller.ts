@@ -85,5 +85,4 @@ export class PlayerController {
         this.playerService.switchOff();
         this.journal.log('Stop playing');
     }
-    
 }

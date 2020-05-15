@@ -58,7 +58,7 @@ export class PlayerService {
     }
 
     // Plays either a file or a stream.
-    run(file : string): void {
+    private run(file : string): void {
 
         // Make sure to stop a possible running player
         this.switchOff();

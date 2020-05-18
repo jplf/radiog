@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { LoggerService }  from '../messages/logger.service';
+import { MessageService } from '../messages/message.service';
 
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse, HttpResponse }  from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { config } from '../../environments/environment';
+import { Player } from '@backend/player.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,12 @@ import { config } from '../../environments/environment';
 export class RadioService {
     
     constructor(private loggerService: LoggerService,
-                private http: HttpClient) {}
+                private messageService: MessageService,
+                private http: HttpClient) {
+    }
+
+    // Backend player
+    private player: Player = undefined;
 
     switchOnOff(status : boolean, key: string) {
         
@@ -61,13 +68,18 @@ export class RadioService {
         
     }
     
-    // Gets the player status
-    getPlayer() {
+    // Fetchs the player status from the backend
+    fetchPlayer() {
         
         var url = config.backend_player;
         
         this.loggerService.log('Request the player status');
         
         return this.http.get(url).pipe(catchError(this.handleError));
+    }
+    
+    // Gets the player status
+    getPlayer() : Player {
+        return this.player;
     }
 }

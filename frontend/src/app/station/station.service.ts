@@ -24,17 +24,6 @@ export class StationService {
                 private loggerService: LoggerService,
                 private http: HttpClient) {
         
-        // The list of stations is fetched from the backend server
-        this.fetchStationList()
-            .subscribe(data => {
-                this.stationList = JSON.parse(JSON.stringify(data));
-                this.loggerService.log('Number of fetched stations : '
-                                       + this.stationList.length);
-                
-            },
-                       error => {
-                           this.messageService.display(error);
-                       });
     }
 
     // Retrieves the list of stations from the backend server.
@@ -67,7 +56,7 @@ export class StationService {
     }    
         
     // The current selected station
-    selectedStation: Station;
+    private selectedStation: Station;
 
     // Sets the current station
     setSelectedStation(station: Station): void {
@@ -76,7 +65,20 @@ export class StationService {
 
     // Sets the current station knowing the source
     setSelectedSource(source: string): void {
-        this.setSelectedStation(this.findStation(source));
+        
+        // The list of stations is fetched again to search with the source
+        // It was
+        this.fetchStationList()
+            .subscribe(data => {
+                this.stationList = JSON.parse(JSON.stringify(data));
+                this.loggerService.log('Stations refetched : '
+                                       + this.stationList.length);
+                
+                this.setSelectedStation(this.findStation(source));
+            },
+                       error => {
+                           this.messageService.display(error);
+                       });
     }
     
     // Gets the current station
@@ -90,8 +92,21 @@ export class StationService {
             this.loggerService.log('No source to find !');
             return undefined;
         }
-        this.loggerService.log('Finding ' + source);
-        return this.stationList.find(station => station.stream == source);
-    }
+        else if (this.stationList.length < 1) {
+            this.loggerService.log('Cannot find a station in an empty list !');
+            return undefined;
+        }
+        
+        var s : Station = this.stationList.find(
+            station => station.stream == source);
+        
+        if (s == undefined) {
+            this.loggerService.log('No station found yet !');
+        }
+        else {
+            this.loggerService.log('Found : ' + s.name);
+        }
 
+        return s;
+    }
 }

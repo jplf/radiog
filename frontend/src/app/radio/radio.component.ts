@@ -20,28 +20,13 @@ export class RadioComponent implements OnInit, OnChanges {
 
     @Input() station: Station = undefined;
 
-    constructor(private radioService: RadioService,
+    constructor(private stationService: StationService,
                 private loggerService: LoggerService,
                 private messageService: MessageService,
-                private stationService: StationService) {
-
-    }
-
-    // Whether the player is playing (true) or not (false)
-    onOff: boolean = false;
-    
-    // The volume value
-    volume: number = 50;
-
-    // Backend player
-    private player: Player = undefined;
-
-    // Gets initial values from the backend
-    ngOnInit(): void {
-        this.loggerService.log('Radio component initialized !');
-
+                private radioService: RadioService) {
+        
         // Get the player status
-        this.radioService.getPlayer()
+        this.radioService.fetchPlayer()
             .subscribe((data : string) => {
                 this.player = JSON.parse(JSON.stringify(data));
                 
@@ -49,14 +34,27 @@ export class RadioComponent implements OnInit, OnChanges {
                 this.volume = this.player.volume;
                 this.onOff  = this.player.switchedOn;
                 
-                this.loggerService.log('Source : ' + this.player.source);
+                this.loggerService.log('Radio : ' + this.player.source);
                 this.stationService.setSelectedSource(this.player.source);
-                this.station = this.stationService.getSelectedStation();
-                //this.loggerService.log('Radio : ' + this.station.name);
+                
             },
                        error => {
                            this.messageService.display(error);
                        });
+    }
+
+    // Whether the player is playing (true) or not (false)
+    onOff: boolean = undefined;
+    
+    // The volume value
+    volume: number = undefined;
+    
+    private player: Player = undefined;
+
+    // Gets initial values from the backend
+    ngOnInit(): void {
+        this.loggerService.log('Initializing PlayerComponent !');
+        return;
     }
 
     // If playing and if the station is changed restarts the player
@@ -114,7 +112,6 @@ export class RadioComponent implements OnInit, OnChanges {
     /**
      * Manage the volume
      */
-    
     onChange(value: number): void {
         this.radioService.setVolume(value)
             .subscribe(data => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Station }  from '../station/station';
 import { StationService } from '../station/station.service';
 import { MessageService } from '../messages/message.service';
@@ -13,40 +13,37 @@ import { LoggerService }  from '../messages/logger.service';
 /**
  * Manages the list of radio stations.
  */
-export class StationListComponent implements OnInit, DoCheck {
+export class StationListComponent implements OnInit {
 
     constructor(private stationService: StationService,
                 private loggerService: LoggerService,
                 private messageService: MessageService) {
- 
-   }
+        
+        // The list of stations is fetched from the backend server
+        this.stationService.fetchStationList()
+            .subscribe(data => {
+                this.stationList = JSON.parse(JSON.stringify(data));
+                this.loggerService.log('Number of fetched stations : '
+                                       + this.stationList.length);
+                
+            },
+                       error => {
+                           this.messageService.display(error);
+                       });
+    }
+    
+    @Input() station: Station;
 
     // The array of stations
     stationList: Station[] = [];
 
     ngOnInit(): void {
-        this.loggerService.log('Initializing !');
+        this.loggerService.log('Initializing StationListComponent !');
     }
 
-    ngDoCheck() {
-        // Initializes when starting
-        if (this.stationList.length < 1) {
-            this.loggerService.log('DoCheck StationListComponent !');
-            this.stationList = this.stationService.getStationList();
-            
-            var s : Station = this.getSelectedStation();
-            if (s == undefined) {
-                this.loggerService.log('No selected station yet !');
-            }
-            else {
-                this.loggerService.log('Selected : ' + s.name);
-            }
-        }
-   }
-    
     // Returns the list of stations
     getStationList(): Station[] {
-        return this.stationService.getStationList();
+        return this.stationList;
     }    
 
     // Sets the current station

@@ -69,10 +69,15 @@ export class RadioComponent implements OnInit, OnChanges {
             return;
         }
         
-        this.loggerService.log('Station changed from '
-                               + changes.station.previousValue.name + ' to '
-                               + this.station.name);
-
+        if (changes.station.previousValue === undefined) {
+            this.loggerService.log('Station set to ' + this.station.name);
+        }
+        else {
+            this.loggerService.log('Station changed from '
+                                   + changes.station.previousValue.name
+                                   + ' to ' + this.station.name);
+        }
+        
         var value = true;
         this.radioService.switchOnOff(value, this.station.key)
             .subscribe(data => {

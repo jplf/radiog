@@ -14,7 +14,7 @@ import { Player } from '@backend/player.interface';
 })
 
 /**
- * Switch on or off the radio
+ * Switches on or off the radio
  */
 export class RadioComponent implements OnInit, OnChanges {
 
@@ -90,7 +90,7 @@ export class RadioComponent implements OnInit, OnChanges {
         
     }
 
-    // Switch on or off the radio
+    // Switches on or off the radio
     onSwitch(): void {
 
         if (this.station === undefined) {

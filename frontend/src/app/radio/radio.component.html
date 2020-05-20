@@ -2,10 +2,10 @@
 <div class="d-flex flex-row p-2">
 
   <div class="col-sm-1 mt-0 pt-1 custom-control custom-switch"
-       ngbTooltip="Radio {{onOff}}" placement="left">
+       ngbTooltip="Radio On {{onOff}}" placement="left">
     
     <input type="checkbox" class="custom-control-input" id="onOff"
-           (click)="onSwitch()" checked="on">
+           (click)="onSwitch()" [checked]=onOff />
     
     <label class="custom-control-label" for="onOff"></label>
   </div>

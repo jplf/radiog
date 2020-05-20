@@ -15,6 +15,7 @@ export class PlayerService {
 
     // The current player status
     private readonly player: Player = {
+        command: this.configService.get<string>('COMMAND'),
         version: this.configService.get<string>('VERSION'),
         source: this.configService.get<string>('SOURCE'),
         volume: this.configService.get<number>('VOLUME'),
@@ -60,17 +61,10 @@ export class PlayerService {
     // Plays either a file or a stream.
     private run(file : string): void {
 
-        // Make sure to stop a possible running player
-        this.switchOff();
-
-        // Launches the player
-        const mpg = cp.spawn('/usr/bin/mpg123', ['-q', file], {
+        // Launches the player script which kill a possibly existing player
+        const mpg = cp.spawn(this.player.command, [file], {
             detached: true,
-            stdio: ['ignore', 'ignore', 'pipe']
-        });
-        
-        mpg.stderr.on('data', (data) => {
-            this.journal.log(`stderr: ${data}`);
+            stdio: ['ignore', 'ignore', 'ignore']
         });
         
         this.player.source = file;

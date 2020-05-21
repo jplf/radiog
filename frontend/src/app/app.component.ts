@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
     title = 'RadioG';
-    version='0.6 15 May 2020';
+    version='0.9 21 May 2020';
 }

@@ -43,7 +43,7 @@ echo "Frontend server is being started !"
 
 cd $RADIOG_HOME/frontend
 
-ng serve --host kertugal --port 18301 \
+ng serve --host $HOSTNAME --port 18301 \
 1>../run/frontend.log 2>../run/frontend.err &
 
 echo "Frontend server is now online !"

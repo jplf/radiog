@@ -38,10 +38,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 This application is my first attempt to build something useful with the new version of Angular. It follows the explanations provided on the Angular website for the [Heroes](https://angular.io/tutorial) demo.
 
-## The server
-
-Run [`ng serve`](https://angular.io/cli/serve) for a development server. Then navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. It is possible to set the hostname of the server and the associated port, e.g. `ng serve --host kertugal --port 4200`
-
 ### Installation
 
 This application can run on any computer running the linux operating system.
@@ -51,19 +47,17 @@ It is worth reading the [tutorial](https://angular.io/tutorial/toh-pt0) since th
 
 The target is a [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) 1GB running Ubuntu 19.10 (Eoan Ermine).
 
-The first commands to run are :
+Starting from scratch the first commands to run were :
 ```
 node -v
 npm -v
 npm install @angular/cli
 ng --version
-ng new --create-application=false --skip-git --style=scss -v radiog
 cd radiog
-git init
-git remote add origin git@github.com:jplf/radiog.git
-git pull
+ng new --create-application=false --skip-git --style=scss -v frontend
+cd frontend
 ```
-Versions of *node* and *npm* are checked and a new angular application is generated then the content of this github repository is fetched.
+Versions of *node* and *npm* were checked and a new angular application was generated
 This application needs also a bunch of node modules which must be installed :
 
 ```
@@ -75,7 +69,11 @@ npm install @angular-devkit/architect \
 @angular/compiler-cli tslib @angular/compiler  \
 bootstrap bootswatch
 ```
-Finally try `ng serve --host my-hostname --port 4200` to make sure everything is ok.
+Now since everything is managed by git it is sufficient to pull the code from this repository and to run
+```
+npm install package.json
+```
+to fetch the necessary node modules.
 
 ## Code scaffolding
 
@@ -92,6 +90,10 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Running the server
+
+Run [`ng serve`](https://angular.io/cli/serve) for a development server. Then navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. It is possible to set the hostname of the server and the associated port, e.g. `ng serve --host kertugal --port 4200`
 
 ## Running unit tests and end-to-end tests
 

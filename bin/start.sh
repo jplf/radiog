@@ -1,10 +1,10 @@
 #! /bin/sh
 #______________________________________________________________________________
 
-# Script used to start the server.
-# It checks the environment and starts the command by screen(1).
+# Script used to start the backend and frontend servers.
+# It checks the environment and starts.
 
-# Jean-Paul Le Fèvre - March 2014
+# Jean-Paul Le Fèvre - June 2020
 # @copyright Gnu general public license (http://www.gnu.org/licenses/gpl.html)
 
 #______________________________________________________________________________
@@ -14,35 +14,44 @@ if [ -z "$RADIOG_HOME" ]; then
     exit 1
 fi
 
-if [ -z "$NODE_PATH" ]; then
-    echo "export NODE_PATH="
-    exit 1
-fi
-
-if [ -z "$AUDIODEV" ]; then
-    echo "export AUDIODEV="
-    exit 1
-fi
+cd $RADIOG_HOME/run
 
 # Check the current time to make comparison possible with timestamp.0
-touch $RADIOG_HOME/run/timestamp.1
+touch timestamp.0
 
-rm -f $RADIOG_HOME/run/screenlog.? 2>/dev/null
-mv -f $RADIOG_HOME/run/*.log $RADIOG_HOME/tmp 2>/dev/null
+rm -f screenlog.? 2>/dev/null
+mv -f *.log ../tmp/  2>/dev/null
 
-# Launch the http server.
-screen -L -d -m /usr/local/bin/node $RADIOG_HOME/www/gontrol/app.js
+# Launch the backend server.
+echo "Backend server is being started !"
+
+cd $RADIOG_HOME/backend
+npm run start 1>../run/backend.log 2>../run/backend.err &
+
+cd $RADIOG_HOME/run
+touch timestamp.1
 
 # Make sure the server is ready.
 sleep 30
 
-# Initialize the volume on the server
-if [ -f $RADIOG_HOME/run/volume ]; then
-    vol=`cat $RADIOG_HOME/run/volume`
-else
-    vol="20"
-fi
+echo "Backend server is now accepting requests !"
+curl -s http://localhost:18300/player | jq;
+curl -s http://localhost:18300/device/info | jq
 
-/usr/bin/curl http://localhost:18000/box/set_volume/$vol >/dev/null
+# Launch the frontend server.
+echo "Frontend server is being started !"
+
+cd $RADIOG_HOME/frontend
+
+ng serve --host kertugal --port 18301 \
+1>../run/frontend.log 2>../run/frontend.err &
+
+echo "Frontend server is now online !"
+echo "http://localhost:18301"
+
+cd $RADIOG_HOME/run
+touch timestamp.2
+
+exit 0
 
 #______________________________________________________________________________

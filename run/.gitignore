@@ -2,3 +2,5 @@
 mpgctrl
 *.mp3
 *url
+timestamp*
+*.err

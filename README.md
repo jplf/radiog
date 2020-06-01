@@ -19,6 +19,9 @@ Here is a brief summary in english of what is detailed in the full web site.
 | 04 April 2020 | A first version is pushed to github |
 | 20 March 2020 | Make a copy of the original radiok |
 
+### Bugs
+* It is still hard to master the bluetooth connection on the raspberry
+
 ### Layout
 This application is split in 2 parts : the backend implementing the sound player services and the frontend giving users a nice web interface to the the services. The backend services are available by http rest requests.
 
@@ -29,6 +32,9 @@ connection are needed. A *Raspberry* is an excellent choice to implement this ap
 
 
 # Backend
+
+The backend server [README](https://github.com/jplf/radiog/tree/master/backend) gives more information.
+This server provides a http interface to unix commands controlling the output of music from a linux box to a bluetooth connected loud speaker. It is implementd by the [NestJs](https://docs.nestjs.com/) library.
 
 # Frontend
 

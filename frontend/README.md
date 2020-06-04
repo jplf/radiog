@@ -1,30 +1,12 @@
 
 **RadioG** is an application used to manage an internet radio implemented
-on a *Raspberry Pi*.
+on a *Raspberry Pi*. Here are some notes about the frontend server.
 
-It is a webapp built in the framework of [Angular](https://angular.io/). It was forked from the original [RadioK](https://github.com/jplf/radiok).
-
-The documentation of the original version is available in french from 
-the [RadioK](http://www.fonteny.org/radiok) dedicated web site:
-http://www.fonteny.org/radiok. For this version the documentation will be issued later.
-
-Here is a brief summary in english of what is detailed in the full web site.
-
-### Changelog
-| Date         | Changes |
-|--------------|---------|
-| 10 April 2020 | Layout acceptable |
-| 04 April 2020 | A first version is pushed to github |
-| 20 March 2020 | Make a copy of the original radiok |
-
-### Hardware
-
-A computer with a sound card, a loud speaker and an internet
-connection are needed. A *Raspberry* is an excellent choice to implement this application.
+The main page displays the top [README](https://github.com/jplf/radiog/blob/master/README.md)
 
 ### Design
 
-This application is my first attempt to build something useful with the new version of Angular. It follows the explanations provided on the Angular website for the [Heroes](https://angular.io/tutorial) demo.
+This application was my first attempt to build something useful with the new version of Angular. It follows the explanations provided on the Angular website for the [Heroes](https://angular.io/tutorial) demo.
 
 ### Installation
 
@@ -32,8 +14,6 @@ This application can run on any computer running the linux operating system.
 It is primarily intended to be installed on a raspberry pi box.
 
 It is worth reading the [tutorial](https://angular.io/tutorial/toh-pt0) since this application is very similar to the one proposed by the Angular.
-
-The target is a [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) 1GB running Ubuntu 19.10 (Eoan Ermine).
 
 The first commands to run are :
 ```

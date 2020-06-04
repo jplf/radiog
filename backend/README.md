@@ -10,9 +10,9 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 
 ## Bluetooth configuration
 
-It is the difficult part. This application is designed to send the audio output to loud speakers or headset connected via bluetooth to a raspberry computer. Of course it can work on any linux box with different kind of audio device. In these cases it is much easier to set up the system.
+It is the difficult part. This application is designed to send the audio output to loud speakers or headset connected via bluetooth to a raspberry computer. Of course it can work on any linux box with different kind of audio device. In these cases it is likely much easier to set up the system.
 
-On RPi it is a nightmare to make the on-board bluetooth and the pulseaudio server working reliably together. When the configuration seems to be ok the connection to the audio device randomly falls down after a certain period of time. Without a full reboot it is impossible to reenable the audio system. After hours of googling the problem it turns out that the only robust solution is not to use the embedded bt device but to take a usb dongle instead. It's what I did and I managed to get something working without trouble.
+On RPi it is a nightmare to make the on-board bluetooth and the pulseaudio server working reliably together. When the configuration seems to be ok the connection to the audio device randomly falls down after a certain period of time. Without a full reboot it is impossible to reenable the audio system. After hours of googling the problem it turns out that the only robust solution is not to use the embedded bt device but to take a usb dongle instead. It's what I did and I managed to get something working without trouble. In the future with a new version of the RPi we may hope to have something usable.
 
 To avoid having more than one bt controller the boot config has to be fixed :
 ```
@@ -21,6 +21,24 @@ echo "dtoverlay=disable-wifi" >> /boot/config.txt
 echo "dtoverlay=disable-bt"  >> /boot/config.txt
 ```
 After reboot `bluetoothctl` presents only one controller : the one from the usb dongle which is defined as the default.
+
+## Pulseaudio configuration
+
+I read this [warning](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/WhatIsWrongWithSystemWide/) but decided it was not relevant to my case. I'm developping a sort of radio box designed to be implemented on a RPi with no screen, no keyboard, no interative user. In this situation it makes sense to configure pulseaudio as a [system service](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SystemWide/).
+
+The pulse audio systemd service is defined as :
+```
+[Unit]
+Description=My RPi pulseAudio system server
+
+[Service]
+Type=notify
+ExecStart=pulseaudio --system
+
+[Install]
+WantedBy=multi-user.target
+```
+A more sophisticated script could be prepared but this simple one works.
 
 
 ## Installation

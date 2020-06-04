@@ -40,6 +40,18 @@ WantedBy=multi-user.target
 ```
 A more sophisticated script could be prepared but this simple one works.
 
+Then, basically, something like :
+```
+# Update groups
+usermod -a -G bluetooth pulse
+usermod -a -G pulse-access root
+usermod -a -G pulse-access jaypee
+
+# Update systemd configuration
+systemctl --system enable pulseaudio.service
+systemctl --system start pulseaudio.service
+```
+
 
 ## Installation
 

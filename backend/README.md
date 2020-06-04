@@ -51,7 +51,17 @@ usermod -a -G pulse-access jaypee
 systemctl --system enable pulseaudio.service
 systemctl --system start pulseaudio.service
 ```
-
+The pulseaudio configuration, `daemon.conf` must have these settings, or something similar :
+```
+daemonize = no
+allow-module-loading = yes
+allow-exit = no
+system-instance = yes
+load-default-script-file = yes
+default-script-file = /etc/pulse/default.pa
+log-target = file:/var/log/pulse.log
+```
+Actually it is worth using the `default.pa` instead of the `system.pa` even in a system wide environment.
 
 ## Installation
 

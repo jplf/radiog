@@ -26,7 +26,7 @@ There is not good modern API to manage the bluetooth connection. To interact wit
 ```
 echo info 11:22:33:44:AA:BB | /usr/bin/bluetoothctl
 ```
-The command `info` about the device specified by its address is sent to `bluetoothctl(1)`. It is not elegant but is does the job.
+The command `info` about the device specified by its address is sent to `bluetoothctl(1)`. It is not elegant but it does the job.
 
 ## Pulseaudio configuration
 
@@ -69,9 +69,16 @@ log-target = file:/var/log/pulse.log
 ```
 Actually it is worth using the `default.pa` instead of the `system.pa` even in a system wide environment.
 
+## Design
+
+This application is based on the simple unix programme: [`mpg123`](https://www.mpg123.de/) which plays either a radio stream or a mp3 file. The output volume is controlled by the command [`amixer`](https://linux.die.net/man/1/amixer).
+
+From the NestJs javascript code the commands are executed by the [child_process](https://nodejs.org/api/child_process.html) module coming with the [nodejs](https://nodejs.org/api/synopsis.html) library. To successfully get things working one has to figure out how to use asynchronous callback functions. It may take some time.
+
+
 ## Installation
 
-Installation of the code is pretty easy and follows the standard javascript principles. The necessary node modules have to be fetched and put into the *node_modules* directory.
+Installation of the code is pretty easy and follows the standard javascript principles. The necessary node modules have to be fetched and put into the *node_modules* directory. More information about [NestJs](https://docs.nestjs.com) is available online.
 
 ```bash
 # clone radiog from the github repository

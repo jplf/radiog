@@ -22,6 +22,12 @@ echo "dtoverlay=disable-bt"  >> /boot/config.txt
 ```
 After reboot `bluetoothctl` presents only one controller : the one from the usb dongle which is defined as the default.
 
+There is not good modern API to manage the bluetooth connection. To interact with the system from a javascript application it is necessary to spawn a unix command like :
+```
+echo info 11:22:33:44:AA:BB | /usr/bin/bluetoothctl
+```
+The command `info` about the device specified by its address is sent to `bluetoothctl(1)`. It is not elegant but is does the job.
+
 ## Pulseaudio configuration
 
 I read this [warning](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/WhatIsWrongWithSystemWide/) but decided it was not relevant to my case. I'm developping a sort of radio box designed to be implemented on a RPi with no screen, no keyboard, no interative user. In this situation it makes sense to configure pulseaudio as a [system service](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SystemWide/).

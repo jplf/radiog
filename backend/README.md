@@ -81,7 +81,27 @@ Four services are implemented :
 1. `device` which takes care of the bluetooth connection.
 1. `player` which runs the `mpg123` command.
 
+To access the 2 main services controllers are defined. They allow to access the service by http requests.
 
+To manage the player one can call these end points :
+
+* `/player` : returns the status
+* `/player/on` : switches on the sound output
+* `/player/off`: switches off the sound
+* `/player/station-list` : gets the list of radio stations
+* `/player/station?key=nn` : gets info about a specific station
+* `/player/set?volume=12` : changes the output volume
+* /`player/play?file=some-file.mp3`: plays a mp3 file
+* `/player/listen/nn` : listens to a radio station
+
+And for the bluetooth connection :
+
+* `/device` : gets the status of the connection
+* `/device/info` : gets the status
+* `/device/connect` : enables the connection to the device
+* `/device/disconnect` : disables the connection to the device
+
+To access these points just run `curl http://localhost:4200/`, when the response is in json pipe the call into `jq`
 
 ## Installation
 

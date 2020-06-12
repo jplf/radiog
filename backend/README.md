@@ -73,7 +73,14 @@ Actually it is worth using the `default.pa` instead of the `system.pa` even in a
 
 This application is based on the simple unix programme: [`mpg123`](https://www.mpg123.de/) which plays either a radio stream or a mp3 file. The output volume is controlled by the command [`amixer`](https://linux.die.net/man/1/amixer).
 
-From the NestJs javascript code the commands are executed by the [child_process](https://nodejs.org/api/child_process.html) module coming with the [nodejs](https://nodejs.org/api/synopsis.html) library. To successfully get things working one has to figure out how to use asynchronous callback functions. It may take some time.
+From the NestJs javascript code these commands are executed by the [child_process](https://nodejs.org/api/child_process.html) module coming with the [nodejs](https://nodejs.org/api/synopsis.html) library. To successfully get things working one has to figure out how to use asynchronous callback functions. It may take some time.
+
+Four services are implemented :
+1. `stations` which loads the list of stations managed by the application. This list is provided as a json file in the `etc` directory. The list gives the URL from where to get the stream. Other properties may be defined when they are known.
+1. `journal` which implements logging. For now it is minimalist but it could be more sophisticated if necessary.
+1. `device` which takes care of the bluetooth connection.
+1. `player` which runs the `mpg123` command.
+
 
 
 ## Installation

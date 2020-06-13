@@ -2,11 +2,22 @@
 **RadioG** is an application used to manage an internet radio implemented
 on a *Raspberry Pi*. Here are some notes about the frontend server.
 
-The main page displays the top [README](https://github.com/jplf/radiog/blob/master/README.md)
+The main page displays the top [README](https://github.com/jplf/radiog/blob/master/README.md).
 
 ### Design
 
 This application was my first attempt to build something useful with the new version of Angular. It follows the explanations provided on the Angular website for the [Heroes](https://angular.io/tutorial) demo.
+
+It is meant to be the user interface to the [backend server](https://github.com/jplf/radiog/blob/master/backend/README.md).
+This backend provides services which can be accessed by http requests.
+
+#### Components
+* the home page is specified in the `src` directory. It defines the style based on [bootstrap](https://getbootstrap.com/), the well know javascript library, and a theme chosen from the [bootswatch](https://bootswatch.com/) collection.
+
+* the topmost component, named `app`, is defined in `src/app`. It follows the Angular principles. The html page displays a navigation bar, the list of radio stations managed by the backend and a couple of controls to start and stop the radio.
+
+* `station-list` deals with the list of stations. The list is fetched from the backend server. The html component displays this list with radio button widgets allowing to select one particular station. A callback is executed when a button is pressed.
+The main point to consider is the way the list is retrieved since the request to the backend server is asynchronous : the component _subscribes_ to the function _fetchStationList()_ and parses the json response to build the list.
 
 ### Installation
 
@@ -69,11 +80,11 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io). It is not yet implemented.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). It is not yet implemented.
 
 ## Further help
 

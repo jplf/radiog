@@ -101,7 +101,7 @@ And for the bluetooth connection :
 * `/device/connect` : enables the connection to the device
 * `/device/disconnect` : disables the connection to the device
 
-To access these points just run `curl http://localhost:4200/`, when the response is in json pipe the call into `jq`
+To access these points just run `curl http://localhost:4200/`, when the response is a json chunk pipe the call into `jq` to pretty print the result.
 
 ## Installation
 
@@ -118,3 +118,8 @@ $ npm install
 ```bash
 $ npm run start
 ```
+This application needs 2 environment variables :
+* _RADIOG_HOME_ which gives the path to the top directory where the code is installed, e.g. `/home/myself/git/radiog`
+* _RADIOG_CONF_ which defines the path to the configuration file, e.g. `/home/myself/etc/radiog.conf`
+
+The configuration file provides the necessary parameters about a specific installation. It is straightforward to change them.

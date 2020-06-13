@@ -16,8 +16,14 @@ This backend provides services which can be accessed by http requests.
 
 * the topmost component, named `app`, is defined in `src/app`. It follows the Angular principles. The html page displays a navigation bar, the list of radio stations managed by the backend and a couple of controls to start and stop the radio.
 
-* `station-list` deals with the list of stations. The list is fetched from the backend server. The html component displays this list with radio button widgets allowing to select one particular station. A callback is executed when a button is pressed.
+* `station-list` deals with the list of stations. The list is fetched from the backend server. The html component displays this list alongside with radio button widgets allowing to select one particular station. A callback is executed when a button is pressed.
 The main point to consider is the way the list is retrieved since the request to the backend server is asynchronous : the component _subscribes_ to the function _fetchStationList()_ and parses the json response to build the list.
+
+* `station` provides the service managing the list of radio stations. It implements a couple of useful methods working on the collection.
+
+* `radio` is the component interacting with backend player. It allows to switch on the radio or to stop it. The volume may also be changed thanks to the range widget.
+
+* `messages` actually provides 2 different services : `message` which display information messages on the html page and `logger` which prints technical messages on the browser console. 
 
 ### Installation
 

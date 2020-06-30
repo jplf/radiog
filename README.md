@@ -36,11 +36,20 @@ connection are needed. A *Raspberry* is an excellent choice to implement this ap
 
 The target is a [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) 1GB running Ubuntu 19.10 (Eoan Ermine).
 
-# Backend
+## Usage
+There is a collection of scripts in the `bin` directory. Read them and change whatever needs to be fixed.
+Two environment variables must be set, i.e :
+```
+RADIOG_HOME=$HOME/radiog
+RADIOG_CONF=$HOME/etc/radiog.conf
+```
+The to start the application just run `bin/start.sh`. Actually the best is to start the app into a screen session.
+
+## Backend
 The backend server [README](https://github.com/jplf/radiog/tree/master/backend) gives more information.
 This server provides a http interface to unix commands controlling the output of music from a linux box to a bluetooth connected loud speaker. It is implementd by the [NestJs](https://docs.nestjs.com/) library. 
 
-# Frontend
+## Frontend
 The frontend server [README](https://github.com/jplf/radiog/tree/master/frontend) gives more information about the web interface. This webui is implemented with [Angular](https://en.wikipedia.org/wiki/Angular_(web_framework)) components.
 
 

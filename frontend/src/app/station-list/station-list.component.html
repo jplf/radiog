@@ -1,20 +1,21 @@
-<div class="w-25 m-2 mt-4 p-2 border border-primary rounded">
-  
-  <fieldset>
-    
-    <div class=" m-2 p-2 ">
-      <div class="form-check"
-           *ngFor="let station of stationList" (click)="onSelect(station)">
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input"
-                 name="optionsRadios"
-                 id="{{ station.key }}" value="{{ station.key }}">
-          {{ station.name }}
-        </label>
+<div class="w-50 m-2 mt-4 p-2 border border-primary rounded">
+  <div class="d-flex justify-content-center">
+    <fieldset>
+      
+      <div class="m-2 p-2">
+        <div class="form-check"
+             *ngFor="let station of stationList" (click)="onSelect(station)">
+          <label class="form-check-label">
+            <input type="radio" class="form-check-input"
+                   name="optionsRadios"
+                   id="{{ station.key }}" value="{{ station.key }}">
+            {{ station.name }}
+          </label>
+        </div>
       </div>
-    </div>
-    
-  </fieldset>
+      
+    </fieldset>
+  </div>
 
   <app-station class="d-flex justify-content-center mt-1"
                [station]="getSelectedStation()">

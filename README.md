@@ -43,7 +43,9 @@ Two environment variables must be set, i.e :
 RADIOG_HOME=$HOME/radiog
 RADIOG_CONF=$HOME/etc/radiog.conf
 ```
-The to start the application just run `bin/start.sh`. Actually the best is to start the app into a screen session.
+Then to start the application just run `bin/start.sh`. Actually the best is to start the app into a `screen(1)` session.
+
+To stop the application run `bin/stop.h`. This script kills with no mercy all Radiog processes.
 
 ## Backend
 The backend server [README](https://github.com/jplf/radiog/tree/master/backend) gives more information.

@@ -13,6 +13,7 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 30 June 2020 | Screen layout updated |
 | 26 June 2020 | Documentation updated |
 | 08 June 2020 | The first RC version is ready |
 | 27 May 2020 | A beta version is available |
@@ -24,7 +25,8 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Bugs
 * It is still hard to master the bluetooth connection on the raspberry. Actually it seems that there is a difficulty with the on-board bt device which stops working randomly after an unpredictable period of time. After having spent hours trying to fix the problem with the help of google I gave up and changed for an usb bt dongle.
 Updated : no more any problem with a dongle.
-* When the frontend server is accessed from different clients weird things may happen since the web pages are not kept in sync on these clients.
+* When the frontend server is accessed from different clients weird things may happen since the web pages are not kept in sync on these running clients.
+* Starting the application may take a long time since the code has to be recompiled. Message telling that the server is online is not correct.
 
 ### Layout
 This application is split in 2 parts : the backend implementing the sound player services and the frontend giving users a nice web interface to the the services. The backend services are also directly available by http rest requests.

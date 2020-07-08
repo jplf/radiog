@@ -8,6 +8,26 @@ The main page of [RadioG](https://github.com/jplf/radiog/blob/master/README.md) 
 
 The server is implemented in the [Nest](https://github.com/nestjs/nest) framework. The website is [https://nestjs.com](https://nestjs.com/)
 
+## Installation
+
+Installation of the code is pretty easy and follows the standard javascript principles. The necessary node modules have to be fetched and put into the *node_modules* directory. More information about [NestJs](https://docs.nestjs.com) is available online.
+
+```bash
+# clone radiog from the github repository
+$ cd radiog/backend
+$ npm install
+```
+## Running the app
+
+This application needs 2 environment variables :
+* _RADIOG_HOME_ which gives the path to the top directory where the code is installed, e.g. `/home/myself/git/radiog`
+* _RADIOG_CONF_ which defines the path to the configuration file, e.g. `/home/myself/etc/radiog.conf`
+
+The configuration file provides the necessary parameters about a specific installation. It is straightforward to change them.
+
+```bash
+$ npm run start
+```
 ## Bluetooth configuration
 
 It is the difficult part. This application is designed to send the audio output to loud speakers or headset connected via bluetooth to a raspberry computer. Of course it can work on any linux box with different kind of audio device. In these cases it is likely much easier to set up the system.
@@ -102,24 +122,3 @@ And for the bluetooth connection :
 * `/device/disconnect` : disables the connection to the device
 
 To access these points just run `curl http://localhost:4200/`, when the response is a json chunk pipe the call into `jq` to pretty print the result.
-
-## Installation
-
-Installation of the code is pretty easy and follows the standard javascript principles. The necessary node modules have to be fetched and put into the *node_modules* directory. More information about [NestJs](https://docs.nestjs.com) is available online.
-
-```bash
-# clone radiog from the github repository
-$ cd radiog/backend
-$ npm install
-```
-
-## Running the app
-
-```bash
-$ npm run start
-```
-This application needs 2 environment variables :
-* _RADIOG_HOME_ which gives the path to the top directory where the code is installed, e.g. `/home/myself/git/radiog`
-* _RADIOG_CONF_ which defines the path to the configuration file, e.g. `/home/myself/etc/radiog.conf`
-
-The configuration file provides the necessary parameters about a specific installation. It is straightforward to change them.

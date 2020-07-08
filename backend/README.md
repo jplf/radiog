@@ -33,6 +33,11 @@ Look at the messages printed on the console to see if the server is started with
 curl -s localhost:18300/player | jq
 ```
 A couple of parameters should be displayed in json format.
+Once the output device is configured it is possible to use the player :
+```
+curl -s sedipcc183:18300/player/station?key=11
+curl -s sedipcc183:18300/player/on
+```
 
 ## Bluetooth configuration
 

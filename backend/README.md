@@ -28,6 +28,12 @@ The configuration file provides the necessary parameters about a specific instal
 ```bash
 $ npm run start
 ```
+Look at the messages printed on the console to see if the server is started without errors. Then try something like:
+```
+curl -s localhost:18300/player | jq
+```
+A couple of parameters should be displayed in json format.
+
 ## Bluetooth configuration
 
 It is the difficult part. This application is designed to send the audio output to loud speakers or headset connected via bluetooth to a raspberry computer. Of course it can work on any linux box with different kind of audio device. In these cases it is likely much easier to set up the system.

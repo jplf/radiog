@@ -29,17 +29,17 @@ npm install
 npm install @angular/cli
 ng --version
 ```
-The code of the application is fetched from github.
-Versions of *node* and *npm* are checked.
+These commands should be executed in the `frontend` directory. The code of the application is fetched from github.
+Versions of *node* and *npm* are checked. The `PATH` must be updated to give access to the content of `node_modules/.bin/`, i.e. `ng`.
 
-It is also possible to start from scratch.
+It is also possible to rebuild the application from scratch.
 ```
 ng new --create-application=false --skip-git --style=scss -v radiog
 cd radiog
 git init
 ```
 
-This application needs also a bunch of node modules which must be installed :
+This application may also need a bunch of node modules which are installed by :
 
 ```
 npm install @angular-devkit/architect \

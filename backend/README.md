@@ -38,6 +38,7 @@ Once the output device is configured it is possible to use the player :
 curl -s localhost:18300/player/station?key=11
 curl -s localhost:18300/player/on
 ```
+If the audio system is already configured there is nothing special to do. However if the audio output is linked by bluetooth to the computer it may be necessary to read the remarks below.
 
 ## Bluetooth configuration
 
@@ -112,7 +113,7 @@ Four services are implemented :
 1. `device` which takes care of the bluetooth connection.
 1. `player` which runs the `mpg123` command.
 
-To access the 2 main services controllers are defined. They allow to access the service by http requests.
+To access the 2 main service controllers are defined. They allow to access the services by http requests.
 
 To manage the player one can call these end points :
 

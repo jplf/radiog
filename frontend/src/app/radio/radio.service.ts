@@ -7,7 +7,6 @@ import { HttpErrorResponse, HttpResponse }  from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { config } from '../../environments/environment';
-import { Player } from '@backend/player.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +21,6 @@ export class RadioService {
                 private messageService: MessageService,
                 private http: HttpClient) {
     }
-
-    // Backend player
-    private player: Player = undefined;
 
     switchOnOff(status : boolean, key: string) {
         
@@ -76,10 +72,5 @@ export class RadioService {
         this.loggerService.log('Request the player status');
         
         return this.http.get(url).pipe(catchError(this.handleError));
-    }
-    
-    // Gets the player status
-    getPlayer() : Player {
-        return this.player;
     }
 }

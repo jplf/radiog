@@ -50,7 +50,7 @@ npm install @angular-devkit/architect \
 @angular/compiler-cli tslib @angular/compiler  \
 bootstrap bootswatch
 ```
-Finally try `ng serve --host my-hostname --port 4200` to make sure everything is ok.
+Finally try `ng serve --host my-hostname --port my-port` to make sure everything is ok.
 
 ### Code scaffolding
 

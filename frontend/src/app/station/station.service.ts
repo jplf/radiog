@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Station } from './station';
 import { MessageService } from '../messages/message.service';
 import { LoggerService }  from '../messages/logger.service';
+import { ConfigService } from '../config.service';
 
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse, HttpResponse }  from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { config } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,14 +23,14 @@ export class StationService {
 
     constructor(private messageService: MessageService,
                 private loggerService: LoggerService,
+                private configService: ConfigService,
                 private http: HttpClient) {
-        
     }
 
     // Retrieves the list of stations from the backend server.
     fetchStationList() {
 
-        var url = config.backend_player + 'station-list';
+        var url = this.configService.playerUrl + 'station-list';
         return this.http.get(url, {
                                  headers: {'Access-Control-Allow-Origin': '*'},
                                  observe: 'body',

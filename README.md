@@ -13,6 +13,7 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 25 August 2020 | Runtime configuration implementation fixed|
 | 30 June 2020 | Screen layout updated |
 | 26 June 2020 | Documentation updated |
 | 08 June 2020 | The first RC version is ready |

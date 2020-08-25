@@ -24,6 +24,7 @@ This application needs 2 environment variables :
 * _RADIOG_CONF_ which defines the path to the configuration file, e.g. `/home/myself/etc/radiog.conf`
 
 The configuration file provides the necessary parameters about a specific installation. It is straightforward to change them.
+A default file is kept in the `RADIOG_HOME/etc` directory. The list of known radio stations is also in a json file in this directory. Note that at this point only the `key, name, stream` attributes are used.
 
 ```bash
 $ npm run start

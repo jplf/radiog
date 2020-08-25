@@ -47,8 +47,9 @@ RADIOG_HOME=$HOME/radiog
 RADIOG_CONF=$HOME/etc/radiog.conf
 ```
 Then to start the application just run `bin/start.sh`. Actually the best is to start the app into a `screen(1)` session.
+The runtime configuration management is far from being perfect. Make sure that the URL and specifically the port numbers are correctly set in the backend, frontend configuration files and in the script `start.sh`.
 
-To stop the application run `bin/stop.h`. This script kills with no mercy all Radiog processes.
+To stop the application run `bin/stop.h`. This script kills with no mercy all RadioG processes.
 
 ## Backend
 The backend server [README](https://github.com/jplf/radiog/tree/master/backend) gives more information.

@@ -1,5 +1,4 @@
 import { Controller, Get } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Journal } from '../journal/journal.service';
 import { DeviceService } from './device.service';
@@ -12,8 +11,7 @@ import { DeviceService } from './device.service';
 export class DeviceController {
     
     constructor(private deviceService: DeviceService,
-                private journal: Journal,
-                private configService: ConfigService) {
+                private journal: Journal) {
     };
 
     // Just gives back the name of the device

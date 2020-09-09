@@ -2,6 +2,7 @@
 #______________________________________________________________________________
 
 # Script used to start the backend and frontend servers.
+# Use something like 'screen -S RadioG' and '$RADIOG_HOME/bin/start.sh'
 # It checks the environment and starts.
 
 # Jean-Paul Le Fèvre - June 2020
@@ -14,7 +15,16 @@ if [ -z "$RADIOG_HOME" ]; then
     exit 1
 fi
 
+if [ -z "$RADIOG_CONF" ]; then
+    echo "export RADIOG_CONF="
+    exit 1
+fi
+
 cd $RADIOG_HOME/run
+
+echo "Check the configured values"
+cat $RADIOG_CONF
+cat $RADIOG_HOME/frontend/src/assets/radiog-conf.json
 
 # Check the current time to make comparison possible with timestamp.0
 touch timestamp.0
@@ -47,10 +57,12 @@ ng serve --host $HOSTNAME --port 18301 \
 1>../run/frontend.log 2>../run/frontend.err &
 
 echo "Frontend server is now online !"
-echo "http://$HOSTNAME:18301"
+echo "Go to http://$HOSTNAME:18301"
+
 
 cd $RADIOG_HOME/run
 touch timestamp.2
+echo "Check the log files if necessary"
 
 echo "The RadioG is about to be available but be patient !"
 echo "Verify the backend on port 18300 and the frontend on port 18301"

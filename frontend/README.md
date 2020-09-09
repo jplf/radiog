@@ -11,20 +11,6 @@ This application was my first attempt to build something useful with the new ver
 It is meant to be the user interface to the [backend server](https://github.com/jplf/radiog/blob/master/backend/README.md).
 This backend provides services which can be accessed by http requests.
 
-#### Components
-* the home page is specified in the `src` directory. It defines the style based on [bootstrap](https://getbootstrap.com/), the well know javascript library, and a theme chosen from the [bootswatch](https://bootswatch.com/) collection.
-
-* the topmost component, named `app`, is defined in `src/app`. It follows the Angular principles. The html page displays a navigation bar, the list of radio stations managed by the backend and a couple of controls to start and stop the radio.
-
-* `station-list` retrieves the list of stations. The list is fetched from the backend server. The html component displays this list alongside with radio button widgets allowing to select one particular station. A callback is executed when a button is pressed.
-The main point to consider is the way the list is retrieved since the request to the backend server is asynchronous : the component _subscribes_ to the function _fetchStationList()_ and parses the json response to build the list.
-
-* `station` provides the service managing the list of radio stations. It implements a couple of useful methods working on the collection.
-
-* `radio` is the component interacting with the backend player. It allows to switch the radio on or to stop it. The volume may also be changed thanks to the range widget.
-
-* `messages` actually provides 2 different services : `message` which display information messages on the html page and `logger` which prints technical messages on the browser console. 
-
 ### Installation
 
 This application can run on any computer running the linux operating system.
@@ -36,16 +22,24 @@ The first commands to run are :
 ```
 node -v
 npm -v
+git remote add origin git@github.com:jplf/radiog.git
+git pull
+cd radiog/frontend
+npm install
 npm install @angular/cli
 ng --version
+```
+These commands should be executed in the `frontend` directory. The code of the application is fetched from github.
+Versions of *node* and *npm* are checked. The `PATH` must be updated to give access to the content of `node_modules/.bin/`, i.e. `ng`.
+
+It is also possible to rebuild the application from scratch.
+```
 ng new --create-application=false --skip-git --style=scss -v radiog
 cd radiog
 git init
-git remote add origin git@github.com:jplf/radiog.git
-git pull
 ```
-Versions of *node* and *npm* are checked and a new angular application is generated then the content of this github repository is fetched.
-This application needs also a bunch of node modules which must be installed :
+
+This application may also need a bunch of node modules which are installed by :
 
 ```
 npm install @angular-devkit/architect \
@@ -56,7 +50,7 @@ npm install @angular-devkit/architect \
 @angular/compiler-cli tslib @angular/compiler  \
 bootstrap bootswatch
 ```
-Finally try `ng serve --host my-hostname --port 4200` to make sure everything is ok.
+Finally try `ng serve --host my-hostname --port my-port` to make sure everything is ok.
 
 ### Code scaffolding
 
@@ -73,6 +67,22 @@ Run `ng generate component component-name` to generate a new component. You can 
 ### Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+#### Components
+
+* the home page is specified in the `src` directory. It defines the style based on [bootstrap](https://getbootstrap.com/), the well know javascript library, and a theme chosen from the [bootswatch](https://bootswatch.com/) collection.
+
+* the topmost component, named `app`, is defined in `src/app`. It follows the Angular principles. The html page displays a navigation bar, the list of radio stations managed by the backend and a couple of controls to start and stop the radio.
+
+* `station-list` retrieves the list of stations. The list is fetched from the backend server. The html component displays this list alongside with radio button widgets allowing to select one particular station. A callback is executed when a button is pressed.
+The main point to consider is the way the list is retrieved since the request to the backend server is asynchronous : the component _subscribes_ to the function _fetchStationList()_ and parses the json response to build the list.
+
+* `station` provides the service managing the list of radio stations. It implements a couple of useful methods working on the collection.
+
+* `radio` is the component interacting with the backend player. It allows to switch the radio on or to stop it. The volume may also be changed thanks to the range widget.
+
+* `messages` actually provides 2 different services : `message` which display information messages on the html page and `logger` which prints technical messages on the browser console. 
+
 
 ### Running unit tests
 

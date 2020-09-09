@@ -13,6 +13,9 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 09 September 2020 | Runtime configuration implementation refixed |
+| 25 August 2020 | Runtime configuration implementation fixed |
+| 30 June 2020 | Screen layout updated |
 | 26 June 2020 | Documentation updated |
 | 08 June 2020 | The first RC version is ready |
 | 27 May 2020 | A beta version is available |
@@ -24,7 +27,8 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Bugs
 * It is still hard to master the bluetooth connection on the raspberry. Actually it seems that there is a difficulty with the on-board bt device which stops working randomly after an unpredictable period of time. After having spent hours trying to fix the problem with the help of google I gave up and changed for an usb bt dongle.
 Updated : no more any problem with a dongle.
-* When the frontend server is accessed from different clients weird things may happen since the web pages are not kept in sync on these clients.
+* When the frontend server is accessed from different clients weird things may happen since the web pages are not kept in sync on these running clients.
+* Starting the application may take a long time since the code has to be recompiled. Message telling that the server is online is not correct.
 
 ### Layout
 This application is split in 2 parts : the backend implementing the sound player services and the frontend giving users a nice web interface to the the services. The backend services are also directly available by http rest requests.
@@ -44,8 +48,11 @@ RADIOG_HOME=$HOME/radiog
 RADIOG_CONF=$HOME/etc/radiog.conf
 ```
 Then to start the application just run `bin/start.sh`. Actually the best is to start the app into a `screen(1)` session.
+The runtime configuration management is far from being perfect. Make sure that the URL and specifically the port numbers are correctly set in the backend, frontend configuration files and in the script `start.sh`.
 
-To stop the application run `bin/stop.h`. This script kills with no mercy all Radiog processes.
+The frontend configuration is defined in `assets/radiog-conf.json` which can be replaced by a file whose name is defined in `environment.ts`.
+
+To stop the application run `bin/stop.h`. This script kills with no mercy all RadioG processes.
 
 ## Backend
 The backend server [README](https://github.com/jplf/radiog/tree/master/backend) gives more information.

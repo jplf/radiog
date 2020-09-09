@@ -1,5 +1,4 @@
 import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Journal } from '../journal/journal.service';
 import { StationsService } from '../stations/stations.service';
@@ -16,8 +15,7 @@ export class PlayerController {
     
     constructor(private playerService: PlayerService,
                 private stationsService: StationsService,
-                private journal: Journal,
-                private configService: ConfigService) {
+                private journal: Journal) {
     };
 
     // Just gives back the status

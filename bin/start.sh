@@ -35,7 +35,7 @@ touch timestamp.1
 sleep 30
 
 echo "Backend server is now accepting requests !"
-curl -s http://localhost:18300/player | jq;
+curl -s http://localhost:18300/player | jq
 curl -s http://localhost:18300/device/info | jq
 
 # Launch the frontend server.
@@ -47,10 +47,14 @@ ng serve --host $HOSTNAME --port 18301 \
 1>../run/frontend.log 2>../run/frontend.err &
 
 echo "Frontend server is now online !"
-echo "http://localhost:18301"
+echo "http://$HOSTNAME:18301"
 
 cd $RADIOG_HOME/run
 touch timestamp.2
+
+echo "The RadioG is about to be available but be patient !"
+echo "Verify the backend on port 18300 and the frontend on port 18301"
+echo "Make sure that the bluetooth device is connected"
 
 exit 0
 

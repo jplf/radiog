@@ -13,7 +13,8 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
-| 25 August 2020 | Runtime configuration implementation fixed|
+| 09 September 2020 | Runtime configuration implementation refixed |
+| 25 August 2020 | Runtime configuration implementation fixed |
 | 30 June 2020 | Screen layout updated |
 | 26 June 2020 | Documentation updated |
 | 08 June 2020 | The first RC version is ready |
@@ -48,6 +49,8 @@ RADIOG_CONF=$HOME/etc/radiog.conf
 ```
 Then to start the application just run `bin/start.sh`. Actually the best is to start the app into a `screen(1)` session.
 The runtime configuration management is far from being perfect. Make sure that the URL and specifically the port numbers are correctly set in the backend, frontend configuration files and in the script `start.sh`.
+
+The frontend configuration is defined in `assets/radiog-conf.json` which can be replaced by a file whose name is defined in `environment.ts`.
 
 To stop the application run `bin/stop.h`. This script kills with no mercy all RadioG processes.
 

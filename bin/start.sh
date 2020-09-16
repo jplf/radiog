@@ -47,6 +47,7 @@ sleep 30
 echo "Backend server is now accepting requests !"
 curl -s http://localhost:18300/player | jq
 curl -s http://localhost:18300/device/info | jq
+echo "curl -s http://localhost:18300/player/listen/10"
 
 # Launch the frontend server.
 echo "Frontend server is being started !"

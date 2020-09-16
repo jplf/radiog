@@ -32,7 +32,7 @@ export class StationsService {
             .then (content => {
                 var list = JSON.parse(content).stations;
                 this.stations = list.map(e => ({ ... e }));
-                this.size()
+                this.size();
                 
                 return list;
             })

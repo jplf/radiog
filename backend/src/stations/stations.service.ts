@@ -29,7 +29,7 @@ export class StationsService {
             .then(file => {
                 return fs.readFile(file, 'utf-8');
             })
-            .then (content => {
+            .then(content => {
                 var list = JSON.parse(content).stations;
                 this.stations = list.map(e => ({ ... e }));
                 this.size();

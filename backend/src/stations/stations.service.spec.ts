@@ -41,4 +41,18 @@ describe('StationsService', () => {
         });
     });
     
+    it('station is retrieved', () => {
+        return service.load().then(list => {
+            var s : Station = service.get('11');
+            expect(s.name).toMatch('France Musique');
+        });
+    });
+    
+    it('station key is not valid', () => {
+        return service.load().then(list => {
+            var s : Station = service.get('1100');
+            expect(s).toBeUndefined();
+        });
+    });
+    
 });

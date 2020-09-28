@@ -17,6 +17,16 @@ Installation of the code is pretty easy and follows the standard javascript prin
 $ cd radiog/backend
 $ npm install
 ```
+
+## Testing
+
+First read the NestJs [documentation](https://docs.nestjs.com/fundamentals/testing) to have a presentation of the framework then look at the Jest [pages](https://jestjs.io/docs/en/getting-started) to start implementing tests. 
+To execute the tests launch:
+```
+npm test -- --watch
+```
+
+
 ## Running the app
 
 This application needs 2 environment variables :

@@ -45,7 +45,7 @@ export class PlayerController {
     @Get('set')
     set(@Query('volume') volume: string) : void {
         
-        var s = this.playerService.setVolume(volume);
+        this.playerService.setVolume(volume);
         this.journal.log('Volume set to ' + volume);
     }
     

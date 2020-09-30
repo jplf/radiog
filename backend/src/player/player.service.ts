@@ -62,7 +62,7 @@ export class PlayerService {
     private run(file : string): void {
 
         // Launches the player script which kill a possibly existing player
-        const mpg = cp.spawn(this.player.command, [file], {
+        cp.spawn(this.player.command, [file], {
             detached: true,
             stdio: ['ignore', 'ignore', 'ignore']
         });
@@ -82,7 +82,7 @@ export class PlayerService {
         this.player.switchedOn = false;
         
         // Make sure the path to killall is correct
-        const kill = cp.spawn('/bin/killall', ['-9', 'mpg123'], {
+        cp.spawn('/bin/killall', ['-9', 'mpg123'], {
             stdio: ['ignore', 'ignore', 'ignore']
         });
     }

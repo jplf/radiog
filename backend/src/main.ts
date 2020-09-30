@@ -20,11 +20,11 @@ async function bootstrap() {
     app.useLogger(app.get(Journal));
 
     // This service retrieves the list of known radios
-    await app.get(StationsService);
-    let stationsService = await app.get(StationsService);
-    await stationsService.load();
+    app.get(StationsService);
+    let stationsService = app.get(StationsService);
+    stationsService.load();
     
-    let configService = await app.get(ConfigService);
+    let configService = app.get(ConfigService);
     let port = configService.get<number>('BACKEND_PORT');
     
     app.enableCors();

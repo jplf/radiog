@@ -43,7 +43,9 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "jest": "^25.5.4",
+    "jest-sonar-reporter": "^2.0.0",
     "prettier": "^1.19.1",
+    "sonarqube-scanner": "^2.7.0",
     "supertest": "^4.0.2",
     "ts-jest": "^26.3.0",
     "ts-loader": "^6.2.1",
@@ -51,18 +53,24 @@
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.7"
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+    "jest": {
+        "moduleFileExtensions": [
+            "js",
+            "json",
+            "ts"
+        ],
+        "rootDir": "src",
+        "testRegex": ".spec.ts$",
+        "transform": {
+            "^.+\\.(t|j)s$": "ts-jest"
+        },
+        "coverageDirectory": "../reports",
+        "testResultsProcessor": "jest-sonar-reporter",
+        "testEnvironment": "node"
     },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
-  }
+    "jestSonar": {
+        "reportPath": "reports",
+        "reportFile": "test-reporter.xml",
+        "indent": 4
+    }
 }

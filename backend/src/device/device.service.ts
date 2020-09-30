@@ -70,7 +70,7 @@ export class DeviceService {
                     this.journal.log('Invalid device name : '
                                      + regexp + ' != ' + item);
                     return;
-                };
+                }
             }
             else if (item.match(/Alias:/)) {
                 this.journal.log('Device ' + item.trim());
@@ -95,17 +95,17 @@ export class DeviceService {
         
          // Sends 'connect' to bluetoothctl
         var cmd : string = this.btctl('connect');
-        var out = cp.execSync(cmd);
+        cp.execSync(cmd);
         
         //this.journal.log(out.toString());
         this.journal.log('Device connected');
     }
     
-    // Disonnects the current device
+    // Disconnects the current device
     disconnect(): void {
         
         var cmd : string = this.btctl('disconnect');
-        var out = cp.execSync(cmd);
+        cp.execSync(cmd);
         
         //this.journal.log(out.toString());
         this.journal.log('Device disconnected');
@@ -116,6 +116,5 @@ export class DeviceService {
 
         return 'echo ' + command + ' ' + this.device.address
             + ' | /usr/bin/bluetoothctl';
-        ;
     }
 }

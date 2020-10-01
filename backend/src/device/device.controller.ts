@@ -9,16 +9,16 @@ import { DeviceService } from './device.service';
  */
 @Controller('device')
 export class DeviceController {
-    
+
     constructor(private deviceService: DeviceService,
                 private journal: Journal) {
     };
 
     // Just gives back the name of the device
     @Get()
-    name() : string {
-        
-        return JSON.stringify(this.deviceService.name());
+    async name() : Promise<string> {
+
+        return JSON.stringify(await this.deviceService.name());
     }
 
     /**
@@ -28,7 +28,7 @@ export class DeviceController {
      */
     @Get('info')
     async info() : Promise<string> {
-        
+
         this.journal.log('Current device information');
 
         return JSON.stringify(await this.deviceService.info());
@@ -37,7 +37,7 @@ export class DeviceController {
     // Tries to get connected to the bluetooth device
     @Get('connect')
     connect() : void {
-        
+
         this.journal.log('Connecting to ' + this.deviceService.name());
         this.deviceService.connect();
     }
@@ -45,7 +45,7 @@ export class DeviceController {
     // Disconnected to the bluetooth device
     @Get('disconnect')
     disconnect() : void {
-        
+
         this.journal.log('Disconnecting from ' + this.deviceService.name());
         this.deviceService.disconnect();
     }

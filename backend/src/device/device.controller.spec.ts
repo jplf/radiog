@@ -29,7 +29,7 @@ describe('Device Controller', () => {
     });
 
     it('should return info', async () => {
-        const result = {',};
+        const result = {"wtf ?"};
         jest.spyOn(deviceService, 'info').mockImplementation(() => result);
         expect(await controller.info()).toBe(result);
     });

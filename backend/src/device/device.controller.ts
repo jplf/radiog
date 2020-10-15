@@ -18,7 +18,7 @@ export class DeviceController {
     @Get()
     async name() : Promise<string> {
 
-        return JSON.stringify(await this.deviceService.name());
+        return JSON.stringify(this.deviceService.name());
     }
 
     /**

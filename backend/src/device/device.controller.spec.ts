@@ -22,9 +22,15 @@ describe('Device Controller', () => {
         expect(controller).toBeDefined();
     });
 
-    it('should give the name', async () => {
+    it('should give back the name', async () => {
         const result = "HP";
         jest.spyOn(deviceService, 'name').mockImplementation(() => result);
         expect(await controller.name()).toBe(JSON.stringify(result));
+    });
+
+    it('should return info', async () => {
+        const result = {',};
+        jest.spyOn(deviceService, 'info').mockImplementation(() => result);
+        expect(await controller.info()).toBe(result);
     });
 });

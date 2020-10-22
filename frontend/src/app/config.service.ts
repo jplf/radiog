@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Config } from './config';
 
 import { environment } from './../environments/environment';
 
@@ -9,39 +11,44 @@ import { environment } from './../environments/environment';
 
 export class ConfigService {
 
-    private config: any;
+    private config: Config;
 
     constructor(private http: HttpClient) {
     }
-    
-    // Reads the configuration from the asset directory
+
+    // Stores the configuration
     loadConfig() {
-        
+        this.getConfig().subscribe((data: Config) => this.config = { ...data });
+    }
+
+    // Reads the configuration from the asset directory
+    getConfig() : Observable<Config> {
+
         var radiogConf = 'radiog-conf.json';
         if (environment.hasOwnProperty('configFile')) {
-            radiogConf = environment['configFile']; 
+            radiogConf = environment['configFile'];
         }
-        console.log(environment);
-        
-        console.log('Configuration found in ' + radiogConf);
-        
-        return this.http.get('/assets/' + radiogConf)
-            .toPromise()
-            .then(data => {
-                this.config = data;
-            });
+        //console.log(environment);
+        //console.log('Configuration found in ' + radiogConf);
+
+        return this.http.get<Config>('/assets/' + radiogConf);
     }
-    
+
+    // Returns the config object
+    get configuration(): Config {
+        return this.config;
+    }
+
     // Returns the current version string. Note the typescript syntax
     get version(): string {
         return this.config.version;
     }
-    
+
     // Returns the volume of the radio
     get volume(): number {
         return this.config.volume;
     }
-    
+
     // Returns the end point of the backend player
     get playerUrl(): string {
 

@@ -24,7 +24,7 @@ export class ConfigService {
     // Reads the configuration from the asset directory
     getConfig() : Observable<Config> {
 
-        var radiogConf = 'radiog-conf.json';
+        let radiogConf = 'radiog-conf.json';
         if (environment.hasOwnProperty('configFile')) {
             radiogConf = environment['configFile'];
         }

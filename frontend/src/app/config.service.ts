@@ -40,6 +40,12 @@ export class ConfigService {
         return this.http.get<Config>('/assets/' + radiogConf);
     }
 
+    // Sets the config object. Used to test the config service.
+    // I couldn't manage to load the configuration by loadConfig()
+    set configuration(data: Config) {
+        this.config = { ...data };
+    }
+
     // Returns the config object
     get configuration(): Config {
         return this.config;

@@ -7,17 +7,17 @@ import { ConfigService } from './config.service';
     styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
-    readonly title : string = 'RadioG';
-    readonly version : string;
-        
+export class AppComponent  implements OnInit {
+    readonly title: string = 'RadioG';
+    readonly version: string;
+
     constructor(private configService: ConfigService) {
-        console.log("Application component created");
+        console.log('Application component created');
         this.version =  this.configService.version;
     }
-    
+
     ngOnInit(): void {
-        console.log("Player at : " + this.configService.playerUrl);
+        console.log('Player at : ' + this.configService.playerUrl);
     }
 
 }

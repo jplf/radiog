@@ -13,15 +13,15 @@ import { Config } from './config';
 
 
 describe('ConfigService', () => {
-    
+
     let service: ConfigService;
-    
-    let testConfiguration : Config= {
-        version: "Test 0.1",
-        playerUrl: "http://localhost:18300/player/",
-        stationKey: "12",
+
+    const testConfiguration: Config = {
+        version: 'Test 0.1',
+        playerUrl: 'http://localhost:18300/player/',
+        stationKey: '12',
         volume: 10
-    }
+    };
 
     beforeAll(() => {
         TestBed.configureTestingModule({
@@ -31,7 +31,7 @@ describe('ConfigService', () => {
 
         service = TestBed.inject(ConfigService);
         console.log('Before all');
-        
+
         service.configuration = testConfiguration;
     });
 
@@ -41,26 +41,26 @@ describe('ConfigService', () => {
     });
 
     it('should not get a wrong version number', () => {
-        
-        const version = "0.19999999";
-        
+
+        const version = '0.19999999';
+
         expect(service.version).not.toBe(version);
     });
-    
+
     it('should get the correct version number', () => {
-        
+
         const version = testConfiguration.version;
-        
+
         expect(service.version).toBe(version);
     });
-    
+
     it('should get the player url', () => {
-        
+
         const url = testConfiguration.playerUrl;
-        
+
         expect(service.playerUrl).toBe(url);
     });
-    
+
     afterAll(() => {
         console.log('All done');
     });

@@ -5,15 +5,15 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
 
 describe('StationService', () => {
-    
+
     let service: StationService;
 
     beforeEach(async () => {
         TestBed.configureTestingModule({
-            
+
             providers: [StationService, DatePipe, HttpClient, HttpHandler]
         });
-        
+
         service = TestBed.inject(StationService);
     });
 

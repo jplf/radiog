@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { OnChanges, SimpleChange } from '@angular/core';
 import { RadioService } from './radio.service';
-import { LoggerService }  from '../messages/logger.service';
+import { LoggerService } from '../messages/logger.service';
 import { StationService } from '../station/station.service';
 import { MessageService } from '../messages/message.service';
 import { Station } from '../station/station';
@@ -24,19 +24,19 @@ export class RadioComponent implements OnInit, OnChanges {
                 private loggerService: LoggerService,
                 private messageService: MessageService,
                 private radioService: RadioService) {
-        
+
         // Get the player status
         this.radioService.fetchPlayer()
-            .subscribe((data : string) => {
+            .subscribe((data: string) => {
                 this.player = JSON.parse(JSON.stringify(data));
-                
+
                 this.loggerService.log(this.player.version);
                 this.volume = this.player.volume;
                 this.onOff  = this.player.switchedOn;
-                
+
                 this.loggerService.log('Radio : ' + this.player.source);
                 this.stationService.setSelectedSource(this.player.source);
-                
+
             },
                        error => {
                            this.messageService.display(error);
@@ -45,10 +45,10 @@ export class RadioComponent implements OnInit, OnChanges {
 
     // Whether the player is playing (true) or not (false)
     onOff: boolean = undefined;
-    
+
     // The volume value
     volume: number = undefined;
-    
+
     private player: Player = undefined;
 
     // Gets initial values from the backend
@@ -68,7 +68,7 @@ export class RadioComponent implements OnInit, OnChanges {
         if ( !this.onOff) {
             return;
         }
-        
+
         if (changes.station.previousValue === undefined) {
             this.loggerService.log('Station set to ' + this.station.name);
         }
@@ -77,8 +77,8 @@ export class RadioComponent implements OnInit, OnChanges {
                                    + changes.station.previousValue.name
                                    + ' to ' + this.station.name);
         }
-        
-        var value = true;
+
+        const value = true;
         this.radioService.switchOnOff(value, this.station.key)
             .subscribe(data => {
                 this.loggerService.log('New station '
@@ -87,7 +87,7 @@ export class RadioComponent implements OnInit, OnChanges {
                        error => {
                            this.messageService.display(error);
                        });
-        
+
     }
 
     // Switches on or off the radio
@@ -98,13 +98,13 @@ export class RadioComponent implements OnInit, OnChanges {
             return;
         }
         // Toggle the status
-        var value = ! this.onOff; 
-        
+        const value = ! this.onOff;
+
         this.radioService.switchOnOff(value, this.station.key)
             .subscribe(data => {
                 this.onOff = value;
-                var status = value ? 'On' : 'Off';
-                
+                const status = value ? 'On' : 'Off';
+
                 this.messageService.display('Radio ' + status);
                 this.loggerService.log('Station ' + this.station.name
                                        + ' ' + status);

@@ -17,10 +17,10 @@ export class ConfigService {
     }
 
     // Loads the configuration. It returns a promise.
-    loadConfig() : Promise<Config> {
+    loadConfig(): Promise<Config> {
         return this.getConfig().toPromise()
             .then(data => {
-                console.log("Promised");
+                console.log('Promised');
                 this.config = { ...data };
                 return data;
             });
@@ -28,13 +28,14 @@ export class ConfigService {
 
     // Reads the configuration from the asset directory
     // It returns an observable.
-    getConfig() : Observable<Config> {
+    getConfig(): Observable<Config> {
 
         let radiogConf = 'radiog-conf.json';
-        if (environment.hasOwnProperty('configFile')) {
-            radiogConf = environment['configFile'];
+        const prop = 'configFile';
+        if (environment.hasOwnProperty(prop)) {
+            radiogConf = environment[prop];
         }
-        //console.log(environment);
+
         console.log('Configuration found in ' + radiogConf);
 
         return this.http.get<Config>('/assets/' + radiogConf);

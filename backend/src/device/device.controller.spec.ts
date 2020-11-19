@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeviceController } from './device.controller';
 import { DeviceService } from './device.service';
+import { Device } from './device.interface';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 
@@ -29,8 +30,18 @@ describe('Device Controller', () => {
     });
 
     it('should return info', async () => {
-        const result = {'wtf ?'};
-        jest.spyOn(deviceService, 'info').mockImplementation(() => result);
-        expect(await controller.info()).toBe(result);
+        const result: Device = {
+            "name" : 'nom',
+            "alias": 'alias',
+            "address": 'adresse',
+            "trusted": true,
+            "paired" : true,
+            "connected" : false
+        };
+        
+        jest.spyOn(deviceService, 'info').mockImplementation(() => 
+                   new Promise<Device>((resolve) => { resolve(result); }
+                               ));
+        expect(await controller.info()).toBe(JSON.stringify(result));
     });
 });

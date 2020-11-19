@@ -19,7 +19,7 @@ export class PlayerController {
 
     // Just gives back the status
     @Get()
-    getStatus(@Headers('user-agent') agent:string) : string {
+    getStatus(@Headers('user-agent') agent: string) : string {
 
         return JSON.stringify(this.playerService.getPlayer());
     }

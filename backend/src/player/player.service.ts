@@ -90,7 +90,7 @@ export class PlayerService {
     // Changes the output volume
     setVolume(volume: string): void {
 
-        const value: number = parseInt(volume, 10);
+        let value: number = parseInt(volume, 10);
 
         if (isNaN(value)) {
             this.journal.log('Invalid volume value : ' + volume);

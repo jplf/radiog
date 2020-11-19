@@ -83,6 +83,9 @@ The main point to consider is the way the list is retrieved since the request to
 
 * `messages` actually provides 2 different services : `message` which display information messages on the html page and `logger` which prints technical messages on the browser console. 
 
+### Code quality
+
+To clean up the code try `ng lint` then scan the package with SonarQube.
 
 ### Running unit tests
 

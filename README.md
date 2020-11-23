@@ -13,6 +13,7 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 23 November 2020 | Code cleaned up |
 | 09 September 2020 | Runtime configuration implementation refixed |
 | 25 August 2020 | Runtime configuration implementation fixed |
 | 30 June 2020 | Screen layout updated |

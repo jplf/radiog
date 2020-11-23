@@ -31,7 +31,7 @@ export class StationService {
     }
 
     // Retrieves the list of stations from the backend server.
-    fetchStationList(): Observable<> {
+    fetchStationList(): Observable<any> {
 
         const url = this.configService.playerUrl + 'station-list';
         return this.http.get(url, {

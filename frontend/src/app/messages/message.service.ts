@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 
 /**
- * This service display messages on the web page.
+ * This service displays messages on the web page.
  */
 export class MessageService {
 

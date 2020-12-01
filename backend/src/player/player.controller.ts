@@ -42,10 +42,11 @@ export class PlayerController {
 
     // Sets the volume between 0 an 100 %:  "/player/set?volume=12"
     @Get('set')
-    set(@Query('volume') volume: string): void {
+    set(@Query('volume') volume: string): string {
 
         this.playerService.setVolume(volume);
         this.journal.log('Volume set to ' + volume);
+        return JSON.stringify(volume);
     }
 
     // Plays a file with white spaces encoded :
@@ -54,32 +55,36 @@ export class PlayerController {
     // Plays another one : "/player/play?file=78/Debademba-Agakamina.mp3"
 
     @Get('play')
-    play(@Query('file') file: string): void {
+    play(@Query('file') file: string): string {
 
         this.journal.log('Playing ' + file);
         this.playerService.play(file);
+        return JSON.stringify(file);
     }
 
     // Listens a radio : "/player/listen/13"
     @Get('listen/:key')
-    listen(@Param() params): void {
+    listen(@Param() params): string {
 
         const s = this.stationsService.get(params.key);
         this.journal.log('Listening to ' + s.name);
         this.playerService.listen(s.stream);
+        return JSON.stringify(s.name + ' on');
     }
 
     // Restarts playing
     @Get('on')
-    switchOn(): void {
+    switchOn(): string {
         this.playerService.switchOn();
         this.journal.log('Restart playing');
-    }
+        return JSON.stringify('restarted');
+   }
 
     // Stops playing
     @Get('off')
-    switchOff(): void {
+    switchOff(): string {
         this.playerService.switchOff();
         this.journal.log('Stop playing');
+        return JSON.stringify('off');
     }
 }

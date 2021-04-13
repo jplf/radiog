@@ -68,6 +68,7 @@ echo "Check the log files if necessary"
 echo "The RadioG is about to be available but be patient !"
 echo "Verify the backend on port 18300 and the frontend on port 18301"
 echo "Make sure that the bluetooth device is connected"
+echo "curl -s http://localhost:18300/device/info | jq"
 echo "curl -s http://localhost:18300/device/connect | jq"
 
 exit 0

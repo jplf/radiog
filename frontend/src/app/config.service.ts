@@ -38,7 +38,7 @@ export class ConfigService {
 
         console.log('Configuration found in ' + radiogConf);
 
-        return this.http.get<Config>('/assets/' + radiogConf);
+        return this.http.get<Config>('./assets/' + radiogConf);
     }
 
     // Sets the config object. Used to test the config service.

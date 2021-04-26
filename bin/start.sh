@@ -33,10 +33,11 @@ rm -f screenlog.? 2>/dev/null
 mv -f *.log ../tmp/  2>/dev/null
 
 # Launch the backend server.
-echo "Backend server is being started !"
 
 cd $RADIOG_HOME/backend
-npm run start 1>../run/backend.log 2>../run/backend.err &
+echo "Backend server is being started !" | tee ../run/backend.log
+
+npm run start 1>>../run/backend.log 2>../run/backend.err &
 
 cd $RADIOG_HOME/run
 touch timestamp.1
@@ -44,20 +45,20 @@ touch timestamp.1
 # Make sure the server is ready.
 sleep 30
 
-echo "Backend server is now accepting requests !"
+echo "Backend server is now accepting requests !" | tee -a ../run/backend.log
 curl -s http://localhost:18300/player | jq
 curl -s http://localhost:18300/device/info | jq
 echo "curl -s http://localhost:18300/player/listen/10"
 
 # Launch the frontend server.
-echo "Frontend server is being started !"
 
 cd $RADIOG_HOME/frontend
+echo "Frontend server is being started !" | tee ../run/frontend.log
 
 ng serve --host $HOSTNAME --port 18301 \
-1>../run/frontend.log 2>../run/frontend.err &
+1>>../run/frontend.log 2>../run/frontend.err &
 
-echo "Frontend server is now online !"
+echo "Frontend server is now online !" | tee -a ../run/frontend.log
 echo "Go to http://$HOSTNAME:18301"
 
 

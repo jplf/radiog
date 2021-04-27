@@ -50,7 +50,8 @@ npm install @angular-devkit/architect \
 @angular/compiler-cli tslib @angular/compiler  \
 bootstrap bootswatch
 ```
-Finally try `ng serve --host my-hostname --port my-port` to make sure everything is ok.
+Finally try `ng build` to build the application with is found in the directory _dist_. A http server just needs to mention the location of the content.
+The new version is now served by a nginx server.
 
 ### Code scaffolding
 

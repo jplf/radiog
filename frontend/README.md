@@ -51,7 +51,7 @@ npm install @angular-devkit/architect \
 bootstrap bootswatch
 ```
 Finally try `ng build` to build the application with is found in the directory _dist_. A http server just needs to mention the location of the content.
-The new version is now served by a nginx server.
+The new version is now served by a <a href="https://www.nginx.com/">nginx server</a>.
 
 ### Code scaffolding
 

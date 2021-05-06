@@ -17,8 +17,14 @@ Installation of the code is pretty easy and follows the standard javascript prin
 $ cd radiog/backend
 $ npm install
 ```
+### Code quality
 
-## Testing
+Install and configure [ESlint](https://eslint.org/), run
+`npx eslint . --ext .js,.ts`
+
+Then scan the package with SonarQube.
+
+### Testing
 
 First read the NestJs [documentation](https://docs.nestjs.com/fundamentals/testing) to have a presentation of the framework then look at the Jest [pages](https://jestjs.io/docs/en/getting-started) to start implementing tests. 
 To execute the tests launch:

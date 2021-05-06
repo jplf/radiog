@@ -6,13 +6,16 @@ It is a webapp built in the framework of [Angular](https://angular.io/). It was 
 
 The documentation of the original version is available in french from 
 the [RadioK](http://www.fonteny.org/radiok) dedicated web site:
-http://www.fonteny.org/radiok. For this version the documentation is now in progress.
+http://www.fonteny.org/radiok. For this new version the documentation is now in progress.
 
 Here is a brief summary in english of what is detailed in the full web site.
 
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 27 April 2021 | The frontend is now served by nginx |
+| 02 December 2020 | The backend can also be used by RadioK |
+| 23 November 2020 | Code cleaned up |
 | 09 September 2020 | Runtime configuration implementation refixed |
 | 25 August 2020 | Runtime configuration implementation fixed |
 | 30 June 2020 | Screen layout updated |
@@ -47,7 +50,7 @@ Two environment variables must be set, i.e :
 RADIOG_HOME=$HOME/radiog
 RADIOG_CONF=$HOME/etc/radiog.conf
 ```
-Then to start the application just run `bin/start.sh`. Actually the best is to start the app into a `screen(1)` session.
+Then, to start the application just run `bin/start.sh`. Actually the best is to start the app into a `screen(1)` session.
 The runtime configuration management is far from being perfect. Make sure that the URL and specifically the port numbers are correctly set in the backend, frontend configuration files and in the script `start.sh`.
 
 The frontend configuration is defined in `assets/radiog-conf.json` which can be replaced by a file whose name is defined in `environment.ts`.

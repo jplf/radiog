@@ -1,9 +1,13 @@
 #! /bin/sh
 #______________________________________________________________________________
 
-# Script used to start the backend and frontend servers.
+# Script used to start the backend server.
 # Use something like 'screen -S RadioG' and '$RADIOG_HOME/bin/start.sh'
-# It checks the environment and starts.
+# It checks the environment and starts the player.
+
+# As of April 2021 this application has been reconfigured.
+# The frontend must be built by the Angular ng build command
+# It is served by nginx which can be started by systemctl start nginx
 
 # Jean-Paul Le Fèvre - June 2020
 # @copyright Gnu general public license (http://www.gnu.org/licenses/gpl.html)
@@ -33,10 +37,11 @@ rm -f screenlog.? 2>/dev/null
 mv -f *.log ../tmp/  2>/dev/null
 
 # Launch the backend server.
-echo "Backend server is being started !"
 
 cd $RADIOG_HOME/backend
-npm run start 1>../run/backend.log 2>../run/backend.err &
+echo "Backend server is being started, be patient !" | tee ../run/backend.log
+
+npm run start 1>>../run/backend.log 2>../run/backend.err &
 
 cd $RADIOG_HOME/run
 touch timestamp.1
@@ -44,31 +49,21 @@ touch timestamp.1
 # Make sure the server is ready.
 sleep 30
 
-echo "Backend server is now accepting requests !"
+echo "Backend server is now accepting requests !" | tee -a ../run/backend.log
 curl -s http://localhost:18300/player | jq
 curl -s http://localhost:18300/device/info | jq
 echo "curl -s http://localhost:18300/player/listen/10"
 
-# Launch the frontend server.
-echo "Frontend server is being started !"
-
-cd $RADIOG_HOME/frontend
-
-ng serve --host $HOSTNAME --port 18301 \
-1>../run/frontend.log 2>../run/frontend.err &
-
-echo "Frontend server is now online !"
-echo "Go to http://$HOSTNAME:18301"
-
-
+# The frontend server is managed by nginx.
 cd $RADIOG_HOME/run
+sudo systemctl status nginx 1>>frontend.log
+
 touch timestamp.2
 echo "Check the log files if necessary"
 
 echo "The RadioG is about to be available but be patient !"
-echo "Verify the backend on port 18300 and the frontend on port 18301"
+echo "Verify the backend on port 18300"
 echo "Make sure that the bluetooth device is connected"
-echo "curl -s http://localhost:18300/device/connect | jq"
 
 exit 0
 

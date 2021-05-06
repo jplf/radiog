@@ -9,7 +9,7 @@ const fs = require('fs').promises;
 // Manages the commands of the player
 @Injectable()
 export class PlayerService {
-    
+
     constructor(private journal: Journal,
                 private configService: ConfigService) {};
 
@@ -35,15 +35,15 @@ export class PlayerService {
     // Plays a mp3 file found in the local file system
     // The path must be given from the mp3 directory MP3_DIR
     play(file : string): void {
-        
-        var dir = this.configService.get<string>('MP3_DIR');
-        var pathname = dir + '/' + file;
-        
+
+        const dir = this.configService.get<string>('MP3_DIR');
+        const pathname = dir + '/' + file;
+
         Promise.resolve(pathname)
             .then(pathname => {
                  return fs.stat(pathname);
             })
-            .then(stat => {
+            .then(() => {
                 this.journal.log("File found : " + pathname);
                 this.run(pathname)
             })
@@ -66,7 +66,7 @@ export class PlayerService {
             detached: true,
             stdio: ['ignore', 'ignore', 'ignore']
         });
-        
+
         this.player.source = file;
         this.player.switchedOn = true;
     }
@@ -78,9 +78,9 @@ export class PlayerService {
 
     // No mercy for any existing player kill'em all
     switchOff(): void {
-        
+
         this.player.switchedOn = false;
-        
+
         // Make sure the path to killall is correct
         cp.spawn('/bin/killall', ['-9', 'mpg123'], {
             stdio: ['ignore', 'ignore', 'ignore']
@@ -90,8 +90,8 @@ export class PlayerService {
     // Changes the output volume
     setVolume(volume: string): void {
 
-        var value : number = parseInt(volume, 10);
-        
+        let value: number = parseInt(volume, 10);
+
         if (isNaN(value)) {
             this.journal.log('Invalid volume value : ' + volume);
             return;
@@ -102,17 +102,16 @@ export class PlayerService {
         else if (value > 100) {
             value = 100;
         }
-        
+
         this.player.volume = value;
-            
-        var percent : string = value.toString() + '%';
-        
+
+        const percent: string = value.toString() + '%';
+
         const kill = cp.spawn('/usr/bin/amixer',
                               ['-D', 'pulse', 'sset', 'Master', percent]);
 
         kill.stderr.on('data', (data) => {
             this.journal.log(`stderr: ${data}`);
         });
-
     }
 }

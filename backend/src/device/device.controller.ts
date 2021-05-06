@@ -1,5 +1,4 @@
 import { Controller, Get } from '@nestjs/common';
-import { Request } from 'express';
 import { Journal } from '../journal/journal.service';
 import { DeviceService } from './device.service';
 

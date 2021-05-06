@@ -8,7 +8,7 @@ import { Station } from './station';
 })
 
 export class StationComponent implements OnInit {
-    
+
     @Input() station: Station;
 
     constructor() { }

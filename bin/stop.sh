@@ -20,13 +20,11 @@ do_kill="pkill -u lefevre --signal 9"
 echo "Killing mpg123"
 $do_kill "mpg123"
 
-echo "Killing frontend"
-$do_kill "ng serve"
-
 echo "Killing backend"
 $do_kill "node"
+# Now the frontend is managed by systemctl nginx 
 
-# Don't know why sound messes up with the keyboad
+# Don't know why sound messes up with the keyboard
 /usr/bin/xmodmap $HOME/.keyboard
 
 exit 0

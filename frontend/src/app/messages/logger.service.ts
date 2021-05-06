@@ -10,8 +10,7 @@ export class LoggerService {
     constructor(private datePipe: DatePipe) {}
 
     log(msg: any) {
-        var d = this.datePipe.transform(new Date(), 'dd/MM HH:mm:ss')
-        console.log(d + " " + JSON.stringify(msg));
+        const d = this.datePipe.transform(new Date(), 'dd/MM HH:mm:ss');
+        console.log(d + ' ' + JSON.stringify(msg));
     }
 }
-

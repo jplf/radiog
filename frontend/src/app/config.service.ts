@@ -16,22 +16,35 @@ export class ConfigService {
     constructor(private http: HttpClient) {
     }
 
-    // Stores the configuration
-    loadConfig() {
-        this.getConfig().subscribe((data: Config) => this.config = { ...data });
+    // Loads the configuration. It returns a promise.
+    loadConfig(): Promise<Config> {
+        return this.getConfig().toPromise()
+            .then(data => {
+                console.log('Promised');
+                this.config = { ...data };
+                return data;
+            });
     }
 
     // Reads the configuration from the asset directory
-    getConfig() : Observable<Config> {
+    // It returns an observable.
+    getConfig(): Observable<Config> {
 
-        var radiogConf = 'radiog-conf.json';
-        if (environment.hasOwnProperty('configFile')) {
-            radiogConf = environment['configFile'];
+        let radiogConf = 'radiog-conf.json';
+        const prop = 'configFile';
+        if (environment.hasOwnProperty(prop)) {
+            radiogConf = environment[prop];
         }
-        //console.log(environment);
-        //console.log('Configuration found in ' + radiogConf);
 
-        return this.http.get<Config>('/assets/' + radiogConf);
+        console.log('Configuration found in ' + radiogConf);
+
+        return this.http.get<Config>('./assets/' + radiogConf);
+    }
+
+    // Sets the config object. Used to test the config service.
+    // I couldn't manage to load the configuration by loadConfig()
+    set configuration(data: Config) {
+        this.config = { ...data };
     }
 
     // Returns the config object

@@ -5,11 +5,11 @@ import { Injectable } from '@angular/core';
 })
 
 /**
- * This service display messages on the web page.
+ * This service displays messages on the web page.
  */
 export class MessageService {
-    
-    message: string = 'Enjoy RadioG !';
+
+    message = 'Enjoy RadioG !';
 
     display(message: string) {
         this.message = message;

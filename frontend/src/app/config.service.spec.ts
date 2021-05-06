@@ -4,10 +4,16 @@ import { ApplicationInitStatus } from '@angular/core';
 import { ConfigService } from './config.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
+
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { Config } from './config';
 import { HttpClientModule } from '@angular/common/http';
+
+// ng test --test-path-pattern="config.service.spec.ts"
+// It was a nightmare to call loadConfig() and make the tests working.
+// Instead a plain test configuration is stored in the config service.
+
 
 describe('ConfigService', () => {
 

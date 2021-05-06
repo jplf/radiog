@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { PlayerService } from './player.service';
-import { Player } from './player.interface';
 import { Journal } from '../journal/journal.service';
 
 describe('PlayerService', () => {
@@ -18,10 +17,10 @@ describe('PlayerService', () => {
     it('player service should be defined', () => {
         expect(service).toBeDefined();
     });
-    
+
     it('player should be defined', () => {
-        var player = service.getPlayer();
+        const player = service.getPlayer();
         expect(player).toBeDefined();
     });
-    
+
 });

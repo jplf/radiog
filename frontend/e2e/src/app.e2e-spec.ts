@@ -8,9 +8,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('Should display the title', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('gontrol app is running!');
+    expect(page.getTitleText()).toEqual('RadioG');
   });
 
   afterEach(async () => {

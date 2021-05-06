@@ -27,32 +27,32 @@ describe('StationsService', () => {
     it('should be defined', () => {
         expect(service).toBeDefined();
     });
-    
+
     it('path to stations should be valid', () => {
-        var path = config.get<string>('RADIOG_HOME') + '/'
+        const path = config.get<string>('RADIOG_HOME') + '/'
             + config.get<string>('STATION_LIST');
-        
+
         expect(path).toMatch(/stations.json/);
     });
-    
+
     it('stations are loaded', () => {
         return service.load().then(list => {
             expect(list.length).toBeGreaterThan(1);
         });
     });
-    
+
     it('station is retrieved', () => {
-        return service.load().then(list => {
-            var s : Station = service.get('11');
+        return service.load().then(() => {
+            const s : Station = service.get('11');
             expect(s.name).toMatch('France Musique');
         });
     });
-    
+
     it('station key is not valid', () => {
-        return service.load().then(list => {
-            var s : Station = service.get('1100');
+        return service.load().then(() => {
+            const s : Station = service.get('1100');
             expect(s).toBeUndefined();
         });
     });
-    
+
 });

@@ -1,35 +1,51 @@
 import { TestBed } from '@angular/core/testing';
-
+import { APP_INITIALIZER } from '@angular/core';
+import { ApplicationInitStatus } from '@angular/core';
 import { ConfigService } from './config.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpTestingController } from '@angular/common/http/testing';
 import { Config } from './config';
-
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ConfigService', () => {
+
     let service: ConfigService;
 
-
-    beforeEach(async () => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [ConfigService, HttpClient, HttpHandler]
+            providers: [ ConfigService, HttpClient, HttpHandler,
+                         {
+                             provide: APP_INITIALIZER,
+                             multi: true,
+                             deps: [ConfigService],
+                             useFactory: (configService: ConfigService) => {
+                                 return () => {
+                                     configService.getConfig();
+                                     console.log("The configuration is got");
+                                 };
+                             }
+                         }
+                       ]
         });
 
         service = TestBed.inject(ConfigService);
-
+        console.log("Configured");
     });
 
-    it('should be created', () => {
-        expect(service).toBeTruthy();
-    });
-
-    it('should get the configuration', async () => {
-        const version = "0.1";
-
-        service.getConfig().subscribe(value => {
-
-            expect(service.configuration).toBeTruthy();
+    describe('test', async () => {
+        await TestBed.inject(ApplicationInitStatus).donePromise;
+        it('should be created', async () => {
+            expect(service).toBeTruthy();
+            expect(service.version).toBe('4');
         });
     });
 
+//    it('should get the configuration', async () => {
+//        const version = '0.1';
+//        await TestBed.inject(ApplicationInitStatus).donePromise;
+//
+//        expect(await service.version).toBe(version);
+//    });
 });

@@ -6,7 +6,7 @@ The main page of [RadioG](https://github.com/jplf/radiog/blob/master/README.md) 
 
 ## Description
 
-The server is implemented in the [Nest](https://github.com/nestjs/nest) framework. The website is [https://nestjs.com](https://nestjs.com/)
+The server is implemented in the [Nest](https://github.com/nestjs/nest) framework. The website is [https://nestjs.com](https://nestjs.com/).
 
 ## Installation
 
@@ -150,4 +150,4 @@ And for the bluetooth connection :
 * `/device/connect` : enables the connection to the device
 * `/device/disconnect` : disables the connection to the device
 
-To access these points just run `curl http://localhost:4200/`, when the response is a json chunk pipe the call into `jq` to pretty print the result.
+To access these points just run `curl http://localhost:port/`, when the response is a json chunk pipe the call into `jq` to pretty print the result.

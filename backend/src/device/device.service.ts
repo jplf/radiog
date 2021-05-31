@@ -12,7 +12,7 @@ export class DeviceService {
                 private configService: ConfigService) {};
 
     // The current output bluetooth device
-    private readonly device: Device = {
+    private device: Device = {
         name: this.configService.get<string>('DEV_NAME'),
         alias: this.configService.get<string>('DEV_ALIAS'),
         address: this.configService.get<string>('DEV_ADDRESS'),

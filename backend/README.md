@@ -77,6 +77,8 @@ echo info 11:22:33:44:AA:BB | /usr/bin/bluetoothctl
 ```
 The command `info` about the device specified by its address is sent to `bluetoothctl(1)`. It is not elegant but it does the job.
 
+To update the bluetooth configuration the file _info_ in the directory _/var/lib/bluetooth/controller:mac:addr/device:mac:addr_ has to be edited : in the _[General]_ section _Alias=my-own-alias_ the line is to be inserted.
+
 ## Pulseaudio configuration
 
 I read this [warning](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/WhatIsWrongWithSystemWide/) but decided it was not relevant to my case. I'm developping a sort of radio box designed to be implemented on a RPi with no screen, no keyboard, no interative user. In this situation it makes sense to configure pulseaudio as a [system service](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SystemWide/).

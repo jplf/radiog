@@ -11,6 +11,8 @@ import { PlayerController } from './player/player.controller';
 import { PlayerService } from './player/player.service';
 import { DeviceController } from './device/device.controller';
 import { DeviceService } from './device/device.service';
+import { OutputService } from './output/output.service';
+import { OutputController } from './output/output.controller';
 
 @Module({
     imports: [
@@ -19,8 +21,8 @@ import { DeviceService } from './device/device.service';
             envFilePath: process.env.RADIOG_CONF
         })
     ],
-    controllers: [PlayerController, DeviceController],
-    providers: [StationsService, Journal, PlayerService, DeviceService],
+    controllers: [PlayerController, DeviceController, OutputController],
+    providers: [StationsService, Journal, PlayerService, DeviceService, OutputService]
 })
 
 export class AppModule {}

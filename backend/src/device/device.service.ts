@@ -11,6 +11,46 @@ export class DeviceService {
     constructor(private journal: Journal,
                 private configService: ConfigService) {};
 
+    // The list of bluetooth devices
+    private deviceList: Device[];
+
+    // Fetches the list of device using the default controller
+    loadDeviceList(): void {
+
+        try {
+            // Finds the default controller' name
+            const cmd: string = 'echo show ' + 
+                  ' | /usr/bin/bluetoothctl 2>/dev/null';
+            
+            const result: string = cp.execSync(cmd).toString();
+            
+            const list = result.split(/\n/);
+            const controller: string = '';
+
+            for (const item of list) {
+                if (item.match(/Controller /)) {
+                    controller =  item.trim();
+                }
+                else if (item.match(/Name:/)) {
+                    controller +=  ' ' + item.trim();
+                }
+                else if (item.match(/Alias:/)) {
+                    controller +=  ' ' + item.trim();
+                }
+                
+                this.journal.log('Controller ' +controller );
+            }
+
+
+            
+            this.journal.log(result);
+        }
+        catch(e) {
+           this.journal.log('Error:', e);
+        }
+        
+    }
+
     // The current output bluetooth device
     private device: Device = {
         name: this.configService.get<string>('DEV_NAME'),
@@ -26,16 +66,58 @@ export class DeviceService {
         return this.device;
     }
 
+    // Changes the current device
+    setDevice(dev: Device) {
+        
+        if (dev == null) {
+            this.journal.log('Null device to clone');
+            this.device = null;
+            return;
+        }
+        
+        this.device = JSON.parse(JSON.stringify(dev));
+    }
+
     // Returns the current device name
     name(): string {
         return this.device.name;
+    }
+
+    // Returns true if the device is the current device
+    isCurrent(dev: Device): boolean {
+        
+        if (dev == null) {
+            return false;
+        }
+
+        return dev.address === this.device.address;
+    }
+    
+    // Returns true if the device is connected
+    isConnected(dev: Device): boolean {
+        
+        if (dev == null) {
+            this.journal.log('Invalid device to test');
+            return false;
+        }
+
+        const cmd: string = 'echo info ' + dev.address
+              + ' | /usr/bin/bluetoothctl 2>/dev/null | fgrep Connected';
+        
+        const result: string = cp.execSync(cmd).toString();
+        
+        this.journal.log(result);
+              
+        return result.indexOf('yes') !== -1;
     }
 
     /**
      * Gets the current parameters of the bluetooth device.
      * It returns a promise which will be resolved by nestjs
      */
-    info() : Promise<Device> {
+    info(dev?: Device) : Promise<Device> {
+
+        const device: Device = (dev == null) ? this.device : dev;
 
         // Sends 'info' to bluetoothctl
         const cmd: string = this.btctl('info');
@@ -48,7 +130,7 @@ export class DeviceService {
                     return;
                 }
                 this.parseInfo(`${stdout}`)
-                resolve(this.device);
+                resolve(device);
             });
         });
     }

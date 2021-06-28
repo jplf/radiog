@@ -8,7 +8,7 @@ describe('OutputService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OutputService, ConfigService, Journal],
+      providers: [OutputService, ConfigService, Journal]
     }).compile();
 
     service = module.get<OutputService>(OutputService);

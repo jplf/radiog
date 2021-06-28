@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 import { Output } from './output.interface';
@@ -7,7 +7,8 @@ import { Output } from './output.interface';
 export class OutputService {
 
     constructor(private journal: Journal,
-                private configService: ConfigService) {}
+                private configService: ConfigService) {
+    }
 
     private output: Output = {
         name: this.configService.get<string>('DEV_NAME'),
@@ -24,7 +25,7 @@ export class OutputService {
     // Returns the current output name
     name(): string {
         return this.output.name;
-    }
+     }
 
     // Returns true if the output is a bluetooth device
     isBluetooth(): boolean {

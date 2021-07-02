@@ -14,113 +14,121 @@ export class DeviceService {
     // The list of bluetooth devices
     private deviceList: Device[];
 
-    // Fetches the list of device using the default controller
-    loadDeviceList(): void {
+    // Guesses what is the default bt controller
+    // The case where there is more than one controller is not managed
+    getBtController(): string {
 
         try {
-            // Finds the default controller' name
+            // Finds the default bt controller' name
             const cmd: string = 'echo show ' + 
                   ' | /usr/bin/bluetoothctl 2>/dev/null';
             
             const result: string = cp.execSync(cmd).toString();
             
             const list = result.split(/\n/);
-            const controller: string = '';
+            let btCtrl: string = '';
 
             for (const item of list) {
                 if (item.match(/Controller /)) {
-                    controller =  item.trim();
+                    btCtrl =  item.trim();
                 }
                 else if (item.match(/Name:/)) {
-                    controller +=  ' ' + item.trim();
+                    btCtrl +=  ' ' + item.trim();
                 }
                 else if (item.match(/Alias:/)) {
-                    controller +=  ' ' + item.trim();
+                    btCtrl +=  ' ' + item.trim();
                 }
                 
-                this.journal.log('Controller ' +controller );
+                return 'Controller ' + btCtrl;
             }
-
-
             
             this.journal.log(result);
         }
         catch(e) {
-           this.journal.log('Error:', e);
+            this.journal.log('Error: ' + e);
+            return null;
         }
-        
     }
 
-    // The current output bluetooth device
-    private device: Device = {
-        name: this.configService.get<string>('DEV_NAME'),
-        alias: this.configService.get<string>('DEV_ALIAS'),
-        address: this.configService.get<string>('DEV_ADDRESS'),
-        trusted: false,
-        paired: false,
-        connected: false
-    };
+    // Gets the list of available devices
+    // Returns the array of MAC addresses
+    // NOT YET IMPLEMENTED
+    getBtDevices(): string[] {
 
-    // Returns the current device
-    getDevice(): Device {
-        return this.device;
-    }
+        try {
+            // Get le list of devices. Calling bluetoothctl is not easy
+            const cmd: string = 'echo quit ' + 
+                  ' | /usr/bin/bluetoothctl devices | fgrep Device';
+            
+            const result: string = cp.execSync(cmd).toString();
+            
+            const list = result.split(/\n/);
+            let adresses: string[];
 
-    // Changes the current device
-    setDevice(dev: Device) {
-        
-        if (dev == null) {
-            this.journal.log('Null device to clone');
-            this.device = null;
-            return;
+            for (const item of list) {
+                if (item.match(/Controller /)) {
+                    btCtrl =  item.trim();
+                }
+                
+                return 'Controller ' + btCtrl;
+            }
+            
+            this.journal.log(result);
         }
-        
-        this.device = JSON.parse(JSON.stringify(dev));
-    }
-
-    // Returns the current device name
-    name(): string {
-        return this.device.name;
-    }
-
-    // Returns true if the device is the current device
-    isCurrent(dev: Device): boolean {
-        
-        if (dev == null) {
-            return false;
+        catch(e) {
+            this.journal.log('Error: ' + e);
+            return null;
         }
+    }
 
-        return dev.address === this.device.address;
+
+    // Fetches the list of device using the default bt controller
+    loadDeviceList(): void {
+    }
+
+    // Returns the device name
+    name(device: Device): string {
+        return device.name;
     }
     
-    // Returns true if the device is connected
-    isConnected(dev: Device): boolean {
+    // Simply returns true if the device is connected
+    isConnected(device: Device): boolean {
+        return device.connected;
+    }
+    
+    // Returns true if the device exists and is connected
+    isReallyConnected(device: Device): boolean {
         
-        if (dev == null) {
+        if (device == null) {
             this.journal.log('Invalid device to test');
             return false;
         }
 
-        const cmd: string = 'echo info ' + dev.address
+        const cmd: string = 'echo info ' + device.address
               + ' | /usr/bin/bluetoothctl 2>/dev/null | fgrep Connected';
         
         const result: string = cp.execSync(cmd).toString();
         
         this.journal.log(result);
+        
+        const status = result.indexOf('yes') !== -1;
+        device.connected = status;
               
-        return result.indexOf('yes') !== -1;
+        return status;
     }
 
     /**
-     * Gets the current parameters of the bluetooth device.
-     * It returns a promise which will be resolved by nestjs
+     * Gets the current parameters of a bluetooth device.
+     * It returns a promise which will be resolved by nestjs.
      */
-    info(dev?: Device) : Promise<Device> {
-
-        const device: Device = (dev == null) ? this.device : dev;
+    info(device: Device) : Promise<Device> {
+        
+        if (device == null) {
+            return Promise.reject('Invalid device to scan');
+        }
 
         // Sends 'info' to bluetoothctl
-        const cmd: string = this.btctl('info');
+        const cmd: string = this.btctl('info', device);
 
         return new Promise<Device> ((resolve, reject) => {
 
@@ -129,7 +137,7 @@ export class DeviceService {
                     this.journal.log('Call to bluetoothctl failed');
                     return;
                 }
-                this.parseInfo(`${stdout}`)
+                this.parseInfo(`${stdout}`, device)
                 resolve(device);
             });
         });
@@ -139,14 +147,14 @@ export class DeviceService {
      * Finds some interesting parameters in the output of bluetoothctl
      * Parsing could be smarter.
      */
-    private parseInfo(data) : void {
+    private parseInfo(data: string, device: Device) : void {
 
         const list = data.split(/\n/);
 
         for (const item of list) {
 
             if (item.match(/Name:/)) {
-                const regexp = new RegExp(this.device.name);
+                const regexp = new RegExp(device.name);
 
                 if(! regexp.test(item)) {
                     this.journal.log('Invalid device name : '
@@ -158,13 +166,13 @@ export class DeviceService {
                 this.journal.log('Device ' + item.trim());
             }
             else if (item.match(/Paired:/)) {
-                this.device.paired = /yes/.test(item);
+                device.paired = /yes/.test(item);
             }
             else if (item.match(/Trusted:/)) {
-                this.device.trusted = /yes/.test(item);
+                device.trusted = /yes/.test(item);
             }
             else if (item.match(/Connected:/)) {
-                this.device.connected = /yes/.test(item);
+                device.connected = /yes/.test(item);
             }
             else {
                 continue;
@@ -172,31 +180,48 @@ export class DeviceService {
         }
     }
 
-    // Connects the current device
-    connect(): void {
+    // Connects the specified device
+    connect(device: Device): void {
 
-         // Sends 'connect' to bluetoothctl
-        const cmd : string = this.btctl('connect');
+        // Avoids calling the bt controller
+        if (this.isConnected(device)) {
+            return;
+        }
+
+        // Sends 'connect' to bluetoothctl
+        const cmd : string = this.btctl('connect', device);
         cp.execSync(cmd);
 
         //this.journal.log(out.toString());
         this.journal.log('Device connected');
+        device.connected = true;
     }
 
-    // Disconnects the current device
-    disconnect(): void {
+    // Disconnects the specified device
+    disconnect(device: Device): void {
+        
+        // Avoids calling the bt controller
+        if (! this.isConnected(device)) {
+            return;
+        }
 
-        const cmd : string = this.btctl('disconnect');
+        const cmd : string = this.btctl('disconnect', device);
         cp.execSync(cmd);
 
         //this.journal.log(out.toString());
         this.journal.log('Device disconnected');
+        device.connected = false;
     }
 
     // Builds the bluetoothctl command
-    private btctl(command: string) : string {
+    private btctl(command: string, device: Device) : string {
+        
+        if (device == null) {
+            this.journal.log('Invalid device to check');
+            return null;
+        }
 
-        return 'echo ' + command + ' ' + this.device.address
+        return 'echo ' + command + ' ' + device.address
             + ' | /usr/bin/bluetoothctl';
     }
 }

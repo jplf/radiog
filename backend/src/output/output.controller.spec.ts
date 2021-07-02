@@ -24,6 +24,7 @@ describe('OutputController', () => {
 
          params = new Map<string, string>([
             ["COMMAND", "play.sh"],
+            ["BACKEND_PORT", "3000"],
             ["VOLUME", "20"],
             ["DEV_NAME", "HP"],
             ["STATION_LIST", "etc/stations.json"]

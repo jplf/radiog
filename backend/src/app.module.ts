@@ -9,7 +9,6 @@ import { StationsService } from './stations/stations.service';
 import { PlayerController } from './player/player.controller';
 // Handles the player commands
 import { PlayerService } from './player/player.service';
-import { DeviceController } from './device/device.controller';
 import { DeviceService } from './device/device.service';
 import { OutputService } from './output/output.service';
 import { OutputController } from './output/output.controller';
@@ -21,8 +20,9 @@ import { OutputController } from './output/output.controller';
             envFilePath: process.env.RADIOG_CONF
         })
     ],
-    controllers: [PlayerController, DeviceController, OutputController],
-    providers: [StationsService, Journal, PlayerService, DeviceService, OutputService]
+    controllers: [PlayerController, OutputController],
+    providers: [StationsService, Journal, PlayerService, DeviceService,
+                OutputService]
 })
 
 export class AppModule {}

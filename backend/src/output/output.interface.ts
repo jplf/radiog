@@ -1,4 +1,4 @@
-// The definition of the possible output devices
+// The definition of a output device
 import { Device } from '../device/device.interface';
 export interface Output {
     

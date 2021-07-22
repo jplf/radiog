@@ -22,7 +22,7 @@ export class PlayerService {
         switchedOn: false
     };
 
-    // Returns the current player : curl localhost:18300/player|jq
+    // Returns the current player e.g. : curl localhost:3000/player|jq
     getPlayer(): Player {
         return this.player;
     }
@@ -34,6 +34,7 @@ export class PlayerService {
 
     // Plays a mp3 file found in the local file system
     // The path must be given from the mp3 directory MP3_DIR
+    // Actually very seldom used
     play(file : string): void {
 
         const dir = this.configService.get<string>('MP3_DIR');
@@ -76,7 +77,9 @@ export class PlayerService {
         this.run(this.player.source);
     }
 
-    // No mercy for any existing player kill'em all
+    // No mercy for any existing player : kill'em all
+    // It is assumed that the player command is based on mpg123
+    // But this must be verified :(
     switchOff(): void {
 
         this.player.switchedOn = false;

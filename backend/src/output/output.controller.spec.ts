@@ -7,7 +7,6 @@ import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 
 
-
 describe('OutputController', () => {
     let output: OutputController;
     let service: OutputService;
@@ -26,7 +25,7 @@ describe('OutputController', () => {
             ["COMMAND", "play.sh"],
             ["BACKEND_PORT", "3000"],
             ["VOLUME", "20"],
-            ["DEV_NAME", "HP"],
+            ["DEV_NAME", "LOUD_SPEAKER"],
             ["STATION_LIST", "etc/stations.json"]
         ]);
         
@@ -59,7 +58,7 @@ describe('OutputController', () => {
     });
     
     it('should give back the name', async () => {
-        const result = 'DEVICE';
+        const result = 'LOUD_SPEAKER';
         const device = config.get<string>('DEV_NAME');
         jest.spyOn(service, 'name').mockImplementation(() => result);
         expect(await output.name()).toBe(JSON.stringify(device));

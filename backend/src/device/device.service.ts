@@ -67,10 +67,10 @@ export class DeviceService {
 
             for (const item of list) {
                 if (item.match(/Controller /)) {
-                    btCtrl =  item.trim();
+                    adresses.push(item.trim());
                 }
                 
-                return 'Controller ' + btCtrl;
+                return adresses;
             }
             
             this.journal.log(result);

@@ -5,6 +5,8 @@ import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 import { Station } from './station.interface';
 
+// Test a couple of methods on the station service
+
 describe('StationsService', () => {
     let service: StationsService;
     let config: ConfigService;

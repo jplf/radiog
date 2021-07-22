@@ -18,6 +18,8 @@ export class StationsService {
 
     // Loads the list from a file. Called from main.ts
     // The file path is given in the configuration
+    // By default it is in radiog/etc/stations.json
+    // Since I use only 2 or 3 radios some entries may have incorrect data
     async load(): Promise<string[]> {
 
         const path = this.configService.get<string>('RADIOG_HOME') + '/'

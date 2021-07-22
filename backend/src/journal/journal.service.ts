@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
 
+// Mainly used to learn  NestJs
 @Injectable()
 export class Journal extends Logger {
     

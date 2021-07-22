@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 import { Output } from './output.interface';
+import { Device } from '../device/device.interface';
 import { DeviceService } from '../device/device.service';
 
 @Injectable()

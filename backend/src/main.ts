@@ -5,11 +5,11 @@ import { Journal } from './journal/journal.service';
 import { StationsService } from './stations/stations.service';
 
 /**
- * curl http://localhost:18300/player|jq
- * curl http://localhost:18300/device/info| jq
- * curl http://localhost:18300/device/connect
- * curl http://localhost:18300/player/listen/10
- * curl http://localhost:18300/player/set?volume=30
+ * curl http://localhost:3000/player|jq
+ * curl http://localhost:3000/device/info| jq
+ * curl http://localhost:3000/device/connect
+ * curl http://localhost:3000/player/listen/10
+ * curl http://localhost:3000/player/set?volume=30
  */
 async function bootstrap() {
 

@@ -51,31 +51,59 @@ export class DeviceService {
     }
 
     // Gets the list of available devices
-    // Returns the array of MAC addresses
-    // NOT YET IMPLEMENTED
-    getBtDevices(): string[] {
+    // Returns the array of MAC addresses and alias
+    getBtDevices(): Device[] {
 
         try {
-            // Get le list of devices. Calling bluetoothctl is not easy
+            // Gets le list of devices. Calling bluetoothctl is not easy
+            // See discussions about that in the web. Bluetoothctl sucks.
             const cmd: string = 'echo quit ' + 
                   ' | /usr/bin/bluetoothctl devices | fgrep Device';
             
             const result: string = cp.execSync(cmd).toString();
             
             const list = result.split(/\n/);
-            let adresses: string[];
-
+            let devices: Device[]=  [];
+            
             for (const item of list) {
-                if (item.match(/Controller /)) {
-                    adresses.push(item.trim());
+                // For each device found take the mac address and the alias
+                // Since alias may contain white space it's a pain in the ass
+                // to parse the strings
+                if (item.match(/Device /)) {
+
+                    let dev: Device = {
+                        name : '',
+                        alias : '',
+                        address : '',
+                        trusted : false,
+                        paired : false,
+                        connected : false
+                    };
+                    
+                    const chunks = item.split(/ /);
+                    const word = chunks[2];
+                    
+                    if (word != 'Device') {
+                        throw new Error(word + ' is not what is expected');
+                    }
+                    // This should be the MAC address
+                    dev.address = chunks[3];
+                    
+                    // The rest is the alias
+                    let str: string = '';
+                    for (var  i = 4; i < chunks.length; i++) {
+                        str = str + chunks[i] + ' ';
+                    }
+                    dev.alias = str.trim();
+                    
+                    devices.push(dev);
                 }
-                
-                return adresses;
             }
             
-            this.journal.log(result);
+            return devices;
         }
         catch(e) {
+            console.log('Error: ' + e);
             this.journal.log('Error: ' + e);
             return null;
         }

@@ -31,13 +31,21 @@ describe('DeviceService', () => {
         expect(devices.length).toBeGreaterThan(1);
     });
     
-    it('Headset device is found', () => {
+    it('Headset device alias is found', () => {
         
         let address: string = '00:09:A7:09:1B:AB';
 
         return service.info(address).then(device => {
-            console.log(device.name);
             expect(device.alias).toMatch("Headset");
+        });
+    });
+    
+    it('UE Boom device name is found', () => {
+        
+        let address: string = 'C0:28:8D:36:20:97';
+
+        return service.info(address).then(device => {
+            expect(device.name).toMatch("UE BOOM 2");
         });
     });
 });

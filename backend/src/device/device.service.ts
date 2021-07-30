@@ -19,7 +19,7 @@ export class DeviceService {
     getBtController(): string {
 
         try {
-            // Finds the default bt controller' name
+            // Finds the default bt controller's name
             const cmd: string = 'echo show ' + 
                   ' | /usr/bin/bluetoothctl 2>/dev/null';
             
@@ -84,17 +84,19 @@ export class DeviceService {
         }
     }
 
-    // Returns the device name
+    // Returns the device name. Not reallu useful.
     name(device: Device): string {
         return device.name;
     }
     
-    // Simply returns true if the device is connected
+    // Simply returns true if the device is connected.
+    // Does not call bluetoothctl.
     isConnected(device: Device): boolean {
         return device.connected;
     }
     
-    // Returns true if the device exists and is connected
+    // Returns true if the device exists and is connected.
+    // It checks the status by calling bluetoothctl.
     isReallyConnected(device: Device): boolean {
         
         if (device == null) {
@@ -117,7 +119,7 @@ export class DeviceService {
 
     /**
      * Gets the current parameters of a bluetooth device.
-     * It returns a promise which will be resolved by nestjs.
+     * It returns a promise which will be resolved later on.
      */
     info(address: string) : Promise<Device> {
         
@@ -150,8 +152,10 @@ export class DeviceService {
     }
 
     /**
-     * Finds some interesting parameters in the output of bluetoothctl
+     * Finds some interesting parameters in the output of bluetoothctl.
      * Parsing could be smarter.
+     * Parameter data is the output of a call to bletoothctl.
+     * Parameter device is passed an updated.
      */
     private parseInfo(data: string, device: Device) : void {
 
@@ -194,7 +198,7 @@ export class DeviceService {
         }
     }
 
-    // Connects the specified device
+    // Connects the specified device.
     connect(device: Device): void {
 
         // Avoids calling the bt controller
@@ -206,12 +210,11 @@ export class DeviceService {
         const cmd : string = this.btctl('connect', device.address);
         cp.execSync(cmd);
 
-        //this.journal.log(out.toString());
         this.journal.log('Device connected');
         device.connected = true;
     }
 
-    // Disconnects the specified device
+    // Disconnects the specified device.
     disconnect(device: Device): void {
         
         // Avoids calling the bt controller
@@ -227,7 +230,9 @@ export class DeviceService {
         device.connected = false;
     }
 
-    // Builds the bluetoothctl command for a specific device
+    // Builds the bluetoothctl command for a specific device.
+    // The list of available commands is given by bluetoothctl help.
+    // The address is the mac address of a device.
     private btctl(command: string, address: string) : string {
         
         if (address == null) {
@@ -239,13 +244,12 @@ export class DeviceService {
             + ' | /usr/bin/bluetoothctl';
     }
     
-    // Creates a device from the content of a line output by bt controller
-    // Returns the device
+    // Creates a device from the content of a line spit by bt controller.
+    // Returns the device.
     private createDevice(line: string): Device {
         
         let device: Device = {
-                name : '',
-                alias : '',
+                name : '', alias : '',
                 address : '',
                 trusted : false, paired : false, connected : false
         };

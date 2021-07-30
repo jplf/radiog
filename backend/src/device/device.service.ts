@@ -51,11 +51,11 @@ export class DeviceService {
     }
 
     // Gets the list of available devices
-    // Returns the array of MAC addresses and alias
+    // Returns the array with the MAC addresses and the alias set
     getBtDevices(): Device[] {
 
         try {
-            // Gets le list of devices. Calling bluetoothctl is not easy
+            // Gets the list of devices. Calling bluetoothctl is not easy
             // See discussions about that in the web. Bluetoothctl sucks.
             const cmd: string = 'echo quit ' + 
                   ' | /usr/bin/bluetoothctl devices | fgrep Device';
@@ -70,32 +70,7 @@ export class DeviceService {
                 // Since alias may contain white space it's a pain in the ass
                 // to parse the strings
                 if (item.match(/Device /)) {
-
-                    let dev: Device = {
-                        name : '',
-                        alias : '',
-                        address : '',
-                        trusted : false,
-                        paired : false,
-                        connected : false
-                    };
-                    
-                    const chunks = item.split(/ /);
-                    const word = chunks[2];
-                    
-                    if (word != 'Device') {
-                        throw new Error(word + ' is not what is expected');
-                    }
-                    // This should be the MAC address
-                    dev.address = chunks[3];
-                    
-                    // The rest is the alias
-                    let str: string = '';
-                    for (var  i = 4; i < chunks.length; i++) {
-                        str = str + chunks[i] + ' ';
-                    }
-                    dev.alias = str.trim();
-                    
+                    let dev = this.createDevice(item);
                     devices.push(dev);
                 }
             }
@@ -107,11 +82,6 @@ export class DeviceService {
             this.journal.log('Error: ' + e);
             return null;
         }
-    }
-
-
-    // Fetches the list of device using the default bt controller
-    loadDeviceList(): void {
     }
 
     // Returns the device name
@@ -149,23 +119,31 @@ export class DeviceService {
      * Gets the current parameters of a bluetooth device.
      * It returns a promise which will be resolved by nestjs.
      */
-    info(device: Device) : Promise<Device> {
+    info(address: string) : Promise<Device> {
         
-        if (device == null) {
+        if (address == null) {
             return Promise.reject('Invalid device to scan');
         }
 
         // Sends 'info' to bluetoothctl
-        const cmd: string = this.btctl('info', device);
+        const cmd: string = this.btctl('info', address);
 
         return new Promise<Device> ((resolve, reject) => {
 
             cp.exec(cmd, (error, stdout, stderr) => {
                 if (error) {
                     this.journal.log('Call to bluetoothctl failed');
+                    reject(error);
                     return;
                 }
-                this.parseInfo(`${stdout}`, device)
+                
+                let device: Device = {
+                    name : 'undef', alias : '',
+                    address : address,
+                    trusted : false, paired : false, connected : false
+                };
+ 
+                this.parseInfo(`${stdout}`, device);
                 resolve(device);
             });
         });
@@ -178,19 +156,27 @@ export class DeviceService {
     private parseInfo(data: string, device: Device) : void {
 
         const list = data.split(/\n/);
-
+         
         for (const item of list) {
-
-            if (item.match(/Name:/)) {
-                const regexp = new RegExp(device.name);
-
-                if(! regexp.test(item)) {
-                    this.journal.log('Invalid device name : '
-                                     + regexp + ' != ' + item);
-                    return;
+            
+            if (item.match(/Device /)) {
+                
+                const chunks = item.split(/ /);
+                
+                if(chunks[3] != device.address) {
+                  continue;
                 }
             }
+            else if (item.match(/Name:/)) {
+                const i = item.indexOf(':') + 1;
+                device.name = item.substr(i).trim();
+                
+                this.journal.log('Device ' + item.trim());
+            }
             else if (item.match(/Alias:/)) {
+                const i = item.indexOf(':') + 1;
+                device.alias = item.substr(i).trim();
+
                 this.journal.log('Device ' + item.trim());
             }
             else if (item.match(/Paired:/)) {
@@ -217,7 +203,7 @@ export class DeviceService {
         }
 
         // Sends 'connect' to bluetoothctl
-        const cmd : string = this.btctl('connect', device);
+        const cmd : string = this.btctl('connect', device.address);
         cp.execSync(cmd);
 
         //this.journal.log(out.toString());
@@ -233,7 +219,7 @@ export class DeviceService {
             return;
         }
 
-        const cmd : string = this.btctl('disconnect', device);
+        const cmd : string = this.btctl('disconnect', device.address);
         cp.execSync(cmd);
 
         //this.journal.log(out.toString());
@@ -241,15 +227,47 @@ export class DeviceService {
         device.connected = false;
     }
 
-    // Builds the bluetoothctl command
-    private btctl(command: string, device: Device) : string {
+    // Builds the bluetoothctl command for a specific device
+    private btctl(command: string, address: string) : string {
         
-        if (device == null) {
+        if (address == null) {
             this.journal.log('Invalid device to check');
             return null;
         }
 
-        return 'echo ' + command + ' ' + device.address
+        return 'echo ' + command + ' ' + address
             + ' | /usr/bin/bluetoothctl';
+    }
+    
+    // Creates a device from the content of a line output by bt controller
+    // Returns the device
+    private createDevice(line: string): Device {
+        
+        let device: Device = {
+                name : '',
+                alias : '',
+                address : '',
+                trusted : false, paired : false, connected : false
+        };
+
+        // junk  [NEW] Device C0:28:8D:36:20:97 BOOM VLF
+        const chunks = line.split(/ /);
+        const word = chunks[2];
+        
+        // Make sure the line is a correct one
+        if (word != 'Device') {
+            throw new Error(word + ' is not what is expected');
+        }
+        // This should be the MAC address
+        device.address = chunks[3];
+        
+        // The rest is the alias which may containe space
+        let str: string = '';
+        for (var  i = 4; i < chunks.length; i++) {
+            str = str + chunks[i] + ' ';
+        }
+        device.alias = str.trim();
+         
+        return device;
     }
 }

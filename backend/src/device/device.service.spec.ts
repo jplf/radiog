@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeviceService } from './device.service';
+import { Device } from './device.interface';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 
@@ -22,8 +23,7 @@ describe('DeviceService', () => {
 
         let btCtrl = service.getBtController();
         expect(btCtrl).toMatch(/Controller/);
-        //console.log(btCtrl);
-    });
+     });
     
     it('BT devices are found', () => {
 
@@ -31,4 +31,13 @@ describe('DeviceService', () => {
         expect(devices.length).toBeGreaterThan(1);
     });
     
+    it('Headset device is found', () => {
+        
+        let address: string = '00:09:A7:09:1B:AB';
+
+        return service.info(address).then(device => {
+            console.log(device.name);
+            expect(device.alias).toMatch("Headset");
+        });
+    });
 });

@@ -40,6 +40,17 @@ describe('DeviceService', () => {
         });
     });
     
+    it('Headset device is trusted and paired', () => {
+        
+        let address: string = '00:09:A7:09:1B:AB';
+
+        return service.info(address).then(device => {
+            expect(device.trusted).toBeTruthy();
+            expect(device.paired).toBeTruthy();
+        });
+    });
+    
+    
     it('UE Boom device name is found', () => {
         
         let address: string = 'C0:28:8D:36:20:97';

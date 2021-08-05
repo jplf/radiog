@@ -26,6 +26,10 @@ export class OutputService {
         }
     };
     
+
+    // Changes the current output device using its alias
+    setDeviceAka(deviceAlias: string): void {
+    }
     
     // Returns the current bt device
     getDevice(): Device {
@@ -72,9 +76,5 @@ export class OutputService {
         }
 
         return this.output.bluetooth;
-    }
-
-    // Changes the current output device
-    setDeviceNamed(deviceName: string): void {
     }
 }

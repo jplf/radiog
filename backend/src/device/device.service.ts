@@ -50,8 +50,25 @@ export class DeviceService {
         }
     }
 
-    // Gets the list of available devices
-    // Returns the array with the MAC addresses and the alias set
+    // Gets a device knowing its alias
+    // Returns the device 
+    findDeviceAka(alias: string): Device {
+        
+        return this.deviceList.find(device => device.alias === alias);
+    }
+
+    // Gets the number of known devices
+    numberOfDevices(): number {
+        return this.deviceList.length;
+    }
+
+    // Loads the list of available devices and keeps it.
+    loadBtDevices() {
+        this.deviceList = this.getBtDevices().slice();
+    }
+
+    // Gets the list of available devices.
+    // Returns the array with the MAC addresses and the alias set.
     getBtDevices(): Device[] {
 
         try {

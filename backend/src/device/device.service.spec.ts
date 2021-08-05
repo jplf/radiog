@@ -36,7 +36,7 @@ describe('DeviceService', () => {
         let address: string = '00:09:A7:09:1B:AB';
 
         return service.info(address).then(device => {
-            expect(device.alias).toMatch("Headset");
+            expect(device.alias).toMatch('Headset');
         });
     });
     
@@ -50,7 +50,6 @@ describe('DeviceService', () => {
         });
     });
     
-    
     it('UE Boom device name is found', () => {
         
         let address: string = 'C0:28:8D:36:20:97';
@@ -59,4 +58,39 @@ describe('DeviceService', () => {
             expect(device.name).toMatch("UE BOOM 2");
         });
     });
+    
+    it('Headset device not connected', () => {
+        
+        let address: string = '00:09:A7:09:1B:AB';
+
+        return service.info(address).then(device => {
+            service.disconnect(device);
+            expect(service.isConnected(device)).toBeFalsy();
+        });
+    });
+    
+    it('Headset device get connected', () => {
+        
+        let address: string = '00:09:A7:09:1B:AB';
+
+        return service.info(address).then(device => {
+            service.connect(device);
+            expect(service.isConnected(device)).toBeTruthy();
+        });
+    });
+    
+    it('List of known devices loaded', () => {
+        
+        service.loadBtDevices();
+        expect(service.numberOfDevices()).toBeGreaterThan(1);
+
+    });
+    
+    it('A known device may be found by alias', () => {
+
+        service.loadBtDevices();
+        let device = service.findDeviceAka('Headset');
+        expect(device.address).toMatch('00:09:A7:09:1B:AB');
+    });
+    
 });

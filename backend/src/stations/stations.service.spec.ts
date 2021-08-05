@@ -16,7 +16,8 @@ describe('StationsService', () => {
             imports: [
                 ConfigModule.forRoot({
                     isGlobal: true,
-                    envFilePath: process.env.RADIOG_CONF
+                    envFilePath: [process.env.RADIOG_CONF,
+                                  process.env.RADIOG_HOME + '/etc/radiog.conf']
                 })
             ],
             providers: [StationsService, ConfigService, Journal]
@@ -28,6 +29,25 @@ describe('StationsService', () => {
 
     it('should be defined', () => {
         expect(service).toBeDefined();
+    });
+
+    // Configuration order
+    // First Unix env then local conf then default conf
+    // The first definition win.
+    
+    it('environment is available', () => {
+        const str = config.get<string>('JPLF');
+        expect(str).toMatch('/home/lefevre');
+    });
+    
+    it('local configuration is loaded', () => {
+        const str = config.get<string>('LOCAL_CONF');
+        expect(str).toMatch('/home/lefevre/etc/radiog.conf');
+    });
+
+    it('default configuration is loaded', () => {
+        const str = config.get<string>('AUTHOR');
+        expect(str).toMatch('Jean-Paul Le Fèvre');
     });
 
     it('path to stations should be valid', () => {

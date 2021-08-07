@@ -11,6 +11,8 @@ export class OutputService {
     constructor(private journal: Journal,
                 private deviceService: DeviceService,
                 private configService: ConfigService) {
+        
+        this.deviceService.loadBtDevices();
     }
 
     private output: Output = {
@@ -29,6 +31,14 @@ export class OutputService {
 
     // Changes the current output device using its alias
     setDeviceAka(deviceAlias: string): void {
+        
+        let device = this.deviceService.findDeviceAka(deviceAlias);
+        if (! device) {
+            this.journal.log('Cannot find device named ' + deviceAlias);
+            return;
+        }
+        console.log(device);
+        this.setDevice(device);
     }
     
     // Returns the current bt device
@@ -45,7 +55,7 @@ export class OutputService {
             return;
         }
         
-        this.output.device = JSON.parse(JSON.stringify(device));
+        this.output.device = { ...device };
     }
 
     // Returns true if the device is the current device

@@ -14,8 +14,8 @@ export class DeviceService {
     // The list of bluetooth devices
     private deviceList: Device[];
 
-    // Guesses what is the default bt controller
-    // The case where there is more than one controller is not managed
+    // Guesses what is the default bt controller.
+    // The case where there is more than one controller is not managed.
     getBtController(): string {
 
         try {
@@ -53,11 +53,10 @@ export class DeviceService {
     // Gets a device knowing its alias
     // Returns the device 
     findDeviceAka(alias: string): Device {
-        
         return this.deviceList.find(device => device.alias === alias);
     }
 
-    // Gets the number of known devices
+    // Gets the number of known devices.
     numberOfDevices(): number {
         return this.deviceList.length;
     }
@@ -80,18 +79,21 @@ export class DeviceService {
             const result: string = cp.execSync(cmd).toString();
             
             const list = result.split(/\n/);
-            let devices: Device[]=  [];
+            let devices: Device[] = [];
             
             for (const item of list) {
-                // For each device found take the mac address and the alias
+                // For each device found take the mac address and the alias.
                 // Since alias may contain white space it's a pain in the ass
                 // to parse the strings
+                
                 if (item.match(/Device /)) {
-                    let dev = this.createDevice(item);
-                    devices.push(dev);
-                }
+                    
+                    this.createDevice(item).then(device => {
+                        devices.push(device); 
+                    });
+                 }
             }
-            
+             
             return devices;
         }
         catch(e) {
@@ -262,8 +264,27 @@ export class DeviceService {
     }
     
     // Creates a device from the content of a line spit by bt controller.
+    // Returns the device as a promise.
+    createDevice(line: string): Promise<Device> {
+        
+        // line example : junk  [NEW] Device C0:28:8D:36:20:97 BOOM VLF
+        const chunks = line.split(/ /);
+        const word = chunks[2];
+        
+        // Make sure the line is a correct one
+        if (word != 'Device') {
+            throw new Error(word + ' is not what is expected');
+        }
+        
+        // This should be the MAC address
+        const address = chunks[3];
+        
+        return this.info(address);
+    }
+    
+    // Creates a device from the content of a line spit by bt controller.
     // Returns the device.
-    private createDevice(line: string): Device {
+    private buildDevice(line: string): Device {
         
         let device: Device = {
                 name : '', alias : '',

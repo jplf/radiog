@@ -25,12 +25,6 @@ describe('DeviceService', () => {
         expect(btCtrl).toMatch(/Controller/);
      });
     
-    it('BT devices are found', () => {
-
-        let devices = service.getBtDevices();
-        expect(devices.length).toBeGreaterThan(1);
-    });
-    
     it('Headset device alias is found', () => {
         
         let address: string = '00:09:A7:09:1B:AB';
@@ -79,18 +73,40 @@ describe('DeviceService', () => {
         });
     });
     
+    it('A device can be fully created', () => {
+        
+        const line: string = 'w0 w1 Device C0:28:8D:36:20:97 BOOM VLF';
+
+        return service.createDevice(line).then(device => {
+            expect(device.name).toMatch("UE BOOM 2");
+        });
+    });
+    
+    it('BT devices are found', () => {
+
+        setTimeout(() => {
+            let devices: Device[];
+            devices = service.getBtDevices();
+            expect(devices.length).toBeGreaterThan(1);
+        }, 1000);
+        
+     });
+    
     it('List of known devices loaded', () => {
         
-        service.loadBtDevices();
-        expect(service.numberOfDevices()).toBeGreaterThan(1);
-
+        setTimeout(() => {
+            service.loadBtDevices();
+            expect(service.numberOfDevices()).toBeGreaterThan(1);
+        }, 1000);
     });
     
     it('A known device may be found by alias', () => {
 
-        service.loadBtDevices();
-        let device = service.findDeviceAka('Headset');
-        expect(device.address).toMatch('00:09:A7:09:1B:AB');
+        setTimeout(() => {
+            service.loadBtDevices();
+            let device = service.findDeviceAka('Headset');
+            expect(device.address).toMatch('00:09:A7:09:1B:AB');
+        }, 1000);
     });
-    
+
 });

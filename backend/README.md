@@ -1,5 +1,6 @@
 
-# Warning : the work is in progress and the code is not yet ready
+### Warning : the work is in progress and the code is not yet ready
+
 ## The backend server
 
 Here is the documentation of the RadioG backend server.
@@ -12,6 +13,7 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 07 September 2021 | Development on branch *master* |
 | 07 September 2021 | Branch *used* created and running on the RPi |
 | 07 September 2021 | Tag 1.1 created |
 | 07 September 2021 | Git status being fixed |
@@ -25,6 +27,11 @@ Installation of the code is pretty easy and follows the standard javascript prin
 $ cd radiog/backend
 $ npm install
 ```
+### Updating
+```bash
+npm update
+```
+
 ### Code quality
 
 Install and configure [ESlint](https://eslint.org/), run

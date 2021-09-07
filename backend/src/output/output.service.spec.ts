@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 
 describe('OutputService', () => {
-    let service: OutputService;
+    let output: OutputService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -22,23 +22,28 @@ describe('OutputService', () => {
             
         }).compile();
 
-        service = module.get<OutputService>(OutputService);
+        setTimeout(() => {
+            output = module.get<OutputService>(OutputService);
+        }, 1000);
+
     });
 
     it('should be defined', () => {
-        expect(service).toBeDefined();
+        expect(output).toBeDefined();
+    });
+
+    it('output device should be defined', () => {
+        expect(output.getDevice()).toBeDefined();
     });
     
-    it('device should be defined', () => {
-        expect(service.getDevice()).toBeDefined();
-    });
-    
-    it('device should be defined', () => {
-        expect(service.getDevice()).toBeDefined();
-    });
-    
-    it('device name should be defined', () => {
-        let device = service.getDevice();
+    it('output device name should be defined', () => {
+        let device = output.getDevice();
         expect(device.name).toBeDefined();
     });
+    
+    it('output device can be set', () => {
+        output.setDeviceAka('BOOM VLF');
+        expect(output.name()).toMatch('UE BOOM 2');
+    });
+
 });

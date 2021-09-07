@@ -9,6 +9,13 @@ The main page of [RadioG](https://github.com/jplf/radiog/blob/master/README.md) 
 
 The server is implemented in the [Nest](https://github.com/nestjs/nest) framework. The website is [https://nestjs.com](https://nestjs.com/).
 
+### Changelog
+| Date         | Changes |
+|--------------|---------|
+| 07 September 2021 | Branch *used* created and running on the RPi |
+| 07 September 2021 | Tag 1.1 created |
+| 07 September 2021 | Git status being fixed |
+
 ## Installation
 
 Installation of the code is pretty easy and follows the standard javascript principles. The necessary node modules have to be fetched and put into the *node_modules* directory. More information about [NestJs](https://docs.nestjs.com) is available online.

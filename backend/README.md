@@ -30,6 +30,7 @@ $ npm install
 ### Updating
 ```bash
 npm update
+npm ls --depth=0
 ```
 
 ### Code quality

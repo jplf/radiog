@@ -31,6 +31,7 @@ $ npm install
 ```bash
 npm update
 npm ls --depth=0
+npm view jest version
 ```
 
 ### Code quality

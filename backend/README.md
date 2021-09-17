@@ -43,6 +43,7 @@ ncu -u
 ```bash
 # Running only one test file
 npm test -- src/device/device.service.spec.ts
+# change temporarily it() to it.only()
 ```
 
 ### Code quality

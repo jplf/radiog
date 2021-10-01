@@ -22,10 +22,7 @@ describe('OutputService', () => {
             
         }).compile();
 
-        setTimeout(() => {
-            output = module.get<OutputService>(OutputService);
-        }, 1000);
-
+        output = module.get<OutputService>(OutputService);
     });
 
     it('should be defined', () => {
@@ -36,14 +33,14 @@ describe('OutputService', () => {
         expect(output.getDevice()).toBeDefined();
     });
     
-    it('output device name should be defined', () => {
-        let device = output.getDevice();
-        expect(device.name).toBeDefined();
-    });
-    
     it('output device can be set', () => {
         output.setDeviceAka('BOOM VLF');
         expect(output.name()).toMatch('UE BOOM 2');
+    });
+    
+    it('output device name should be defined', async () => {
+        let device = await output.getDevice();
+        expect(device.name).toBeDefined();
     });
 
 });

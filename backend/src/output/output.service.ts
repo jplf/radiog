@@ -19,16 +19,15 @@ export class OutputService {
         name: this.configService.get<string>('DEV_NAME'),
         bluetooth: this.configService.get<boolean>('DEV_BLUE'),
         device: {
-            name: this.configService.get<string>('DEV_NAME'),
-            alias: this.configService.get<string>('DEV_ALIAS'),
-            address: this.configService.get<string>('DEV_ADDRESS'),
+            name: undefined,
+            alias: undefined,
+            address: undefined,
             trusted: false,
             paired: false,
             connected: false
         }
     };
     
-
     // Changes the current output device using its alias
     setDeviceAka(deviceAlias: string): void {
         

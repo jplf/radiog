@@ -16,6 +16,7 @@ export class DeviceService {
 
     // Guesses what is the default bt controller.
     // The case where there is more than one controller is not managed.
+    // Synchronous method
     getBtController(): string {
 
         try {
@@ -50,6 +51,38 @@ export class DeviceService {
         }
     }
 
+    // Connects the specified device.
+    connect(device: Device): void {
+
+        // Avoids calling the bt controller
+        if (this.isConnected(device)) {
+            return;
+        }
+
+        // Sends 'connect' to bluetoothctl
+        const cmd : string = this.btctl('connect', device.address);
+        cp.execSync(cmd);
+
+        this.journal.log('Device connected');
+        device.connected = true;
+    }
+
+    // Disconnects the specified device.
+    disconnect(device: Device): void {
+        
+        // Avoids calling the bt controller
+        if (! this.isConnected(device)) {
+            return;
+        }
+
+        const cmd : string = this.btctl('disconnect', device.address);
+        cp.execSync(cmd);
+
+        //this.journal.log(out.toString());
+        this.journal.log('Device disconnected');
+        device.connected = false;
+    }
+
     // Gets a device knowing its alias
     // Returns the device 
     findDeviceAka(alias: string): Device {
@@ -58,49 +91,50 @@ export class DeviceService {
 
     // Gets the number of known devices.
     numberOfDevices(): number {
+
         return this.deviceList.length;
     }
 
-    // Loads the list of available devices and keeps it.
-    loadBtDevices() {
-        this.deviceList = this.getBtDevices().slice();
+    // Loads the list of available devices and keeps it
+    async loadBtDevices(): Promise<number> {
+
+        let devices = await this.findBtDevices();
+        this.deviceList = devices.slice();
+
+        return new Promise((resolve) => {
+            resolve(this.deviceList.length);
+        });
     }
 
     // Gets the list of available devices.
     // Returns the array with the MAC addresses and the alias set.
-    getBtDevices(): Device[] {
+    // Data are retrieved using the bluetoothctl(1) command
 
-        try {
-            // Gets the list of devices. Calling bluetoothctl is not easy
-            // See discussions about that in the web. Bluetoothctl sucks.
-            const cmd: string = 'echo quit ' + 
-                  ' | /usr/bin/bluetoothctl devices | fgrep Device';
-            
-            const result: string = cp.execSync(cmd).toString();
-            
-            const list = result.split(/\n/);
-            let devices: Device[] = [];
-            
-            for (const item of list) {
-                // For each device found take the mac address and the alias.
-                // Since alias may contain white space it's a pain in the ass
-                // to parse the strings
+    findBtDevices(): Promise<Device[]> {
+        
+        // Gets the list of devices. Calling bluetoothctl is not easy
+        // See discussions about that in the web. Bluetoothctl sucks.
+        const cmd: string = 'echo quit ' + 
+              ' | /usr/bin/bluetoothctl devices | fgrep Device';
+        
+        const result: string = cp.execSync(cmd).toString();
+
+        
+        const list = result.split(/\n/);
+        
+        let promisedDevices: Promise<Device>[] = [];
+        
+        for (const item of list) {
+            // For each device found take the mac address and the alias.
+            // Since alias may contain white space it's a pain in the ass
+            // to parse the strings
+            if (item.match(/Device /)) {
                 
-                if (item.match(/Device /)) {
-                    
-                    this.createDevice(item).then(device => {
-                        devices.push(device); 
-                    });
-                 }
-            }
-             
-            return devices;
+                promisedDevices.push(this.createDevice(item));
+             }
         }
-        catch(e) {
-            console.log('Error: ' + e);
-            this.journal.log('Error: ' + e);
-            return null;
-        }
+
+        return Promise.all(promisedDevices);
     }
 
     // Returns the device name. Not reallu useful.
@@ -134,6 +168,25 @@ export class DeviceService {
         device.connected = status;
               
         return status;
+    }
+   
+    // Creates a device from the content of a line spit by bt controller.
+    // Returns the device as a promise.
+    createDevice(line: string): Promise<Device> {
+        
+        // line example : junk  [NEW] Device C0:28:8D:36:20:97 BOOM VLF
+        const chunks = line.split(/ /);
+        const word = chunks[2];
+        
+        // Make sure the line is a correct one
+        if (word != 'Device') {
+            throw new Error(word + ' is not what is expected');
+        }
+        
+        // This should be the MAC address
+        const address = chunks[3];
+        
+        return this.info(address);
     }
 
     /**
@@ -216,42 +269,11 @@ export class DeviceService {
             }
         }
     }
-
-    // Connects the specified device.
-    connect(device: Device): void {
-
-        // Avoids calling the bt controller
-        if (this.isConnected(device)) {
-            return;
-        }
-
-        // Sends 'connect' to bluetoothctl
-        const cmd : string = this.btctl('connect', device.address);
-        cp.execSync(cmd);
-
-        this.journal.log('Device connected');
-        device.connected = true;
-    }
-
-    // Disconnects the specified device.
-    disconnect(device: Device): void {
-        
-        // Avoids calling the bt controller
-        if (! this.isConnected(device)) {
-            return;
-        }
-
-        const cmd : string = this.btctl('disconnect', device.address);
-        cp.execSync(cmd);
-
-        //this.journal.log(out.toString());
-        this.journal.log('Device disconnected');
-        device.connected = false;
-    }
-
+ 
     // Builds the bluetoothctl command for a specific device.
     // The list of available commands is given by bluetoothctl help.
     // The address is the mac address of a device.
+    // Synchonous method.
     private btctl(command: string, address: string) : string {
         
         if (address == null) {
@@ -264,26 +286,8 @@ export class DeviceService {
     }
     
     // Creates a device from the content of a line spit by bt controller.
-    // Returns the device as a promise.
-    createDevice(line: string): Promise<Device> {
-        
-        // line example : junk  [NEW] Device C0:28:8D:36:20:97 BOOM VLF
-        const chunks = line.split(/ /);
-        const word = chunks[2];
-        
-        // Make sure the line is a correct one
-        if (word != 'Device') {
-            throw new Error(word + ' is not what is expected');
-        }
-        
-        // This should be the MAC address
-        const address = chunks[3];
-        
-        return this.info(address);
-    }
-    
-    // Creates a device from the content of a line spit by bt controller.
     // Returns the device.
+    // Synchonous method
     private buildDevice(line: string): Device {
         
         let device: Device = {

@@ -82,31 +82,29 @@ describe('DeviceService', () => {
         });
     });
     
-    it('BT devices are found', () => {
-
-        setTimeout(() => {
-            let devices: Device[];
-            devices = service.getBtDevices();
-            expect(devices.length).toBeGreaterThan(1);
-        }, 1000);
+    it('BT devices are found', async () => {
         
-     });
+        // npm test -- --silent=false device/device.service.spec.ts
+        
+            return service.findBtDevices().then(devices => {
+                expect(devices.length).toBeGreaterThan(1);
+            });
+    });
     
-    it('List of known devices loaded', () => {
+    // npm test -- --silent=false device/device.service.spec.ts
+    it.only('List of known devices loaded', async () => {
         
-        setTimeout(() => {
-            service.loadBtDevices();
-            expect(service.numberOfDevices()).toBeGreaterThan(1);
-        }, 1000);
+        return service.loadBtDevices().then(nbr => {
+            console.log(nbr);
+            expect(nbr).toBeGreaterThan(1);
+        });
     });
     
     it('A known device may be found by alias', () => {
 
-        setTimeout(() => {
-            service.loadBtDevices();
-            let device = service.findDeviceAka('Headset');
-            expect(device.address).toMatch('00:09:A7:09:1B:AB');
-        }, 1000);
+        service.loadBtDevices();
+        let device = service.findDeviceAka('Headset');
+        expect(device.address).toMatch('00:09:A7:09:1B:AB');
     });
 
 });

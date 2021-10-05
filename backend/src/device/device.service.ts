@@ -153,7 +153,6 @@ export class DeviceService {
               ' | /usr/bin/bluetoothctl devices | fgrep Device';
         
         const result: string = cp.execSync(cmd).toString();
-
         
         const list = result.split(/\n/);
         
@@ -166,13 +165,12 @@ export class DeviceService {
              * to parse the strings
              */
             if (item.match(/Device /)) {
-                
                 promisedDevices.push(this.createDevice(item));
              }
         }
         /**
          * This call is necessary since items are pushed asynchronously
-         * in the array. Google to get more doc.
+         * in the array. Google that to get more info.
          */
         return Promise.all(promisedDevices);
     }

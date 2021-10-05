@@ -29,9 +29,21 @@ $ npm install
 ```
 ### Updating
 ```bash
+# Checking version
 npm update
 npm ls --depth=0
 npm view jest version
+
+# Updating
+npm install -g npm-check-updates
+ncu
+ncu -u
+```
+### Testing
+```bash
+# Running only one test file
+npm test -- --silent=false src/device/device.service.spec.ts
+# change temporarily it() to it.only()
 ```
 
 ### Code quality

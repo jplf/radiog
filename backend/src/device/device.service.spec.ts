@@ -29,7 +29,7 @@ describe('DeviceService', () => {
         
         let address: string = '00:09:A7:09:1B:AB';
 
-        return service.info(address).then(device => {
+        return service.makeDevice(address).then(device => {
             expect(device.alias).toMatch('Headset');
         });
     });
@@ -38,7 +38,7 @@ describe('DeviceService', () => {
         
         let address: string = '00:09:A7:09:1B:AB';
 
-        return service.info(address).then(device => {
+        return service.makeDevice(address).then(device => {
             expect(device.trusted).toBeTruthy();
             expect(device.paired).toBeTruthy();
         });
@@ -48,7 +48,7 @@ describe('DeviceService', () => {
         
         let address: string = 'C0:28:8D:36:20:97';
 
-        return service.info(address).then(device => {
+        return service.makeDevice(address).then(device => {
             expect(device.name).toMatch("UE BOOM 2");
         });
     });
@@ -57,7 +57,7 @@ describe('DeviceService', () => {
         
         let address: string = '00:09:A7:09:1B:AB';
 
-        return service.info(address).then(device => {
+        return service.makeDevice(address).then(device => {
             service.disconnect(device);
             expect(service.isConnected(device)).toBeFalsy();
         });
@@ -67,7 +67,7 @@ describe('DeviceService', () => {
         
         let address: string = '00:09:A7:09:1B:AB';
 
-        return service.info(address).then(device => {
+        return service.makeDevice(address).then(device => {
             service.connect(device);
             expect(service.isConnected(device)).toBeTruthy();
         });
@@ -92,7 +92,7 @@ describe('DeviceService', () => {
     });
     
     // npm test -- --silent=false device/device.service.spec.ts
-    it.only('List of known devices loaded', async () => {
+    it('List of known devices loaded', async () => {
         
         return service.loadBtDevices().then(nbr => {
             console.log(nbr);
@@ -108,3 +108,4 @@ describe('DeviceService', () => {
     });
 
 });
+/*------------------------------------------------------------------------*/

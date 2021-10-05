@@ -1,3 +1,10 @@
+/**
+ * Manages the list of available output devices.
+
+ * It was very painful to write this code for 2 reasons.
+ * Firstly the design of the application was completely modified,
+ * and because mastering asynchronous programming took time.
+ */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
@@ -11,12 +18,20 @@ export class DeviceService {
     constructor(private journal: Journal,
                 private configService: ConfigService) {};
 
-    // The list of bluetooth devices
+    /**
+     * The list of bluetooth device objects.
+     * This list if built by the the unix command bluetoothctl(1) and kept
+     * here to avoid calling bluetoothctl(1) many times.
+     */
     private deviceList: Device[];
 
-    // Guesses what is the default bt controller.
-    // The case where there is more than one controller is not managed.
-    // Synchronous method
+    /**
+     * Guesses what is the default bluetooth controller.
+     * The case where there is more than one controller is not managed.
+     * It is a synchronous method
+     *
+     * @returns a string describing the controller
+     */
     getBtController(): string {
 
         try {
@@ -50,8 +65,11 @@ export class DeviceService {
             return null;
         }
     }
-
-    // Connects the specified device.
+    /**
+     * Connects the specified device if it is not yet connected.
+     * It is a synchronous method.
+     * @param device the device to connect.
+     */
     connect(device: Device): void {
 
         // Avoids calling the bt controller
@@ -67,7 +85,11 @@ export class DeviceService {
         device.connected = true;
     }
 
-    // Disconnects the specified device.
+    /**
+     * Disconnects the specified device it is still connected.
+     * It is a synchronous method.
+     * @param device the device to disconnect.
+     */
     disconnect(device: Device): void {
         
         // Avoids calling the bt controller
@@ -83,19 +105,30 @@ export class DeviceService {
         device.connected = false;
     }
 
-    // Gets a device knowing its alias
-    // Returns the device 
+    /**
+     * Gets a device knowing its alias.
+     * It is an asynchronous method since the list must be already there.
+     *
+     * @params the alias used to identify the device.
+     * @returns the device object.
+     */
     findDeviceAka(alias: string): Device {
         return this.deviceList.find(device => device.alias === alias);
     }
 
-    // Gets the number of known devices.
+    /**
+     * Gets the number of known devices.
+     * @returns the number.
+     */
     numberOfDevices(): number {
-
         return this.deviceList.length;
     }
 
-    // Loads the list of available devices and keeps it
+    /**
+     * Loads the list of available devices and keeps it.
+     * It is an asynchronous method.
+     * @return the number of devices in a promise.
+     */
     async loadBtDevices(): Promise<number> {
 
         let devices = await this.findBtDevices();
@@ -106,10 +139,12 @@ export class DeviceService {
         });
     }
 
-    // Gets the list of available devices.
-    // Returns the array with the MAC addresses and the alias set.
-    // Data are retrieved using the bluetoothctl(1) command
-
+    /**
+     * Gets the list of available devices.
+     * Data are retrieved using the bluetoothctl(1) command
+     * It is an asynchronous method.
+     * @returns the array with the MAC addresses and the alias set.
+     */
     findBtDevices(): Promise<Device[]> {
         
         // Gets the list of devices. Calling bluetoothctl is not easy
@@ -125,31 +160,51 @@ export class DeviceService {
         let promisedDevices: Promise<Device>[] = [];
         
         for (const item of list) {
-            // For each device found take the mac address and the alias.
-            // Since alias may contain white space it's a pain in the ass
-            // to parse the strings
+            /**
+             * For each device found take the mac address and the alias.
+             * Since alias may contain white space it's a pain in the ass
+             * to parse the strings
+             */
             if (item.match(/Device /)) {
                 
                 promisedDevices.push(this.createDevice(item));
              }
         }
-
+        /**
+         * This call is necessary since items are pushed asynchronously
+         * in the array. Google to get more doc.
+         */
         return Promise.all(promisedDevices);
     }
 
-    // Returns the device name. Not reallu useful.
+    /**
+     * @returns the device name. Not really useful.
+     * @param device the device object to check.
+     * @return the name
+     */
     name(device: Device): string {
         return device.name;
     }
     
-    // Simply returns true if the device is connected.
-    // Does not call bluetoothctl.
+    /**
+     * Simply returns true if the device is connected.
+     * Does not call bluetoothctl.
+     * It is a synchronous method.
+     * @param device object to check
+     * @return true if it is connected.
+     */
     isConnected(device: Device): boolean {
         return device.connected;
     }
     
-    // Returns true if the device exists and is connected.
-    // It checks the status by calling bluetoothctl.
+    /**
+     * Returns true if the device exists and is connected.
+     * It checks the status by calling bluetoothctl.
+     * It is a synchronous method. To be revisited.
+     * 
+     * @param device the device to check.
+     * @return true if it is connected.
+     */
     isReallyConnected(device: Device): boolean {
         
         if (device == null) {
@@ -169,9 +224,13 @@ export class DeviceService {
               
         return status;
     }
-   
-    // Creates a device from the content of a line spit by bt controller.
-    // Returns the device as a promise.
+
+    /**
+     * Creates a device from the content of a line spit by bt controller.
+     * It is a asynchronous method.
+     * @param line the string to parse.
+     * @returns the device as a promise.
+     */
     createDevice(line: string): Promise<Device> {
         
         // line example : junk  [NEW] Device C0:28:8D:36:20:97 BOOM VLF
@@ -186,14 +245,16 @@ export class DeviceService {
         // This should be the MAC address
         const address = chunks[3];
         
-        return this.info(address);
+        return this.makeDevice(address);
     }
 
     /**
      * Gets the current parameters of a bluetooth device.
-     * It returns a promise which will be resolved later on.
+     * It is a asynchronous method.
+     * @param adress the MAC address of a device.
+     * @returns a device object as a promise.
      */
-    info(address: string) : Promise<Device> {
+    makeDevice(address: string) : Promise<Device> {
         
         if (address == null) {
             return Promise.reject('Invalid device to scan');
@@ -226,8 +287,9 @@ export class DeviceService {
     /**
      * Finds some interesting parameters in the output of bluetoothctl.
      * Parsing could be smarter.
-     * Parameter data is the output of a call to bletoothctl.
-     * Parameter device is passed an updated.
+     * It is a synchronous method.
+     * @param data is the output of a call to bletoothctl.
+     * @param device is passed and updated.
      */
     private parseInfo(data: string, device: Device) : void {
 
@@ -269,11 +331,14 @@ export class DeviceService {
             }
         }
     }
- 
-    // Builds the bluetoothctl command for a specific device.
-    // The list of available commands is given by bluetoothctl help.
-    // The address is the mac address of a device.
-    // Synchonous method.
+
+    /**
+     * Builds the bluetoothctl command for a specific device.
+     * The list of available commands is given by bluetoothctl help.
+     * It is a synchronous method.
+     * @param command is the command to execute
+     * @param address it is the mac address of a device.
+     */
     private btctl(command: string, address: string) : string {
         
         if (address == null) {
@@ -284,10 +349,13 @@ export class DeviceService {
         return 'echo ' + command + ' ' + address
             + ' | /usr/bin/bluetoothctl';
     }
-    
-    // Creates a device from the content of a line spit by bt controller.
-    // Returns the device.
-    // Synchonous method
+
+    /**
+     * Creates a device object.
+     * It is a synchronous method.
+     * @param line the content of a line spit by the bt controller
+     * @return the device object.
+     */
     private buildDevice(line: string): Device {
         
         let device: Device = {
@@ -317,3 +385,4 @@ export class DeviceService {
         return device;
     }
 }
+/*------------------------------------------------------------------------*/

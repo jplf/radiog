@@ -16,7 +16,9 @@ import * as cp from 'child_process';
 export class DeviceService {
 
     constructor(private journal: Journal,
-                private configService: ConfigService) {};
+                private configService: ConfigService) {
+        this.getDeviceList();
+    };
 
     /**
      * The list of bluetooth device objects.
@@ -28,7 +30,7 @@ export class DeviceService {
     /**
      * Guesses what is the default bluetooth controller.
      * The case where there is more than one controller is not managed.
-     * It is a synchronous method
+     * It is a synchronous method.
      *
      * @returns a string describing the controller
      */
@@ -113,6 +115,7 @@ export class DeviceService {
      * @returns the device object.
      */
     findDeviceAka(alias: string): Device {
+        
         return this.deviceList.find(device => device.alias === alias);
     }
 
@@ -122,6 +125,21 @@ export class DeviceService {
      */
     numberOfDevices(): number {
         return this.deviceList.length;
+    }
+
+    /**
+     * Gets the list of available devices.
+     * It is an asynchronous method.
+     * @return the list.
+     */
+    async getDeviceList(): Promise<void> {
+        
+        if (this.deviceList) {
+            return;
+        }
+
+        const n = await this.loadBtDevices;
+        return;
     }
 
     /**
@@ -146,9 +164,11 @@ export class DeviceService {
      * @returns the array with the MAC addresses and the alias set.
      */
     findBtDevices(): Promise<Device[]> {
-        
-        // Gets the list of devices. Calling bluetoothctl is not easy
-        // See discussions about that in the web. Bluetoothctl sucks.
+
+        /**
+         * Gets the list of devices. Calling bluetoothctl is not easy
+         * See discussions about that in the web. Bluetoothctl sucks.
+         */
         const cmd: string = 'echo quit ' + 
               ' | /usr/bin/bluetoothctl devices | fgrep Device';
         
@@ -247,12 +267,13 @@ export class DeviceService {
     }
 
     /**
-     * Gets the current parameters of a bluetooth device.
+     * Builds a bluetooth device object.
      * It is a asynchronous method.
+     *
      * @param adress the MAC address of a device.
      * @returns a device object as a promise.
      */
-    makeDevice(address: string) : Promise<Device> {
+    makeDevice(address: string): Promise<Device> {
         
         if (address == null) {
             return Promise.reject('Invalid device to scan');
@@ -286,6 +307,7 @@ export class DeviceService {
      * Finds some interesting parameters in the output of bluetoothctl.
      * Parsing could be smarter.
      * It is a synchronous method.
+     *
      * @param data is the output of a call to bletoothctl.
      * @param device is passed and updated.
      */

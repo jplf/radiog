@@ -1,3 +1,7 @@
+/**
+ * Manages the list of radio stations.
+ *
+ */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
@@ -16,10 +20,12 @@ export class StationsService {
     constructor(private journal: Journal,
                 private configService: ConfigService) {};
 
-    // Loads the list from a file. Called from main.ts
-    // The file path is given in the configuration
-    // By default it is in radiog/etc/stations.json
-    // Since I use only 2 or 3 radios some entries may have incorrect data
+    /**
+     * Loads the list from a file, called from main.ts.
+     * The file path is given in the configuration
+     * By default it is in radiog/etc/stations.json
+     * Since I use only 2 or 3 radios some entries may have incorrect data.
+     */
     async load(): Promise<string[]> {
 
         const path = this.configService.get<string>('RADIOG_HOME') + '/'
@@ -70,3 +76,4 @@ export class StationsService {
         return station;
     }
 }
+/*------------------------------------------------------------------------*/

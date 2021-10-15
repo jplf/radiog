@@ -1,11 +1,13 @@
+/**
+ * Test a couple of methods on the station service
+ */
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { StationsService } from './stations.service';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
 import { Station } from './station.interface';
-
-// Test a couple of methods on the station service
 
 describe('StationsService', () => {
     let service: StationsService;
@@ -31,10 +33,11 @@ describe('StationsService', () => {
         expect(service).toBeDefined();
     });
 
-    // Configuration order
-    // First Unix env then local conf then default conf
-    // The first definition win.
-    
+    /**
+     * Configuration order.
+     * First Unix env then local conf then default conf
+     * The first definition win.
+     */
     it('environment is available', () => {
         const str = config.get<string>('JPLF');
         expect(str).toMatch('/home/lefevre');
@@ -78,3 +81,4 @@ describe('StationsService', () => {
     });
 
 });
+/*------------------------------------------------------------------------*/

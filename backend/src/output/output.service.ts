@@ -16,11 +16,14 @@ export class OutputService {
                 private deviceService: DeviceService,
                 private configService: ConfigService) {
         
-        deviceService.getDeviceList();
    }
 
+    /**
+     * It encapsulates the bt device interface.
+     * At this moment non bt devices are not managed and ident is useless.
+     */
     private output: Output = {
-        name: this.configService.get<string>('DEV_NAME'),
+        ident: undefined,
         bluetooth: this.configService.get<boolean>('DEV_BLUE'),
         device: {
             name: this.configService.get<string>('DEV_NAME'),
@@ -33,17 +36,8 @@ export class OutputService {
     };
 
     /**
-     * Gets the list of available devices.
-     * It is an asynchronous method.
-     * @return the list.
-     */
-    async getDeviceList()  {
-        
-        await this.deviceService.getDeviceList();
-    }
-
-    /**
      * Changes the current output device using its alias.
+     * The list of devices must have been loaded.
      * @param deviceAlias the device identifier
      */
     setDeviceAka(deviceAlias: string): void {
@@ -76,7 +70,7 @@ export class OutputService {
             this.output.device = null;
             return;
         }
-        
+       
         this.output.device = { ...device };
     }
 
@@ -95,8 +89,8 @@ export class OutputService {
     }
 
     /**
-     * Returns the current output
-     * @return the output object
+     * Returns the current output object.
+     * @return the output object.
      */
     getOutput(): Output {
         return this.output;
@@ -107,7 +101,7 @@ export class OutputService {
      * @return the name.
      */
     name(): string {
-        return this.output.name;
+        return this.output.device.name;
      }
 
     /**

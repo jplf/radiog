@@ -47,7 +47,7 @@ describe('OutputService', () => {
         expect(device.name).toBeDefined();
     });
     
-    it.only('output device can be set', async () => {
+    it('output device can be set', async () => {
         
         return devices.loadBtDevices().then(nbr => {
             output.setDeviceAka('BOOM VLF');

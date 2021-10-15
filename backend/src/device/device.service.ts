@@ -17,13 +17,12 @@ export class DeviceService {
 
     constructor(private journal: Journal,
                 private configService: ConfigService) {
-        this.getDeviceList();
     };
 
     /**
      * The list of bluetooth device objects.
      * This list if built by the the unix command bluetoothctl(1) and kept
-     * here to avoid calling bluetoothctl(1) many times.
+     * here to avoid calling bluetoothctl(1) too many times.
      */
     private deviceList: Device[];
 
@@ -32,7 +31,7 @@ export class DeviceService {
      * The case where there is more than one controller is not managed.
      * It is a synchronous method.
      *
-     * @returns a string describing the controller
+     * @returns a string describing the controller.
      */
     getBtController(): string {
 
@@ -121,25 +120,12 @@ export class DeviceService {
 
     /**
      * Gets the number of known devices.
+     * It is an asynchronous method since the list must be already there.
+     *
      * @returns the number.
      */
     numberOfDevices(): number {
         return this.deviceList.length;
-    }
-
-    /**
-     * Gets the list of available devices.
-     * It is an asynchronous method.
-     * @return the list.
-     */
-    async getDeviceList(): Promise<void> {
-        
-        if (this.deviceList) {
-            return;
-        }
-
-        const n = await this.loadBtDevices;
-        return;
     }
 
     /**

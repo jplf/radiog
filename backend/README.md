@@ -13,6 +13,7 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 15 October 2021 | At last promises seem to be resolved |
 | 07 September 2021 | Development on branch *master* |
 | 07 September 2021 | Branch *used* created and running on the RPi |
 | 07 September 2021 | Tag 1.1 created |
@@ -69,6 +70,7 @@ This application needs 2 environment variables :
 * _RADIOG_CONF_ which defines the path to the configuration file, e.g. `/home/myself/etc/radiog.conf`
 
 The configuration file provides the necessary parameters about a specific installation. It is straightforward to change them.
+Values are found in the environment then in the local configuration file and finally in the default file. Once a value is found it is not overidden.
 A default file is kept in the `RADIOG_HOME/etc` directory. The list of known radio stations is also in a json file in this directory. Note that at this point only the `key, name, stream` attributes are used.
 
 ```bash

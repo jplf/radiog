@@ -1,3 +1,8 @@
+/**
+ * Testing the sound player.
+ * npm test -- --silent=false player/player.service.spec.ts
+ * To check only one method change it() to it.only()
+ */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { PlayerService } from './player.service';
@@ -24,3 +29,4 @@ describe('PlayerService', () => {
     });
 
 });
+/*------------------------------------------------------------------------*/

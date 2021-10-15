@@ -1,5 +1,5 @@
 /**
- * Testing the outputervice
+ * Testing the output service
  * To check only this service run :
  * npm test -- --silent=false output/output.service.spec.ts
  * To check only one method change it() to it.only()

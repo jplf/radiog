@@ -1,3 +1,10 @@
+/**
+ * Managing the sound player.
+ * To check only this service run :
+ * npm test -- --silent=false player/player.service.spec.ts
+ * To check only one method change it() to it.only()
+ */
+
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from '../journal/journal.service';
@@ -6,7 +13,9 @@ import { Player } from './player.interface';
 import * as cp from 'child_process';
 const fs = require('fs').promises;
 
-// Manages the commands of the player
+/**
+ * Manages the commands of the player.
+ */
 @Injectable()
 export class PlayerService {
 
@@ -22,19 +31,28 @@ export class PlayerService {
         switchedOn: false
     };
 
-    // Returns the current player e.g. : curl localhost:3000/player|jq
+    /**
+     * Returns the current player e.g. : curl localhost:3000/player|jq
+     * @return the player object.
+     */
     getPlayer(): Player {
         return this.player;
     }
 
-    // Finds out whether the player is running or not.
+    /**
+     * Finds out whether the player is running or not.
+     * @return true if it is actually playing.
+     */
     getStatus(): boolean {
         return this.player.switchedOn;
     }
 
-    // Plays a mp3 file found in the local file system
-    // The path must be given from the mp3 directory MP3_DIR
-    // Actually very seldom used
+    /**
+     * Plays a mp3 file found in the local file system.
+     * The path must be given from the mp3 directory MP3_DIR.
+     * Actually very seldom used.
+     * @param file the path to the file to play.
+     */
     play(file : string): void {
 
         const dir = this.configService.get<string>('MP3_DIR');
@@ -54,12 +72,18 @@ export class PlayerService {
             });
      }
 
-    // Connects to a station and plays the stream
+    /**
+     * Connects to a station and plays the stream.
+     * @param stream the stream to play.
+     */
     listen(stream : string): void {
         this.run(stream);
     }
 
-    // Plays either a file or a stream.
+    /**
+     * Plays either a file or a stream.
+     * @param file the source to play.
+     */
     private run(file : string): void {
 
         // Launches the player script which kill a possibly existing player
@@ -72,14 +96,18 @@ export class PlayerService {
         this.player.switchedOn = true;
     }
 
-    // Restarts what was playing
+    /**
+     *  Restarts what was playing.
+     */
     switchOn(): void {
         this.run(this.player.source);
     }
 
-    // No mercy for any existing player : kill'em all
-    // It is assumed that the player command is based on mpg123
-    // But this must be verified :(
+    /**
+     * No mercy for any existing player : kill'em all !
+     * It is assumed that the player command is based on mpg123.
+     * But this must be verified :(
+     */
     switchOff(): void {
 
         this.player.switchedOn = false;
@@ -90,7 +118,11 @@ export class PlayerService {
         });
     }
 
-    // Changes the output volume
+    /**
+     * Changes the output volume.
+     * Based on amixer(1).
+     * @param the value to set between 0 and 100.
+     */
     setVolume(volume: string): void {
 
         let value: number = parseInt(volume, 10);
@@ -118,3 +150,4 @@ export class PlayerService {
         });
     }
 }
+/*------------------------------------------------------------------------*/

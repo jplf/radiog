@@ -2,7 +2,7 @@
 #______________________________________________________________________________
 
 # Script used to start the player.
-# It kills an existing player and lauch mpg123.
+# It kills an existing player and launches mpg123(1).
 
 # Jean-Paul Le Fèvre - May 2020
 # @copyright Gnu general public license (http://www.gnu.org/licenses/gpl.html)

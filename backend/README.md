@@ -41,6 +41,15 @@ ncu
 ncu -u
 ```
 ### Testing
+
+First read the NestJs [documentation](https://docs.nestjs.com/fundamentals/testing) to have a presentation of the framework then look at the Jest [pages](https://jestjs.io/docs/en/getting-started) to start implementing tests. 
+To execute the tests launch:
+
+```
+npm test -- --watch
+```
+To investigate more easily some files try:
+
 ```bash
 # Running only one test file
 npm test -- --silent=false src/device/device.service.spec.ts
@@ -53,15 +62,6 @@ Install and configure [ESlint](https://eslint.org/), run
 `npx eslint . --ext .js,.ts`
 
 Then scan the package with SonarQube.
-
-### Testing
-
-First read the NestJs [documentation](https://docs.nestjs.com/fundamentals/testing) to have a presentation of the framework then look at the Jest [pages](https://jestjs.io/docs/en/getting-started) to start implementing tests. 
-To execute the tests launch:
-```
-npm test -- --watch
-```
-
 
 ## Running the app
 

@@ -1,3 +1,10 @@
+/**
+ * The main function.
+ *
+ * Usage: npm run start
+ * It loads the configuration then starts the http server.
+ */
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
@@ -14,13 +21,21 @@ import { StationsService } from './stations/stations.service';
 async function bootstrap() {
 
     const app = await NestFactory.create(AppModule, {
-        logger: false
+        bufferLogs: true
     });
 
-    app.useLogger(app.get(Journal));
-
+    console.log('Starting !');
+    const journal = app.get(Journal);
+    console.log('1');
+    
+    app.useLogger(journal);
+    console.log('2');
+    
+    journal.log('Application is about to start');
+    console.log('3');
+    
     // This service retrieves the list of known radios
-    app.get(StationsService);
+    // app.get(StationsService);
     const stationsService = app.get(StationsService);
     stationsService.load();
 
@@ -29,6 +44,9 @@ async function bootstrap() {
 
     app.enableCors();
     await app.listen(port);
+    console.log('Dying !');
 }
 
 bootstrap();
+
+/*------------------------------------------------------------------------*/

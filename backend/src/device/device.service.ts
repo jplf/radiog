@@ -1,6 +1,6 @@
 /**
  * Manages the list of available output devices.
-
+ *
  * It was very painful to write this code for 2 reasons.
  * Firstly the design of the application was completely modified,
  * and because mastering asynchronous programming took time.

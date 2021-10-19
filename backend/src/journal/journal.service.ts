@@ -1,3 +1,8 @@
+/**
+ * The journal utility.
+ * It customizes the logging.
+ */
+
 import { Injectable } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
 
@@ -10,4 +15,4 @@ export class Journal extends Logger {
     super.log(message, 'RadioG');
   }
 }
-
+/*------------------------------------------------------------------------*/

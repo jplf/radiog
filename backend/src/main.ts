@@ -26,13 +26,10 @@ async function bootstrap() {
 
     console.log('Starting !');
     const journal = app.get(Journal);
-    console.log('1');
     
     app.useLogger(journal);
-    console.log('2');
     
     journal.log('Application is about to start');
-    console.log('3');
     
     // This service retrieves the list of known radios
     // app.get(StationsService);
@@ -41,9 +38,11 @@ async function bootstrap() {
 
     const configService = app.get(ConfigService);
     const port = configService.get<number>('BACKEND_PORT');
+    journal.log('RadioG is listening on port ' + port);
 
     app.enableCors();
     await app.listen(port);
+
     console.log('Dying !');
 }
 

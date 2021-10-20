@@ -1,3 +1,6 @@
+/**
+ * The module manager
+ */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -17,7 +20,9 @@ import { OutputController } from './output/output.controller';
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
-            envFilePath: process.env.RADIOG_CONF
+            envFilePath: [process.env.RADIOG_CONF,
+                          process.env.RADIOG_HOME
+                          + '/etc/radiog.conf']
         })
     ],
     controllers: [PlayerController, OutputController],
@@ -26,3 +31,5 @@ import { OutputController } from './output/output.controller';
 })
 
 export class AppModule {}
+
+/*------------------------------------------------------------------------*/

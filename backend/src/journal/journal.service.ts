@@ -4,11 +4,11 @@
  */
 
 import { Injectable } from '@nestjs/common';
-import { Logger } from '@nestjs/common';
+import { ConsoleLogger } from '@nestjs/common';
 
 // Mainly used to learn  NestJs
 @Injectable()
-export class Journal extends Logger {
+export class Journal extends ConsoleLogger {
     
   log(message: string) {
     // Inserts the RadioG tag

@@ -1,13 +1,12 @@
-import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
-import { Journal } from '../journal/journal.service';
-import { StationsService } from '../stations/stations.service';
-import { PlayerService } from './player.service';
-
 /**
  * The main component of the backend application
  * It routes the incoming requests to the player service
  * Usage : curl http://localhost:3000/player
  */
+import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
+import { Journal } from '../journal/journal.service';
+import { StationsService } from '../stations/stations.service';
+import { PlayerService } from './player.service';
 
 @Controller('player')
 export class PlayerController {
@@ -88,3 +87,5 @@ export class PlayerController {
         return JSON.stringify('off');
     }
 }
+
+/*------------------------------------------------------------------------*/

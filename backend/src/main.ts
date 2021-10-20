@@ -42,8 +42,6 @@ async function bootstrap() {
 
     app.enableCors();
     await app.listen(port);
-
-    console.log('Dying !');
 }
 
 bootstrap();

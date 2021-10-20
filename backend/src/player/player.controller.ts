@@ -34,7 +34,9 @@ export class PlayerController {
     // Gets a station info :  "/player/station?key=12 | jq"
     @Get('station')
     station(@Query('key') key: string): string {
-
+        
+        this.journal.log('Checking station ' + key);
+        
         const s = this.stationsService.get(key);
         return JSON.stringify(s);
     }
@@ -48,11 +50,13 @@ export class PlayerController {
         return JSON.stringify(volume);
     }
 
-    // Plays a file with white spaces encoded :
-    // curl -G --data-urlencode "file=68/Miles Davis-Summertime.mp3"
-    //         localhost:3000/player/play
-    // Plays another one : "/player/play?file=78/Debademba-Agakamina.mp3"
-
+    /**
+     * Plays a file with white spaces encoded :
+     * cd /ker/packages/xperia/Mp3
+     * curl -G --data-urlencode "file=68/Miles Davis-Summertime.mp3"
+     *         localhost:3000/player/play
+     * Plays another one : "/player/play?file=78/Debademba-Agakamina.mp3"
+     */
     @Get('play')
     play(@Query('file') file: string): string {
 

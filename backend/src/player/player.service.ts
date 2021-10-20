@@ -56,6 +56,11 @@ export class PlayerService {
     play(file : string): void {
 
         const dir = this.configService.get<string>('MP3_DIR');
+        if (! dir) {
+            this.journal.log("MP3_DIR undefined");
+            return;
+        }
+        
         const pathname = dir + '/' + file;
 
         Promise.resolve(pathname)

@@ -101,7 +101,6 @@ export class DeviceService {
         const cmd : string = this.btctl('disconnect', device.address);
         cp.execSync(cmd);
 
-        //this.journal.log(out.toString());
         this.journal.log('Device disconnected');
         device.connected = false;
     }
@@ -132,6 +131,7 @@ export class DeviceService {
             let names = this.deviceList.map(s => s.name);
             resolve(names);
         });
+
     }
 
     /**
@@ -336,8 +336,6 @@ export class DeviceService {
             else if (item.match(/Alias:/)) {
                 const i = item.indexOf(':') + 1;
                 device.alias = item.substr(i).trim();
-
-                this.journal.log('Device ' + item.trim());
             }
             else if (item.match(/Paired:/)) {
                 device.paired = /yes/.test(item);

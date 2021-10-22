@@ -60,6 +60,15 @@ export class OutputService {
     }
 
     /**
+     * Returns the list of device names
+     * @return the array.
+     */
+    getDeviceNames(): Promise<string[]> {
+        
+        return this.deviceService.getDeviceNames();
+    }
+
+    /**
      * Changes the current device
      * @param device the device object to set current.
      */

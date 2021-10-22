@@ -28,12 +28,20 @@ export class OutputController {
     /**
      * Returns the list of available devices
      */
-    @Get('output-list')
-    outputList(): {
+    @Get('list')
+    outputList(): Promise<string[]> {
 
         this.journal.log('Available output devices');
-
-        return JSON.stringify(this.outputService.name());
+        
+        return this.outputService.getDeviceNames();
+    }
+    /**
+     * Returns the status of the current output
+     * curl -s http://localhost:3000/output/status|jq
+     */
+    @Get('status')
+    status(): string {
+        return JSON.stringify(this.outputService.getDevice());
     }
 
 }

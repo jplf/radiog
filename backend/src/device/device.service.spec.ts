@@ -96,7 +96,7 @@ describe('DeviceService', () => {
         });
     });
 
-    it.only('List of device names available', async () => {
+    it('List of device names available', async () => {
 
         return service.getDeviceNames().then(names => {
             expect(names[0]).toBeTruthy();

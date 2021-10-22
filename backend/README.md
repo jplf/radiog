@@ -78,13 +78,16 @@ $ npm run start
 ```
 Look at the messages printed on the console to see if the server is started without errors. Then try something like:
 ```
-curl -s localhost:18300/player | jq
+curl -s localhost:3000/player | jq
 ```
 A couple of parameters should be displayed in json format.
 Once the output device is configured it is possible to use the player :
 ```
-curl -s localhost:18300/player/station?key=11
-curl -s localhost:18300/player/on
+curl -s localhost:3000/player/station?key=11
+curl -s localhost:3000/player/on
+curl -s localhost:3000/player/play?file=10/Miles_Davis-Doxy.mp3
+curl -s localhost:3000/player/off
+curl -s localhost:3000/player/listen/10
 ```
 If the audio system is already configured there is nothing special to do. However if the audio output is linked by bluetooth to the computer it may be necessary to read the remarks below.
 
@@ -163,7 +166,7 @@ Four services are implemented :
 1. `device` which takes care of the bluetooth connection.
 1. `player` which runs the `mpg123` command.
 
-To access the 2 main service controllers are defined. They allow to access the services by http requests.
+To access the main services controllers are defined. They allow to access the services by http requests.
 
 To manage the player one can call these end points :
 

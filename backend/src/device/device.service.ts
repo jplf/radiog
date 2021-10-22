@@ -37,11 +37,11 @@ export class DeviceService {
 
         try {
             // Finds the default bt controller's name
-            const cmd: string = 'echo show ' + 
+            const cmd: string = 'echo show ' +
                   ' | /usr/bin/bluetoothctl 2>/dev/null';
-            
+
             const result: string = cp.execSync(cmd).toString();
-            
+
             const list = result.split(/\n/);
             let btCtrl: string = '';
 
@@ -55,10 +55,10 @@ export class DeviceService {
                 else if (item.match(/Alias:/)) {
                     btCtrl +=  ' ' + item.trim();
                 }
-                
+
                 return 'Controller ' + btCtrl;
             }
-            
+
             this.journal.log(result);
         }
         catch(e) {
@@ -92,7 +92,7 @@ export class DeviceService {
      * @param device the device to disconnect.
      */
     disconnect(device: Device): void {
-        
+
         // Avoids calling the bt controller
         if (! this.isConnected(device)) {
             return;
@@ -114,8 +114,24 @@ export class DeviceService {
      * @returns the device object.
      */
     findDeviceAka(alias: string): Device {
-        
+
         return this.deviceList.find(device => device.alias === alias);
+    }
+
+    /**
+     * Gets the list of device names.
+     * It is an asynchronous method since the list must be already there.
+     *
+     * @returns the array of name.
+     */
+    async getDeviceNames(): Promise<string[]> {
+
+        await this.loadBtDevices();
+
+        return new Promise((resolve) => {
+            let names = this.deviceList.map(s => s.name);
+            resolve(names);
+        });
     }
 
     /**
@@ -155,15 +171,15 @@ export class DeviceService {
          * Gets the list of devices. Calling bluetoothctl is not easy
          * See discussions about that in the web. Bluetoothctl sucks.
          */
-        const cmd: string = 'echo quit ' + 
+        const cmd: string = 'echo quit ' +
               ' | /usr/bin/bluetoothctl devices | fgrep Device';
-        
+
         const result: string = cp.execSync(cmd).toString();
-        
+
         const list = result.split(/\n/);
-        
+
         let promisedDevices: Promise<Device>[] = [];
-        
+
         for (const item of list) {
             /**
              * For each device found take the mac address and the alias.
@@ -189,7 +205,7 @@ export class DeviceService {
     name(device: Device): string {
         return device.name;
     }
-    
+
     /**
      * Simply returns true if the device is connected.
      * Does not call bluetoothctl.
@@ -200,17 +216,17 @@ export class DeviceService {
     isConnected(device: Device): boolean {
         return device.connected;
     }
-    
+
     /**
      * Returns true if the device exists and is connected.
      * It checks the status by calling bluetoothctl.
      * It is a synchronous method. To be revisited.
-     * 
+     *
      * @param device the device to check.
      * @return true if it is connected.
      */
     isReallyConnected(device: Device): boolean {
-        
+
         if (device == null) {
             this.journal.log('Invalid device to test');
             return false;
@@ -218,14 +234,14 @@ export class DeviceService {
 
         const cmd: string = 'echo info ' + device.address
               + ' | /usr/bin/bluetoothctl 2>/dev/null | fgrep Connected';
-        
+
         const result: string = cp.execSync(cmd).toString();
-        
+
         this.journal.log(result);
-        
+
         const status = result.indexOf('yes') !== -1;
         device.connected = status;
-              
+
         return status;
     }
 
@@ -236,19 +252,19 @@ export class DeviceService {
      * @returns the device as a promise.
      */
     createDevice(line: string): Promise<Device> {
-        
+
         // line example : junk  [NEW] Device C0:28:8D:36:20:97 BOOM VLF
         const chunks = line.split(/ /);
         const word = chunks[2];
-        
+
         // Make sure the line is a correct one
         if (word != 'Device') {
             throw new Error(word + ' is not what is expected');
         }
-        
+
         // This should be the MAC address
         const address = chunks[3];
-        
+
         return this.makeDevice(address);
     }
 
@@ -260,7 +276,7 @@ export class DeviceService {
      * @returns a device object as a promise.
      */
     makeDevice(address: string): Promise<Device> {
-        
+
         if (address == null) {
             return Promise.reject('Invalid device to scan');
         }
@@ -276,13 +292,13 @@ export class DeviceService {
                     reject(error);
                     return;
                 }
-                
+
                 let device: Device = {
                     name : 'undef', alias : '',
                     address : address,
                     trusted : false, paired : false, connected : false
                 };
- 
+
                 this.parseInfo(`${stdout}`, device);
                 resolve(device);
             });
@@ -300,13 +316,13 @@ export class DeviceService {
     private parseInfo(data: string, device: Device) : void {
 
         const list = data.split(/\n/);
-         
+
         for (const item of list) {
-            
+
             if (item.match(/Device /)) {
-                
+
                 const chunks = item.split(/ /);
-                
+
                 if(chunks[3] != device.address) {
                   continue;
                 }
@@ -314,7 +330,7 @@ export class DeviceService {
             else if (item.match(/Name:/)) {
                 const i = item.indexOf(':') + 1;
                 device.name = item.substr(i).trim();
-                
+
                 this.journal.log('Device ' + item.trim());
             }
             else if (item.match(/Alias:/)) {
@@ -346,7 +362,7 @@ export class DeviceService {
      * @param address it is the mac address of a device.
      */
     private btctl(command: string, address: string) : string {
-        
+
         if (address == null) {
             this.journal.log('Invalid device to check');
             return null;
@@ -363,7 +379,7 @@ export class DeviceService {
      * @return the device object.
      */
     private buildDevice(line: string): Device {
-        
+
         let device: Device = {
                 name : '', alias : '',
                 address : '',
@@ -373,21 +389,21 @@ export class DeviceService {
         // junk  [NEW] Device C0:28:8D:36:20:97 BOOM VLF
         const chunks = line.split(/ /);
         const word = chunks[2];
-        
+
         // Make sure the line is a correct one
         if (word != 'Device') {
             throw new Error(word + ' is not what is expected');
         }
         // This should be the MAC address
         device.address = chunks[3];
-        
+
         // The rest is the alias which may containe space
         let str: string = '';
         for (var  i = 4; i < chunks.length; i++) {
             str = str + chunks[i] + ' ';
         }
         device.alias = str.trim();
-         
+
         return device;
     }
 }

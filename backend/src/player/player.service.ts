@@ -53,7 +53,7 @@ export class PlayerService {
      * Actually very seldom used.
      * @param file the path to the file to play.
      */
-    play(file : string): void {
+    play(file: string): void {
 
         const dir = this.configService.get<string>('MP3_DIR');
         if (! dir) {
@@ -81,7 +81,7 @@ export class PlayerService {
      * Connects to a station and plays the stream.
      * @param stream the stream to play.
      */
-    listen(stream : string): void {
+    listen(stream: string): void {
         this.run(stream);
     }
 
@@ -89,7 +89,9 @@ export class PlayerService {
      * Plays either a file or a stream.
      * @param file the source to play.
      */
-    private run(file : string): void {
+    private run(file: string): void {
+
+        this.journal.log("Playing file " + file);
 
         // Launches the player script which kill a possibly existing player
         cp.spawn(this.player.command, [file], {

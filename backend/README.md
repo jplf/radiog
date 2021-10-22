@@ -166,7 +166,7 @@ Four services are implemented :
 1. `device` which takes care of the bluetooth connection.
 1. `player` which runs the `mpg123` command.
 
-To access the 2 main service controllers are defined. They allow to access the services by http requests.
+To access the main services controllers are defined. They allow to access the services by http requests.
 
 To manage the player one can call these end points :
 

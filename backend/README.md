@@ -85,6 +85,9 @@ Once the output device is configured it is possible to use the player :
 ```
 curl -s localhost:3000/player/station?key=11
 curl -s localhost:3000/player/on
+curl -s localhost:3000/player/play?file=10/Miles_Davis-Doxy.mp3
+curl -s localhost:3000/player/off
+curl -s localhost:3000/player/listen/10
 ```
 If the audio system is already configured there is nothing special to do. However if the audio output is linked by bluetooth to the computer it may be necessary to read the remarks below.
 

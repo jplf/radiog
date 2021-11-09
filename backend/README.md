@@ -13,9 +13,11 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 09 November 2021 | Branch *Version_1.0* created, based on code from *2021-05-01 0:0* |
+| 29 October 2021 | Branches messed up. *used* renamed *Version_1.3* |
 | 15 October 2021 | At last promises seem to be resolved |
 | 07 September 2021 | Development on branch *master* |
-| 07 September 2021 | Branch *used* created and running on the RPi |
+| 07 September 2021 | Branch *used* created and ~~running~~ on the RPi |
 | 07 September 2021 | Tag 1.1 created |
 | 07 September 2021 | Git status being fixed |
 

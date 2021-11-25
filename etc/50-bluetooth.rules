@@ -1,0 +1,22 @@
+#______________________________________________________________________________
+
+# Rules to manage the output bluetooth devices
+# Jean-Paul Le Fèvre - November 2021
+
+# udevadm monitor --environment --udev
+# udevadm control --reload
+# udevadm info -ap 
+# /devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/bluetooth/hci0/hci0:21
+# ATTR{address}
+# ATTR{address==f4:4e:fd:4d:52:6c}, 
+#______________________________________________________________________________
+
+SUBSYSTEM=="bluetooth", ACTION=="add", \
+ENV{RADIOG_HOME}="/home/lefevre/work/hub/radiog", \
+RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} '$attr{address}'"
+
+SUBSYSTEM=="bluetooth", ACTION=="remove", \
+ENV{RADIOG_HOME}="/home/lefevre/work/hub/radiog", \
+RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} n: '$attr{name}' a: '$attr{address}'"
+
+#______________________________________________________________________________

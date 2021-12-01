@@ -91,7 +91,8 @@ export class PlayerService {
      */
     private run(file: string): void {
 
-        this.journal.log("Playing file " + file);
+        this.journal.log("Playing file " + file
+                         + " at volume " + this.player.volume);
 
         // Launches the player script which kill a possibly existing player
         cp.spawn(this.player.command, [file], {
@@ -130,15 +131,9 @@ export class PlayerService {
      * Based on amixer(1).
      * @param the value to set between 0 and 100.
      */
-    setVolume(volume: string): void {
+    setVolume(value: number): void {
 
-        let value: number = parseInt(volume, 10);
-
-        if (isNaN(value)) {
-            this.journal.log('Invalid volume value : ' + volume);
-            return;
-        }
-        else if (value < 0) {
+        if (value < 0) {
             value = 0;
         }
         else if (value > 100) {

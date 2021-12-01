@@ -2,12 +2,14 @@
 #______________________________________________________________________________
 
 # Script used to start the backend server.
+
 # Use something like 'screen -S RadioG' and '$RADIOG_HOME/bin/start.sh'
 # It checks the environment and starts the player.
 
 # As of April 2021 this application has been reconfigured.
 # The frontend must be built by the Angular ng build command
-# It is served by nginx which can be started by systemctl start nginx
+# It is served by nginx which can be started by something like
+# systemctl start nginx or /etc/rc.d/rc.nginx start
 
 # Jean-Paul Le Fèvre - June 2020
 # @copyright Gnu general public license (http://www.gnu.org/licenses/gpl.html)
@@ -53,17 +55,17 @@ sleep 30
 echo "Backend server is now accepting requests !" | tee -a ../run/backend.log
 curl -s $RADIOG_URL/player | jq
 curl -s $RADIOG_URL/device/info | jq
-echo "curl -s $RADIOG_URL/player/listen/10"
+echo "Try something like : curl -s $RADIOG_URL/player/listen/10"
 
 # The frontend server is managed by nginx.
 cd $RADIOG_HOME/run
-sudo systemctl status nginx 1>>frontend.log
+# sudo systemctl status nginx 1>>frontend.log
 
 touch timestamp.2
 echo "Check the log files if necessary"
 
 echo "The RadioG is about to be available but be patient !"
-echo "Verify the backend on port 18300"
+echo "Verify the backend at $RADIOG_URL"
 echo "Make sure that the bluetooth device is connected"
 
 exit 0

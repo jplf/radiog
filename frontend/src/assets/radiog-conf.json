@@ -1,6 +1,4 @@
 {
-    "version": "Version 2.0 - 27 April 2021",
-    "playerUrl": "http://localhost:18300/player/",
     "stationKey": "10",
     "volume": 25
 }

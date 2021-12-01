@@ -44,8 +44,15 @@ export class PlayerController {
     // Sets the volume between 0 an 100 %:  "/player/set?volume=12"
     @Get('set')
     set(@Query('volume') volume: string): string {
+        
+        let value: number = parseInt(volume, 10);
 
-        this.playerService.setVolume(volume);
+        if (isNaN(value)) {
+            this.journal.log('Invalid volume value : ' + volume);
+            return;
+        }
+
+        this.playerService.setVolume(value);
         this.journal.log('Volume set to ' + volume);
         return JSON.stringify(volume);
     }

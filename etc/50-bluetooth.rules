@@ -1,6 +1,6 @@
 #______________________________________________________________________________
 
-# Rules to manage the output bluetooth devices
+# Rules to manage the RadioG output bluetooth devices
 # Jean-Paul Le Fèvre - November 2021
 
 # The mac address is stored into the env var MY_ADDR in order to
@@ -21,6 +21,8 @@ ACTION == "remove", GOTO="bt_remove"
 
 LABEL="bt_add"
 
+# Here are the names of my devices
+
 ATTR{address}=="f4:4e:fd:4d:52:6c", ENV{MY_DEV}="Anker"
 ATTR{address}=="c0:28:8d:36:20:97", ENV{MY_DEV}="Boom VLF"
 ATTR{address}=="00:09:a7:09:1b:ab", ENV{MY_DEV}="Headset"
@@ -29,13 +31,20 @@ ENV{RADIOG_HOME}="/home/lefevre/work/hub/radiog"
 ENV{MY_PROG}="radiog"
 ENV{MY_ADDR}="$attr{address}"
 
+# To make sure that my rules are correct
 RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} '$attr{address}' prog: '$env{MY_PROG}' device: '$env{MY_DEV}' mac: '$env{MY_ADDR}'"
+
+# When a device is added, start the player
+RUN+="$env{RADIOG_HOME}/bin/udev-play.sh -p"
 
 GOTO="bt_end"
 
 LABEL="bt_remove"
 
+# Note that $attr{address} is void
 RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} '$attr{address}' prog: '$env{MY_PROG}' device: '$env{MY_DEV}' mac: '$env{MY_ADDR}'"
+
+RUN+="$env{RADIOG_HOME}/bin/udev-play.sh -m"
 
 GOTO="bt_end"
 

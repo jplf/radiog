@@ -10,6 +10,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { Journal } from './journal/journal.service';
 import { StationsService } from './stations/stations.service';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 /**
  * curl http://localhost:3000/player|jq
@@ -24,13 +25,22 @@ async function bootstrap() {
         bufferLogs: true
     });
 
+    const config = new DocumentBuilder()
+          .setTitle('RadioG backend')
+          .setDescription('The RadioG backend API description')
+          .addTag('radiog')
+          .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+
     console.log('Starting !');
     const journal = app.get(Journal);
-    
+
     app.useLogger(journal);
-    
+
     journal.log('Application is about to start');
-    
+
     // This service retrieves the list of known radios
     // app.get(StationsService);
     const stationsService = app.get(StationsService);

@@ -4,6 +4,7 @@
  * Usage : curl http://localhost:3000/player
  */
 import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
+import { ApiResponse, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { Journal } from '../journal/journal.service';
 import { StationsService } from '../stations/stations.service';
 import { PlayerService } from './player.service';
@@ -18,6 +19,7 @@ export class PlayerController {
 
     // Just gives back the status
     @Get()
+    @ApiResponse({ description: 'The status of the player.'})
     getStatus(@Headers('user-agent') agent: string) : string {
 
         return JSON.stringify(this.playerService.getPlayer());
@@ -25,6 +27,7 @@ export class PlayerController {
 
     // Gets the list of stations :  "/player/station-list | jq"
     @Get('station-list')
+    @ApiOkResponse({description: 'The list of known stations.'})
     stationList() : string {
 
         const list = this.stationsService.getList();
@@ -32,19 +35,21 @@ export class PlayerController {
     }
 
     // Gets a station info :  "/player/station?key=12 | jq"
+
     @Get('station')
-    station(@Query('key') key: string): string {
-        
-        this.journal.log('Checking station ' + key);
-        
-        const s = this.stationsService.get(key);
-        return JSON.stringify(s);
-    }
+    station(@Query('key')
+            key: string): string {
+
+                this.journal.log('Checking station ' + key);
+
+                const s = this.stationsService.get(key);
+                return JSON.stringify(s);
+            }
 
     // Sets the volume between 0 an 100 %:  "/player/set?volume=12"
     @Get('set')
     set(@Query('volume') volume: string): string {
-        
+
         let value: number = parseInt(volume, 10);
 
         if (isNaN(value)) {

@@ -24,6 +24,16 @@ export class OutputController {
 
         return JSON.stringify(this.outputService.name());
     }
+    /**
+     * Gets more info about this output
+     */
+    @Get('info')
+    async info() : Promise<string> {
+
+        this.journal.log('Current output information');
+
+        return JSON.stringify("Not yet implemented");
+    }
 
     /**
      * Returns the list of available devices

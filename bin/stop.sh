@@ -25,7 +25,9 @@ $do_kill "node"
 # Now the frontend is managed by systemctl nginx 
 
 # Don't know why sound messes up with the keyboard
-/usr/bin/xmodmap $HOME/.keyboard
+if [ -f "$HOME/.keyboard" ]; then
+    /usr/bin/xmodmap $HOME/.keyboard
+fi
 
 exit 0
 

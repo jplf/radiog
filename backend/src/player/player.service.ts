@@ -20,7 +20,10 @@ const fs = require('fs').promises;
 export class PlayerService {
 
     constructor(private journal: Journal,
-                private configService: ConfigService) {};
+                private configService: ConfigService) {
+        
+        this.setVolume(this.configService.get<number>('VOLUME'));
+    };
 
     // The current player status
     private readonly player: Player = {
@@ -146,6 +149,8 @@ export class PlayerService {
 
         const kill = cp.spawn('/usr/bin/amixer',
                               ['-D', 'pulse', 'sset', 'Master', percent]);
+        
+        this.journal.log('Volume set to ' + this.player.volume + '%');
 
         kill.stderr.on('data', (data) => {
             this.journal.log(`stderr: ${data}`);

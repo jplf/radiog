@@ -55,7 +55,11 @@ sleep 30
 echo "Backend server is now accepting requests !" | tee -a ../run/backend.log
 curl -s $RADIOG_URL/player | jq
 curl -s $RADIOG_URL/output/info | jq
-echo "Try something like : curl -s $RADIOG_URL/player/listen/10"
+
+echo "Try something like :"
+echo "curl -s $RADIOG_URL/player/set?volume=30"
+echo "curl -s $RADIOG_URL/player/on"
+echo "curl -s $RADIOG_URL/player/listen/10"
 
 # The frontend server is managed by nginx.
 cd $RADIOG_HOME/run

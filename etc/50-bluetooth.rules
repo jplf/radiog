@@ -32,7 +32,7 @@ ENV{MY_PROG}="radiog"
 ENV{MY_ADDR}="$attr{address}"
 
 # To make sure that my rules are correct
-RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} '$attr{address}' prog: '$env{MY_PROG}' device: '$env{MY_DEV}' mac: '$env{MY_ADDR}'"
+RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} address: '$attr{address}' prog: '$env{MY_PROG}' name: '$env{NAME}' device: '$env{MY_DEV}' mac: '$env{MY_ADDR}'"
 
 # When a device is added, start the player
 RUN+="$env{RADIOG_HOME}/bin/udev-play.sh -p"

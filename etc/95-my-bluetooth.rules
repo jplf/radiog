@@ -34,14 +34,14 @@ ENV{MY_ADDR}="$attr{address}"
 ENV{MY_IDENT}="$attr{idVendor}:$attr{idProduct}"
 
 # To make sure that my rules are correct
-RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} address: '$env{MY_ADDR}' prog: '$env{MY_PROG}' name: '$env{NAME}' device: '$env{MY_DEV}' ident: '$env{MY_IDENT}'"
+RUN+="/usr/bin/sudo -u lefevre $env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} address: '$env{MY_ADDR}' prog: '$env{MY_PROG}' name: '$env{NAME}' device: '$env{MY_DEV}' ident: '$env{MY_IDENT}'"
 
 GOTO="bt_end"
 
 LABEL="bt_remove"
 
 # Note that $attr{address} is void
-RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} address: '$env{MY_ADDR}' prog: '$env{MY_PROG}' name: '$env{NAME}' device: '$env{MY_DEV}' ident: '$env{MY_IDENT}'"
+RUN+="/usr/bin/sudo -u lefevre $env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} address: '$env{MY_ADDR}' prog: '$env{MY_PROG}' name: '$env{NAME}' device: '$env{MY_DEV}' ident: '$env{MY_IDENT}'"
 
 GOTO="bt_end"
 

@@ -1,7 +1,8 @@
 #! /bin/sh
 #______________________________________________________________________________
 
-# Script used investigate udev behaviour
+# Script used to investigate the udev behaviour
+# See also /etc/udev/rules.d/50-bluetooth.rules or in ../etc
 # Jean-Paul Le Fèvre - November 2021
 #______________________________________________________________________________
 

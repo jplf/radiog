@@ -1,0 +1,49 @@
+#______________________________________________________________________________
+
+# Rules to manage the RadioG output bluetooth devices
+# Jean-Paul Le Fèvre - November 2021
+
+# The mac address is stored into the env var MY_ADDR in order to
+# be available on remove. It seems that $attr{address} vanishes.
+
+# udevadm monitor --property --udev
+# udevadm control --reload
+# udevadm info -ap 
+# /devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/bluetooth/hci0/hci0:21
+# /devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/bluetooth/hci0/hci0:75
+#______________________________________________________________________________
+
+
+SUBSYSTEM !="bluetooth", GOTO="bt_end"
+
+ACTION != "add|remove", GOTO="bt_end"
+ACTION == "add", GOTO="bt_add"
+ACTION == "remove", GOTO="bt_remove"
+
+LABEL="bt_add"
+
+# Here are the names of my devices
+
+ATTR{address}=="f4:4e:fd:4d:52:6c", ENV{MY_DEV}="Anker"
+ATTR{address}=="c0:28:8d:36:20:97", ENV{MY_DEV}="Boom VLF"
+ATTR{address}=="00:09:a7:09:1b:ab", ENV{MY_DEV}="Headset"
+
+ENV{RADIOG_HOME}="/home/lefevre/work/hub/radiog"
+ENV{MY_PROG}="radiog"
+ENV{MY_ADDR}="$attr{address}"
+ENV{MY_IDENT}="$attr{idVendor}:$attr{idProduct}"
+
+# To make sure that my rules are correct
+RUN+="/usr/bin/sudo -u lefevre $env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} address: '$env{MY_ADDR}' prog: '$env{MY_PROG}' name: '$env{NAME}' device: '$env{MY_DEV}' ident: '$env{MY_IDENT}'"
+
+GOTO="bt_end"
+
+LABEL="bt_remove"
+
+# Note that $attr{address} is void
+RUN+="/usr/bin/sudo -u lefevre $env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} address: '$env{MY_ADDR}' prog: '$env{MY_PROG}' name: '$env{NAME}' device: '$env{MY_DEV}' ident: '$env{MY_IDENT}'"
+
+GOTO="bt_end"
+
+LABEL="bt_end"
+#______________________________________________________________________________

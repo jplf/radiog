@@ -13,6 +13,7 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 11 January 2022 | First attempt to make a proper installation on each hosts |
 | 27 April 2021 | The frontend is now served by nginx |
 | 02 December 2020 | The backend can also be used by RadioK |
 | 23 November 2020 | Code cleaned up |

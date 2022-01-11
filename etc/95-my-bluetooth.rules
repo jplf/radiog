@@ -11,6 +11,7 @@
 # udevadm info -ap 
 # /devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/bluetooth/hci0/hci0:21
 # /devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2/1-1.2:1.0/bluetooth/hci0/hci0:75
+# /devices/platform/soc/3f980000.usb/usb1/1-1/1-1.4/1-1.4:1.0/bluetooth/hci0/hci0:41
 #______________________________________________________________________________
 
 

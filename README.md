@@ -59,6 +59,13 @@ The frontend configuration is defined in `assets/radiog-conf.json` which can be 
 
 To stop the application run `bin/stop.h`. This script kills with no mercy all RadioG processes.
 
+## Updating
+```
+npm update
+npm audit fix [--force]
+git branch -a
+```
+
 ## Backend
 The backend server [README](https://github.com/jplf/radiog/tree/master/backend) gives more information.
 This server provides a http interface to unix commands controlling the output of music from a linux box to a bluetooth connected loud speaker. It is implementd by the [NestJs](https://docs.nestjs.com/) library. 

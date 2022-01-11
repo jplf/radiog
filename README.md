@@ -31,6 +31,7 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Bugs
 * It is still hard to master the bluetooth connection on the raspberry. Actually it seems that there is a difficulty with the on-board bt device which stops working randomly after an unpredictable period of time. After having spent hours trying to fix the problem with the help of google I gave up and changed for an usb bt dongle.
 Updated : no more any problem with a dongle.
+* Udev rules are not fully understood on Rpi Ubuntu. Output bluetooth device mac address is not provided.
 * When the frontend server is accessed from different clients weird things may happen since the web pages are not kept in sync on these running clients.
 * Starting the application may take a long time since the code has to be recompiled. Message telling that the server is online is not correct.
 

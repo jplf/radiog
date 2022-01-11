@@ -1,0 +1,42 @@
+# Create /dev/serialN symlinks (required by the bluetooth modem firmware). The
+# logic below deals with the different serial UARTs on different models of Pi
+# and ensures that /dev/serial1 (which hciuart.service relies upon) points to
+# the correct UART device
+
+KERNEL=="ttyAMA0", PROGRAM="/bin/sh -c '\
+        ALIASES=/proc/device-tree/aliases; \
+        if cmp -s /proc/device-tree/aliases/uart0 /proc/device-tree/aliases/serial0; then \
+                echo 0;\
+        elif cmp -s /proc/device-tree/aliases/uart0 /proc/device-tree/aliases/serial1; then \
+                echo 1; \
+        else \
+                exit 1; \
+        fi\
+'", SYMLINK+="serial%c"
+
+KERNEL=="ttyAMA1", PROGRAM="/bin/sh -c '\
+        ALIASES=/proc/device-tree/aliases; \
+        if [ -e /dev/ttyAMA0 ]; then \
+                exit 1; \
+        elif cmp -s /proc/device-tree/aliases/uart0 /proc/device-tree/aliases/serial0; then \
+                echo 0;\
+        elif cmp -s /proc/device-tree/aliases/uart0 /proc/device-tree/aliases/serial1; then \
+                echo 1; \
+        else \
+                exit 1; \
+        fi\
+'", SYMLINK+="serial%c"
+
+KERNEL=="ttyS0", PROGRAM="/bin/sh -c '\
+        ALIASES=/proc/device-tree/aliases; \
+        if cmp -s /proc/device-tree/aliases/uart1 /proc/device-tree/aliases/serial0; then \
+                echo 0; \
+        elif cmp -s /proc/device-tree/aliases/uart1 /proc/device-tree/aliases/serial1; then \
+                echo 1; \
+        else \
+                exit 1; \
+        fi \
+'", SYMLINK+="serial%c"
+
+# Raspberry Pi bluetooth module: enable routing of SCO packets to the HCI interface
+ACTION=="add", SUBSYSTEM=="bluetooth", KERNEL=="hci[0-9]", TAG+="systemd", ENV{SYSTEMD_WANTS}+="bthelper@%k.service"

@@ -24,9 +24,11 @@ node -v
 npm -v
 git remote add origin git@github.com:jplf/radiog.git
 git pull
+
 cd radiog/frontend
 npm install
 npm install @angular/cli
+PATH=$PATH:$RADIOG_HOME/frontend/node_modules/.bin
 ng --version
 ```
 These commands should be executed in the `frontend` directory. The code of the application is fetched from github.

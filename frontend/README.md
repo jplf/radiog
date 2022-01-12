@@ -33,6 +33,7 @@ ng --version
 ```
 These commands should be executed in the `frontend` directory. The code of the application is fetched from github.
 Versions of *node* and *npm* are checked. The `PATH` must be updated to give access to the content of `node_modules/.bin/`, i.e. `ng`.
+Note that it may be necessary to update the code, nodejs, angular and that may cause a lot of hassles.
 
 It is also possible to rebuild the application from scratch.
 ```

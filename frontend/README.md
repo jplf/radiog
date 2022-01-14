@@ -56,6 +56,20 @@ bootstrap bootswatch
 Finally try `ng build` to build the application with is found in the directory _dist_. A http server just needs to mention the location of the content.
 The new version is now served by a <a href="https://www.nginx.com/">nginx server</a>.
 
+### Updating
+
+It is a nightmare to update angular ! it is necessary to upgrade each release one by one, i.e. from 9, 10, 11, 12 to 13 forcing update when dependies are screwed up.
+```
+npm config set legacy-peer-deps true
+
+git stash --include-untracked
+ng update --force @angular/cli@nn
+git stash --include-untracked
+ng update --force @angular/core@nn
+ng update
+ng --version
+```
+
 ### Code scaffolding
 
 At this point the available components are :

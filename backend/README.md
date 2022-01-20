@@ -61,7 +61,7 @@ A rule has been defined to automatically stop or start the radio connection when
 
 With a correct udev rule enabled it is no longer necessary to stop manually both the device and the connection. The rule is triggered automatically when the device is switched on or off. Unfortunately it is not straightforward to configure the rules on a raspberry : i.e. the list of attributes available to the scripts is extremely limited.
 
-Some rules are kept in the *etc* directoy and have to be installed in */etc/udev/rules.d*. To help debugging messages are printed in the *run* directory.
+Some rules are kept in the *etc* directoy and have to be installed in */etc/udev/rules.d*. To help debugging messages are printed in the *run* directory. See also *udev(7)* to find out which commands may be of interest.
 
 ### Testing
 

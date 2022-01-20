@@ -61,6 +61,8 @@ A rule has been defined to automatically stop or start the radio connection when
 
 With a correct udev rule enabled it is no longer necessary to stop manually both the device and the connection. The rule is triggered automatically when the device is switched on or off. Unfortunately it is not straightforward to configure the rules on a raspberry : i.e. the list of attributes available to the scripts is extremely limited.
 
+Some rules are kept in the *etc* directoy and have to be installed in */etc/udev/rules.d*. To help debugging messages are printed in the *run* directory.
+
 ### Testing
 
 First read the NestJs [documentation](https://docs.nestjs.com/fundamentals/testing) to have a presentation of the framework then look at the Jest [pages](https://jestjs.io/docs/en/getting-started) to start implementing tests. 
@@ -181,7 +183,7 @@ Actually it is worth using the `default.pa` instead of the `system.pa` even in a
 This application is based on the simple unix programme: [`mpg123`](https://www.mpg123.de/) which plays either a radio stream or a mp3 file. The output volume is controlled by the command [`amixer`](https://linux.die.net/man/1/amixer).
 
 From the NestJs javascript code these commands are executed by the [child_process](https://nodejs.org/api/child_process.html) module coming with the [nodejs](https://nodejs.org/api/synopsis.html) library. To successfully get things working one has to figure out how to use asynchronous callback functions. It may take some time.
-
+directory
 Four services are implemented :
 1. `stations` which loads the list of stations managed by the application. This list is provided as a json file in the `etc` directory. The list gives the URL from where to get the stream. Other properties may be defined when they are known.
 1. `journal` which implements logging. For now it is minimalist but it could be more sophisticated if necessary.

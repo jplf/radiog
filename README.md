@@ -13,6 +13,7 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 20 January 2022| Progress on TLS configurations |
 | 11 January 2022 | First attempt to make a proper installation on each hosts |
 | 27 April 2021 | The frontend is now served by nginx |
 | 02 December 2020 | The backend can also be used by RadioK |
@@ -58,6 +59,8 @@ The runtime configuration management is far from being perfect. Make sure that t
 The frontend configuration is defined in `assets/radiog-conf.json` which can be replaced by a file whose name is defined in `environment.ts`.
 
 To stop the application run `bin/stop.h`. This script kills with no mercy all RadioG processes.
+
+A new version will be available soon : connections to the servers will be managed over TLS. 
 
 ## Updating
 ```

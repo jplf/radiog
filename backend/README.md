@@ -56,6 +56,11 @@ npm install -g npm-check-updates
 ncu
 ncu -u
 ```
+### Udev usage
+A rule has been defined to automatically stop or start the radio connection when the bluetooth device is switched off or on. Without this rule the connection had to be killed by a manual call to the backend api with *curl* or the frontend interface. Otherwise, even if there is no sound, the stream keeps flowing from the radio station.
+
+With a correct udev rule enabled it is no longer necessary to stop manually both the device and the connection. The rule is triggered automatically when the device is switched on or off. Unfortunately it is not straightforward to configure the rules on a raspberry : i.e. the list of attributes available to the scripts is extremely limited.
+
 ### Testing
 
 First read the NestJs [documentation](https://docs.nestjs.com/fundamentals/testing) to have a presentation of the framework then look at the Jest [pages](https://jestjs.io/docs/en/getting-started) to start implementing tests. 

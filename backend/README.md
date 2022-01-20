@@ -33,6 +33,17 @@ Installation of the code is pretty easy and follows the standard javascript prin
 $ cd radiog/backend
 $ npm install
 ```
+More things to do:
+
+```bash
+# Edit and copy the udev rules to /etc
+cp radiog/etc/50-bluetooth.rules /etc/udev/rules.d/
+
+# Create and install the hostname certificate pair
+cp my-host.cert.pem my-host.key.pem radiog/etc/
+chmod go-rwx radiog/etc/my-host.key.pem
+```
+
 ### Updating
 ```bash
 # Checking version

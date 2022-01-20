@@ -13,6 +13,7 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 20 January 2022 | Connections are made over TLS |
 | 10 January 2022  | Udev rules differ on my Dell slackware and on Rpi ubuntu |
 | 09 December 2021  | Bluetooth udev config almost ready |
 | 09 November 2021 | Branch *Version_1.0* created, based on code from *2021-05-01 0:0* |
@@ -82,16 +83,17 @@ $ npm run start
 ```
 Look at the messages printed on the console to see if the server is started without errors. Then try something like:
 ```
-curl -s localhost:3000/player | jq
+curl -sk https://localhost:3000/player | jq
 ```
 A couple of parameters should be displayed in json format.
-Once the output device is configured it is possible to use the player :
+Once the output device is configured it is possible to use the player:
+
 ```
-curl -s localhost:3000/player/station?key=11
-curl -s localhost:3000/player/on
-curl -s localhost:3000/player/play?file=10/Miles_Davis-Doxy.mp3
-curl -s localhost:3000/player/off
-curl -s localhost:3000/player/listen/10
+curl -sk https://localhost:3000/player/station?key=11
+curl -sk https://ocalhost:3000/player/on
+curl -sk https://localhost:3000/player/play?file=10/Miles_Davis-Doxy.mp3
+curl -sk https://localhost:3000/player/off
+curl -sk https://localhost:3000/player/listen/10
 ```
 If the audio system is already configured there is nothing special to do. However if the audio output is linked by bluetooth to the computer it may be necessary to read the remarks below.
 

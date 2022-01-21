@@ -13,6 +13,7 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 20 January 2022 | Connections are made over TLS |
 | 10 January 2022  | Udev rules differ on my Dell slackware and on Rpi ubuntu |
 | 09 December 2021  | Bluetooth udev config almost ready |
 | 09 November 2021 | Branch *Version_1.0* created, based on code from *2021-05-01 0:0* |
@@ -32,6 +33,17 @@ Installation of the code is pretty easy and follows the standard javascript prin
 $ cd radiog/backend
 $ npm install
 ```
+More things to do:
+
+```bash
+# Edit and copy the udev rules to /etc
+cp radiog/etc/50-bluetooth.rules /etc/udev/rules.d/
+
+# Create and install the hostname certificate pair
+cp my-host.cert.pem my-host.key.pem radiog/etc/
+chmod go-rwx radiog/etc/my-host.key.pem
+```
+
 ### Updating
 ```bash
 # Checking version
@@ -44,6 +56,13 @@ npm install -g npm-check-updates
 ncu
 ncu -u
 ```
+### Udev usage
+A rule has been defined to automatically stop or start the radio connection when the bluetooth device is switched off or on. Without this rule the connection had to be killed by a manual call to the backend api with *curl* or the frontend interface. Otherwise, even if there is no sound, the stream keeps flowing from the radio station.
+
+With a correct udev rule enabled it is no longer necessary to stop manually both the device and the connection. The rule is triggered automatically when the device is switched on or off. Unfortunately it is not straightforward to configure the rules on a raspberry : i.e. the list of attributes available to the scripts is extremely limited.
+
+Some rules are kept in the *etc* directoy and have to be installed in */etc/udev/rules.d*. To help debugging messages are printed in the *run* directory. See also *udev(7)* to find out which commands may be of interest.
+
 ### Testing
 
 First read the NestJs [documentation](https://docs.nestjs.com/fundamentals/testing) to have a presentation of the framework then look at the Jest [pages](https://jestjs.io/docs/en/getting-started) to start implementing tests. 
@@ -82,16 +101,17 @@ $ npm run start
 ```
 Look at the messages printed on the console to see if the server is started without errors. Then try something like:
 ```
-curl -s localhost:3000/player | jq
+curl -sk https://localhost:3000/player | jq
 ```
 A couple of parameters should be displayed in json format.
-Once the output device is configured it is possible to use the player :
+Once the output device is configured it is possible to use the player:
+
 ```
-curl -s localhost:3000/player/station?key=11
-curl -s localhost:3000/player/on
-curl -s localhost:3000/player/play?file=10/Miles_Davis-Doxy.mp3
-curl -s localhost:3000/player/off
-curl -s localhost:3000/player/listen/10
+curl -sk https://localhost:3000/player/station?key=11
+curl -sk https://ocalhost:3000/player/on
+curl -sk https://localhost:3000/player/play?file=10/Miles_Davis-Doxy.mp3
+curl -sk https://localhost:3000/player/off
+curl -sk https://localhost:3000/player/listen/10
 ```
 If the audio system is already configured there is nothing special to do. However if the audio output is linked by bluetooth to the computer it may be necessary to read the remarks below.
 
@@ -163,7 +183,7 @@ Actually it is worth using the `default.pa` instead of the `system.pa` even in a
 This application is based on the simple unix programme: [`mpg123`](https://www.mpg123.de/) which plays either a radio stream or a mp3 file. The output volume is controlled by the command [`amixer`](https://linux.die.net/man/1/amixer).
 
 From the NestJs javascript code these commands are executed by the [child_process](https://nodejs.org/api/child_process.html) module coming with the [nodejs](https://nodejs.org/api/synopsis.html) library. To successfully get things working one has to figure out how to use asynchronous callback functions. It may take some time.
-
+directory
 Four services are implemented :
 1. `stations` which loads the list of stations managed by the application. This list is provided as a json file in the `etc` directory. The list gives the URL from where to get the stream. Other properties may be defined when they are known.
 1. `journal` which implements logging. For now it is minimalist but it could be more sophisticated if necessary.

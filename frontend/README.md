@@ -4,6 +4,13 @@ on a *Raspberry Pi*. Here are some notes about the frontend server.
 
 The main page displays the top [README](https://github.com/jplf/radiog/blob/master/README.md).
 
+### Changelog
+
+| Date         | Changes |
+|--------------|---------|
+| 10 January 2022  | The frontend is served by nginx(1) |
+| 2021 | The application is running as expected |
+
 ### Design
 
 This application was my first attempt to build something useful with the new version of Angular. It follows the explanations provided on the Angular website for the [Heroes](https://angular.io/tutorial) demo.

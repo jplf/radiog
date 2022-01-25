@@ -16,12 +16,6 @@
 SUBSYSTEM !="bluetooth", GOTO="bt_end"
 
 ACTION != "add|remove", GOTO="bt_end"
-ACTION == "add", GOTO="bt_add"
-ACTION == "remove", GOTO="bt_remove"
-
-LABEL="bt_add"
-
-# Here are the names of my devices
 
 ATTR{address}=="f4:4e:fd:4d:52:6c", ENV{MY_DEV}="Anker"
 ATTR{address}=="c0:28:8d:36:20:97", ENV{MY_DEV}="Boom VLF"
@@ -31,20 +25,23 @@ ENV{RADIOG_HOME}="/home/lefevre/work/hub/radiog"
 ENV{MY_PROG}="radiog"
 ENV{MY_ADDR}="$attr{address}"
 
-# To make sure that my rules are correct
-RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} address: '$attr{address}' prog: '$env{MY_PROG}' name: '$env{NAME}' device: '$env{MY_DEV}' mac: '$env{MY_ADDR}'"
+ACTION == "add", GOTO="bt_add"
+ACTION == "remove", GOTO="bt_remove"
+
+LABEL="bt_add"
+
+# Here are the names of my devices
 
 # When a device is added, start the player
-RUN+="$env{RADIOG_HOME}/bin/udev-play.sh -p"
+RUN+="/bin/bash -c '/home/lefevre/work/hub/radiog/bin/udev-play.sh -p &'"
+RUN+="/home/lefevre/work/hub/radiog/bin/udev-probe.sh add"
 
 GOTO="bt_end"
 
 LABEL="bt_remove"
 
-# Note that $attr{address} is void
-RUN+="$env{RADIOG_HOME}/bin/udev-probe.sh action: $env{ACTION} '$attr{address}' prog: '$env{MY_PROG}' device: '$env{MY_DEV}' mac: '$env{MY_ADDR}'"
-
-RUN+="$env{RADIOG_HOME}/bin/udev-play.sh -m"
+RUN+="/bin/bash -c '/home/lefevre/work/hub/radiog/bin/udev-play.sh -m &'"
+RUN+="/home/lefevre/work/hub/radiog/bin/udev-probe.sh remove"
 
 GOTO="bt_end"
 

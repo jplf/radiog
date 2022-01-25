@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 #______________________________________________________________________________
 
 # Script used to start or stop the backend player.
@@ -26,7 +26,7 @@ fi
 
 # The udev rule does not provide the URL.
 if [ -z "$RADIOG_URL" ]; then 
-    export RADIOG_URL=http://localhost:3000
+    export RADIOG_URL=https://localhost:3000
 fi
 
 # Make sure that the server is online
@@ -36,18 +36,19 @@ if [ -z "$RADIOG_URL" ]; then
     exit 1
 fi
 
+when=`\date "+%Y-%m-%d %H:%M"`
 
 while [ -n "$1" ];do
 case    $1 in
         -h)     echo $usage
                 exit 0 ;;
         
-        -p)     echo "Start playing at $RADIOG_URL" >> $log
-                curl -s $RADIOG_URL/player/on
+        -p)     echo "$when start playing at $RADIOG_URL" >> $log
+                curl -sk $RADIOG_URL/player/on
                 exit 0 ;;
 
-        -m)     echo "Stop playing at $RADIOG_URL" >> $log
-                curl -s $RADIOG_URL/player/off
+        -m)     echo "$when stop  playing at $RADIOG_URL" >> $log
+                curl -sk $RADIOG_URL/player/off
                 exit 0 ;;
 
         -*)     echo $usage

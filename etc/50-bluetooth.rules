@@ -17,6 +17,8 @@ SUBSYSTEM !="bluetooth", GOTO="bt_end"
 
 ACTION != "add|remove", GOTO="bt_end"
 
+# Here are the names of my devices
+
 ATTR{address}=="f4:4e:fd:4d:52:6c", ENV{MY_DEV}="Anker"
 ATTR{address}=="c0:28:8d:36:20:97", ENV{MY_DEV}="Boom VLF"
 ATTR{address}=="00:09:a7:09:1b:ab", ENV{MY_DEV}="Headset"
@@ -30,18 +32,16 @@ ACTION == "remove", GOTO="bt_remove"
 
 LABEL="bt_add"
 
-# Here are the names of my devices
-
 # When a device is added, start the player
-RUN+="/bin/bash -c '/home/lefevre/work/hub/radiog/bin/udev-play.sh -p &'"
-RUN+="/home/lefevre/work/hub/radiog/bin/udev-probe.sh add"
+RUN+="/home/lefevre/work/hub/radiog/bin/udev-probe.sh adding '$env{MY_DEV}'"
+RUN+="/home/lefevre/work/hub/radiog/bin/udev-play.sh -p"
 
 GOTO="bt_end"
 
 LABEL="bt_remove"
 
-RUN+="/bin/bash -c '/home/lefevre/work/hub/radiog/bin/udev-play.sh -m &'"
-RUN+="/home/lefevre/work/hub/radiog/bin/udev-probe.sh remove"
+RUN+="/home/lefevre/work/hub/radiog/bin/udev-probe.sh removing '$env{MY_DEV}'"
+RUN+="/home/lefevre/work/hub/radiog/bin/udev-play.sh -m"
 
 GOTO="bt_end"
 

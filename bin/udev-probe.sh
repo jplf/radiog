@@ -10,7 +10,7 @@ log=/home/lefevre/work/hub/radiog/run/udev.log
 
 when=$(/bin/date "+%H h. %M m. %S s")
 
-echo  "$when data: $@" >> $log
+echo  "$when - $@" >> $log
 
 exit 0
 

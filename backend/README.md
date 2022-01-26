@@ -43,6 +43,14 @@ cp radiog/etc/50-bluetooth.rules /etc/udev/rules.d/
 cp my-host.cert.pem my-host.key.pem radiog/etc/
 chmod go-rwx radiog/etc/my-host.key.pem
 ```
+### X509 Certificates
+
+```bash
+# Create a self-signed certificate in the etc directory
+cd etc
+openssl req -new -x509 -sha256 -newkey rsa:2048 -nodes \
+    -keyout $HOSTNAME.key.pem -days 365 -out $HOSTNAME.cert.pem
+```
 
 ### Updating
 ```bash
@@ -200,7 +208,7 @@ To manage the player one can call these end points :
 * `/player/station-list` : gets the list of radio stations
 * `/player/station?key=nn` : gets info about a specific station
 * `/player/set?volume=12` : changes the output volume
-* /`player/play?file=some-file.mp3`: plays a mp3 file
+* '/player/play?file=some-file.mp3`: plays a mp3 file
 * `/player/listen/nn` : listens to a radio station
 
 And for the bluetooth connection :

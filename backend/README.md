@@ -59,10 +59,13 @@ npm update
 npm ls --depth=0
 npm view jest version
 
-# Updating
+# Install ncu
 npm install -g npm-check-updates
+
+# Updatin in backend directory
 ncu
 ncu -u
+npm install
 ```
 ### Udev usage
 A rule has been defined to automatically stop or start the radio connection when the bluetooth device is switched off or on. Without this rule the connection had to be killed by a manual call to the backend api with *curl* or the frontend interface. Otherwise, even if there is no sound, the stream keeps flowing from the radio station.

@@ -150,7 +150,7 @@ export class PlayerService {
         const kill = cp.spawn('/usr/bin/amixer',
                               ['-D', 'pulse', 'sset', 'Master', percent]);
         
-        this.journal.log('Volume set to ' + this.player.volume + '%');
+        this.journal.log('Volume changed to ' + this.player.volume + '%');
 
         kill.stderr.on('data', (data) => {
             this.journal.log(`stderr: ${data}`);

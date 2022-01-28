@@ -30,6 +30,7 @@ export class PlayerController {
     @ApiOkResponse({description: 'The list of known stations.'})
     stationList() : string {
 
+        this.journal.log('Checking list stations');
         const list = this.stationsService.getList();
         return JSON.stringify(list);
     }
@@ -58,8 +59,24 @@ export class PlayerController {
         }
 
         this.playerService.setVolume(value);
-        this.journal.log('Volume set to ' + volume);
+        this.journal.log('Volume set to ' + volume + '%');
         return JSON.stringify(volume);
+    }
+
+    // Restarts playing
+    @Get('on')
+    switchOn(): string {
+        this.playerService.switchOn();
+        this.journal.log('Restart playing');
+        return JSON.stringify('restarted');
+   }
+
+    // Stops playing
+    @Get('off')
+    switchOff(): string {
+        this.playerService.switchOff();
+        this.journal.log('Stop playing');
+        return JSON.stringify('off');
     }
 
     /**
@@ -85,22 +102,6 @@ export class PlayerController {
         this.journal.log('Listening to ' + s.name);
         this.playerService.listen(s.stream);
         return JSON.stringify(s.name + ' on');
-    }
-
-    // Restarts playing
-    @Get('on')
-    switchOn(): string {
-        this.playerService.switchOn();
-        this.journal.log('Restart playing');
-        return JSON.stringify('restarted');
-   }
-
-    // Stops playing
-    @Get('off')
-    switchOff(): string {
-        this.playerService.switchOff();
-        this.journal.log('Stop playing');
-        return JSON.stringify('off');
     }
 }
 /*------------------------------------------------------------------------*/

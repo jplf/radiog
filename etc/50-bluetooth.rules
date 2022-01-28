@@ -33,15 +33,15 @@ ACTION == "remove", GOTO="bt_remove"
 LABEL="bt_add"
 
 # When a device is added, start the player
-RUN+="/home/lefevre/work/hub/radiog/bin/udev-probe.sh adding '$env{MY_DEV}'"
-RUN+="/home/lefevre/work/hub/radiog/bin/udev-play.sh -p"
+RUN+="/usr/bin/sudo -u lefevre $env{RADIOG_HOME}/bin/udev-probe.sh adding '$env{MY_DEV}'"
+RUN+="/usr/bin/sudo -u lefevre $env{RADIOG_HOME}/bin/udev-play.sh -p"
 
 GOTO="bt_end"
 
 LABEL="bt_remove"
 
-RUN+="/home/lefevre/work/hub/radiog/bin/udev-probe.sh removing '$env{MY_DEV}'"
-RUN+="/home/lefevre/work/hub/radiog/bin/udev-play.sh -m"
+RUN+="/usr/bin/sudo -u lefevre $env{RADIOG_HOME}/bin/udev-probe.sh removing '$env{MY_DEV}'"
+RUN+="/usr/bin/sudo -u lefevre $env{RADIOG_HOME}/bin/udev-play.sh -m"
 
 GOTO="bt_end"
 

@@ -1,0 +1,38 @@
+#______________________________________________________________________________
+
+# Rules to manage the RadioG output bluetooth devices
+# Jean-Paul Le Fèvre - January 2022
+
+# These are the rules working on a raspberry.
+# See also the regular rules : 50-bluetooth.rules for a desktop
+
+# udevadm monitor --environment --udev
+# udevadm control --reload
+# udevadm info -ap 
+# /devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/bluetooth/hci0/hci0:21
+#______________________________________________________________________________
+
+
+SUBSYSTEM !="bluetooth", GOTO="bt_end"
+
+ACTION != "add|remove", GOTO="bt_end"
+
+ENV{RADIOG_HOME}="/home/lefevre/work/hub/radiog"
+
+ACTION == "add", GOTO="bt_add"
+ACTION == "remove", GOTO="bt_remove"
+
+LABEL="bt_add"
+
+# When a device is switched on, start the player
+RUN+="/usr/bin/sudo -u lefevre /usr/bin/touch $env{RADIOG_HOME}/run/unmuted"
+
+GOTO="bt_end"
+
+LABEL="bt_remove"
+
+# When a device is switched off, stop the player
+RUN+="/usr/bin/sudo -u lefevre /usr/bin/touch $env{RADIOG_HOME}/run/muted"
+
+LABEL="bt_end"
+#______________________________________________________________________________

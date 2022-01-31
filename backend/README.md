@@ -138,6 +138,8 @@ It is the difficult part. This application is designed to send the audio output 
 
 On RPi it is a nightmare to make the on-board bluetooth and the pulseaudio server working reliably together. When the configuration seems to be ok the connection to the audio device randomly falls down after a certain period of time. Without a full reboot it is impossible to reenable the audio system. After hours of googling the problem it turns out that the only robust solution is not to use the embedded bt device but to take a usb dongle instead. It's what I did and I managed to get something working without trouble. In the future with a new version of the RPi we may hope to have something usable.
 
+Actually with another RPi it was the contrary : the connections stop working randomly with a dongle but stay stable with the on-board component.
+
 To avoid having more than one bt controller the boot config has to be fixed :
 ```
 # To disable the on-board wifi and bluetooth
@@ -145,6 +147,7 @@ echo "dtoverlay=disable-wifi" >> /boot/config.txt
 echo "dtoverlay=disable-bt"  >> /boot/config.txt
 ```
 After reboot `bluetoothctl` presents only one controller : the one from the usb dongle which is defined as the default.
+*But this paragraph is no longer true* : using *systemctl* commands on ubuntu it is easier to control the devices.
 
 There is not good modern API to manage the bluetooth connection. To interact with the system from a javascript application it is necessary to spawn a unix command like :
 ```

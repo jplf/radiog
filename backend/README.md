@@ -13,6 +13,7 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 31 January 2022 | working udev rules enabled at last ! |
 | 20 January 2022 | Connections are made over TLS |
 | 10 January 2022  | Udev rules differ on my Dell slackware and on Rpi ubuntu |
 | 09 December 2021  | Bluetooth udev config almost ready |
@@ -45,6 +46,9 @@ chmod go-rwx radiog/etc/my-host.key.pem
 ```
 ### X509 Certificates
 
+Since the frontend server is now working on TLS it is necessary to have the backend server using https as well.
+However it is not mandatory to have a complete certificate for this internal component. A self-signed certificate is sufficient.
+
 ```bash
 # Create a self-signed certificate in the etc directory
 cd etc
@@ -62,7 +66,7 @@ npm view jest version
 # Install ncu
 npm install -g npm-check-updates
 
-# Updatin in backend directory
+# Update the packages in in backend directory
 ncu
 ncu -u
 npm install
@@ -73,6 +77,8 @@ A rule has been defined to automatically stop or start the radio connection when
 With a correct udev rule enabled it is no longer necessary to stop manually both the device and the connection. The rule is triggered automatically when the device is switched on or off. Unfortunately it is not straightforward to configure the rules on a raspberry : i.e. the list of attributes available to the scripts is extremely limited.
 
 Some rules are kept in the *etc* directoy and have to be installed in */etc/udev/rules.d*. To help debugging messages are printed in the *run* directory. See also *udev(7)* to find out which commands may be of interest.
+
+Finally the implementation is slightly different on a raspberry and on a deskop. Two files are available : one for a rpi - *51-bluetooth-rules* - and another one for a desktop - *50-bluetooth-rules*.
 
 ### Testing
 

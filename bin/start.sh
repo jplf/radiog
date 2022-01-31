@@ -36,7 +36,7 @@ cat $RADIOG_HOME/frontend/src/assets/radiog-conf.json
 # Check the current time to make comparison possible with timestamp.0
 touch timestamp.0
 
-rm -f screenlog.? 2>/dev/null
+rm -f screenlog.? unmuted muted  2>/dev/null
 mv -f *.log ../tmp/  2>/dev/null
 
 # Launch the backend server.
@@ -48,6 +48,9 @@ npm run start 1>>../run/backend.log 2>../run/backend.err &
 
 cd $RADIOG_HOME/run
 touch timestamp.1
+
+# Enable the monitoring of the udev actions.
+$RADIOG_HOME/bin/udev-proc.sh &
 
 # Make sure the server is ready.
 sleep 30

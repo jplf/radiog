@@ -3,8 +3,13 @@
 # Rules to manage the RadioG output bluetooth devices
 # Jean-Paul Le Fèvre - January 2022
 
-# These are the rules working on a raspberry.
+# These are the rules working on a raspberry pi.
 # See also the regular rules : 50-bluetooth.rules for a desktop
+
+# Calling directly the backend end point fails on a RPi. The system pretends that
+# it takes too much time to complete.
+# The work around consists of simply touching a file wich is observed by the
+# filesystem monitoring.
 
 # udevadm monitor --environment --udev
 # udevadm control --reload
@@ -24,14 +29,14 @@ ACTION == "remove", GOTO="bt_remove"
 
 LABEL="bt_add"
 
-# When a device is switched on, start the player
+# When a device is switched on, touch a file which causes the player to start
 RUN+="/usr/bin/sudo -u lefevre /usr/bin/touch $env{RADIOG_HOME}/run/unmuted"
 
 GOTO="bt_end"
 
 LABEL="bt_remove"
 
-# When a device is switched off, stop the player
+# When a device is switched off, touch a file which causes the player to stop
 RUN+="/usr/bin/sudo -u lefevre /usr/bin/touch $env{RADIOG_HOME}/run/muted"
 
 LABEL="bt_end"

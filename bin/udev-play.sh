@@ -6,7 +6,8 @@
 # It starts when the bluetooth device is switched on
 # and stops when the device is swiched off. So it is no longer necessary
 # to stop both the player and the bluetooth loud speaker.
-# See also : 50-bluetooth.rules
+
+# See also : 50-bluetooth.rules and  51-bluetooth.rules
 
 # Option -p : play
 # Option -m : mute
@@ -29,7 +30,7 @@ if [ -z "$RADIOG_URL" ]; then
     export RADIOG_URL=https://localhost:3000
 fi
 
-# Make sure that the server is online
+# Make sure that the server is online, otherwise exit.
 status=`curl -Is $RADIOG_URL/player | head -n 1`
 if [ -z "$RADIOG_URL" ]; then 
     echo "RadioG is not yet running"

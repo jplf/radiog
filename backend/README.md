@@ -13,6 +13,7 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 10 February 2022 | Backend is ready to be tagged 2.0 |
 | 31 January 2022 | working udev rules enabled at last ! |
 | 20 January 2022 | Connections are made over TLS |
 | 10 January 2022  | Udev rules differ on my Dell slackware and on Rpi ubuntu |
@@ -43,7 +44,21 @@ cp radiog/etc/50-bluetooth.rules /etc/udev/rules.d/
 # Create and install the hostname certificate pair
 cp my-host.cert.pem my-host.key.pem radiog/etc/
 chmod go-rwx radiog/etc/my-host.key.pem
+
 ```
+### Backend configuration
+
+The configuratin is read from :
+1. the file `$RADIOG_CONF` usually `$HOME/etc/radiog.conf`
+2. the file `$RADIOG_HOME/etc/radiog.conf`
+
+The first setting of a variable takes precedence.
+The backend version is set in the file `package.json`.
+See the [doc](https://docs.npmjs.com/cli/v7/configuring-npm/package-json).
+
+The git package is tagged with the *major.minor* version ident. 
+
+
 ### X509 Certificates
 
 Since the frontend server is now working on TLS it is necessary to have the backend server using https as well.

@@ -43,7 +43,17 @@ cp radiog/etc/50-bluetooth.rules /etc/udev/rules.d/
 # Create and install the hostname certificate pair
 cp my-host.cert.pem my-host.key.pem radiog/etc/
 chmod go-rwx radiog/etc/my-host.key.pem
+
 ```
+### Backend configuration
+
+The configuratin is read from :
+1. the file `$RADIOG_CONF` usually `$HOME/etc/radiog.conf`
+2. the file `$RADIOG_HOME/etc/radiog.conf`
+
+The first setting of a variable one takes precedence.
+
+
 ### X509 Certificates
 
 Since the frontend server is now working on TLS it is necessary to have the backend server using https as well.

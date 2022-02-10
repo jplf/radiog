@@ -13,6 +13,7 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 10 February 2022 | Backend is ready to be tagged |
 | 31 January 2022 | working udev rules enabled at last ! |
 | 20 January 2022 | Connections are made over TLS |
 | 10 January 2022  | Udev rules differ on my Dell slackware and on Rpi ubuntu |
@@ -51,7 +52,7 @@ The configuratin is read from :
 1. the file `$RADIOG_CONF` usually `$HOME/etc/radiog.conf`
 2. the file `$RADIOG_HOME/etc/radiog.conf`
 
-The first setting of a variable one takes precedence.
+The first setting of a variable takes precedence.
 
 
 ### X509 Certificates

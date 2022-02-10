@@ -13,7 +13,7 @@ The server is implemented in the [Nest](https://github.com/nestjs/nest) framewor
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
-| 10 February 2022 | Backend is ready to be tagged |
+| 10 February 2022 | Backend is ready to be tagged 2.0 |
 | 31 January 2022 | working udev rules enabled at last ! |
 | 20 January 2022 | Connections are made over TLS |
 | 10 January 2022  | Udev rules differ on my Dell slackware and on Rpi ubuntu |
@@ -53,6 +53,10 @@ The configuratin is read from :
 2. the file `$RADIOG_HOME/etc/radiog.conf`
 
 The first setting of a variable takes precedence.
+The backend version is set in the file `package.json`.
+See the [doc](https://docs.npmjs.com/cli/v7/configuring-npm/package-json).
+
+The git package is tagged with the *major.minor* version ident. 
 
 
 ### X509 Certificates

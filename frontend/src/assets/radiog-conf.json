@@ -1,6 +1,6 @@
 {
     "version": "Version 1.5 - 14 january 2022",
-    "playerUrl": "http://localhost:3000/player/",
+    "playerUrl": "https://localhost:3000/player/",
     "stationKey": "10",
     "volume": 25
 }

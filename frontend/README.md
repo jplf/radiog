@@ -65,7 +65,10 @@ The new version is now served by a <a href="https://www.nginx.com/">nginx server
 
 ### Updating
 
-It is a nightmare to update angular ! it is necessary to upgrade each release one by one, i.e. from 9, 10, 11, 12 to 13 forcing update when dependies are screwed up.
+It is important to update the frontend code very often to avoid troubles with the angular framework.
+
+It is a nightmare to update angular !
+If the current version is too old it is necessary to upgrade each release one by one, i.e. from 9, 10, 11, 12 to 13 forcing update when dependies are screwed up.
 ```
 npm config set legacy-peer-deps true
 

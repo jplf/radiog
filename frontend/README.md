@@ -65,13 +65,17 @@ The new version is now served by a <a href="https://www.nginx.com/">nginx server
 
 ### Updating
 
-It is a nightmare to update angular ! it is necessary to upgrade each release one by one, i.e. from 9, 10, 11, 12 to 13 forcing update when dependies are screwed up.
+It is important to update the frontend code very often to avoid troubles with the angular framework.
+
+It is a nightmare to update angular !
+If the current version is too old it is necessary to upgrade each release one by one, i.e. from 9, 10, 11, 12 to 13 forcing update when dependies are screwed up.
+It seems necessary to commit changes after each update.
+
 ```
 npm config set legacy-peer-deps true
 
-git stash --include-untracked
+git commit -am "Angular update"
 ng update --force @angular/cli@nn
-git stash --include-untracked
 ng update --force @angular/core@nn
 ng update
 ng --version

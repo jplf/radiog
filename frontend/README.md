@@ -18,6 +18,13 @@ This application was my first attempt to build something useful with the new ver
 It is meant to be the user interface to the [backend server](https://github.com/jplf/radiog/blob/master/backend/README.md).
 This backend provides services which can be accessed by http requests.
 
+### Build and run
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+The content may be served by nginx or an apache http server.
+
+Do not forget to update the current version of angular regularly.
+
 ### Installation
 
 This application can run on any computer running the linux operating system.
@@ -92,11 +99,6 @@ At this point the available components are :
 * `messages` is used to display messages when necessary.
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-### Build and run
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-The content may be served by nginx or a apache http server.
 
 #### Components
 

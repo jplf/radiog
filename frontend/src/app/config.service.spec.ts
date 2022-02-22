@@ -21,20 +21,21 @@ describe('ConfigService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [ ConfigService, HttpClient, HttpHandler,
-                         {
-                             provide: APP_INITIALIZER,
-                             multi: true,
-                             deps: [ConfigService],
-                             useFactory: (configService: ConfigService) => {
-                                 return () => {
-                                     configService.getConfig();
-                                     console.log("The configuration is got");
-                                 };
-                             }
-                         }
-                       ]
-        });
+    providers: [ConfigService, HttpClient, HttpHandler,
+        {
+            provide: APP_INITIALIZER,
+            multi: true,
+            deps: [ConfigService],
+            useFactory: (configService: ConfigService) => {
+                return () => {
+                    configService.getConfig();
+                    console.log("The configuration is got");
+                };
+            }
+        }
+    ],
+    teardown: { destroyAfterEach: false }
+});
 
         service = TestBed.inject(ConfigService);
         console.log("Configured");

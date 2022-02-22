@@ -20,7 +20,7 @@ This backend provides services which can be accessed by http requests.
 
 ### Build and run
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run [`ng build`](https://angular.io/cli/build) to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 The content may be served by nginx or an apache http server.
 
 Do not forget to update the current version of angular regularly.

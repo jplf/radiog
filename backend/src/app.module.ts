@@ -1,3 +1,6 @@
+/**
+ * The module manager
+ */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -9,18 +12,24 @@ import { StationsService } from './stations/stations.service';
 import { PlayerController } from './player/player.controller';
 // Handles the player commands
 import { PlayerService } from './player/player.service';
-import { DeviceController } from './device/device.controller';
 import { DeviceService } from './device/device.service';
+import { OutputService } from './output/output.service';
+import { OutputController } from './output/output.controller';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
-            envFilePath: process.env.RADIOG_CONF
+            envFilePath: [process.env.RADIOG_CONF,
+                          process.env.RADIOG_HOME
+                          + '/etc/radiog.conf']
         })
     ],
-    controllers: [PlayerController, DeviceController],
-    providers: [StationsService, Journal, PlayerService, DeviceService],
+    controllers: [PlayerController, OutputController],
+    providers: [StationsService, Journal, PlayerService, DeviceService,
+                OutputService]
 })
 
 export class AppModule {}
+
+/*------------------------------------------------------------------------*/

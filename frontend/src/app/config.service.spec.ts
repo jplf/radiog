@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-
+import { APP_INITIALIZER } from '@angular/core';
+import { ApplicationInitStatus } from '@angular/core';
 import { ConfigService } from './config.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
-import { HttpClientModule } from '@angular/common/http';
-import { Config } from './config';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpTestingController } from '@angular/common/http/testing';
+import { Config } from './config';
+import { HttpClientModule } from '@angular/common/http';
 
 // ng test --test-path-pattern="config.service.spec.ts"
 // It was a nightmare to call loadConfig() and make the tests working.
@@ -16,52 +19,40 @@ describe('ConfigService', () => {
 
     let service: ConfigService;
 
-    const testConfiguration: Config = {
-        version: 'Test 0.1',
-        playerUrl: 'http://localhost:18300/player/',
-        stationKey: '12',
-        volume: 10
-    };
-
-    beforeAll(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [ConfigService],
-            imports: [HttpClientModule]
-        });
+    providers: [ConfigService, HttpClient, HttpHandler,
+        {
+            provide: APP_INITIALIZER,
+            multi: true,
+            deps: [ConfigService],
+            useFactory: (configService: ConfigService) => {
+                return () => {
+                    configService.getConfig();
+                    console.log("The configuration is got");
+                };
+            }
+        }
+    ],
+    teardown: { destroyAfterEach: false }
+});
 
         service = TestBed.inject(ConfigService);
-        console.log('Before all');
-
-        service.configuration = testConfiguration;
+        console.log("Configured");
     });
 
-    it('should be created', () => {
-        expect(service).toBeTruthy();
-        console.log('Config truthy');
+    describe('test', async () => {
+        await TestBed.inject(ApplicationInitStatus).donePromise;
+        it('should be created', async () => {
+            expect(service).toBeTruthy();
+            expect(service.version).toBe('4');
+        });
     });
 
-    it('should not get a wrong version number', () => {
-
-        const version = '0.19999999';
-
-        expect(service.version).not.toBe(version);
-    });
-
-    it('should get the correct version number', () => {
-
-        const version = testConfiguration.version;
-
-        expect(service.version).toBe(version);
-    });
-
-    it('should get the player url', () => {
-
-        const url = testConfiguration.playerUrl;
-
-        expect(service.playerUrl).toBe(url);
-    });
-
-    afterAll(() => {
-        console.log('All done');
-    });
+//    it('should get the configuration', async () => {
+//        const version = '0.1';
+//        await TestBed.inject(ApplicationInitStatus).donePromise;
+//
+//        expect(await service.version).toBe(version);
+//    });
 });

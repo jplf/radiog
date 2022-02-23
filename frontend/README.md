@@ -4,12 +4,26 @@ on a *Raspberry Pi*. Here are some notes about the frontend server.
 
 The main page displays the top [README](https://github.com/jplf/radiog/blob/master/README.md).
 
+### Changelog
+
+| Date         | Changes |
+|--------------|---------|
+| 10 January 2022  | The frontend is served by nginx(1) |
+| 2021 | The application is running as expected |
+
 ### Design
 
 This application was my first attempt to build something useful with the new version of Angular. It follows the explanations provided on the Angular website for the [Heroes](https://angular.io/tutorial) demo.
 
 It is meant to be the user interface to the [backend server](https://github.com/jplf/radiog/blob/master/backend/README.md).
 This backend provides services which can be accessed by http requests.
+
+### Build and run
+
+Run [`ng build`](https://angular.io/cli/build) to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+The content may be served by nginx or an apache http server.
+
+Do not forget to update the current version of angular regularly.
 
 ### Installation
 
@@ -24,13 +38,16 @@ node -v
 npm -v
 git remote add origin git@github.com:jplf/radiog.git
 git pull
+
 cd radiog/frontend
 npm install
 npm install @angular/cli
+PATH=$PATH:$RADIOG_HOME/frontend/node_modules/.bin
 ng --version
 ```
 These commands should be executed in the `frontend` directory. The code of the application is fetched from github.
 Versions of *node* and *npm* are checked. The `PATH` must be updated to give access to the content of `node_modules/.bin/`, i.e. `ng`.
+Note that it may be necessary to update the code, nodejs, angular and that may cause a lot of hassles.
 
 It is also possible to rebuild the application from scratch.
 ```
@@ -53,6 +70,24 @@ bootstrap bootswatch
 Finally try `ng build` to build the application with is found in the directory _dist_. A http server just needs to mention the location of the content.
 The new version is now served by a <a href="https://www.nginx.com/">nginx server</a>.
 
+### Updating
+
+It is important to update the frontend code very often to avoid troubles with the angular framework.
+
+It is a nightmare to update angular !
+If the current version is too old it is necessary to upgrade each release one by one, i.e. from 9, 10, 11, 12 to 13 forcing update when dependies are screwed up.
+It seems necessary to commit changes after each update.
+
+```
+npm config set legacy-peer-deps true
+
+git commit -am "Angular update"
+ng update --force @angular/cli@nn
+ng update --force @angular/core@nn
+ng update
+ng --version
+```
+
 ### Code scaffolding
 
 At this point the available components are :
@@ -64,10 +99,6 @@ At this point the available components are :
 * `messages` is used to display messages when necessary.
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-### Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 #### Components
 

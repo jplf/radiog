@@ -1,6 +1,6 @@
 {
-    "version": "Version 2.0 - 27 April 2021",
-    "playerUrl": "http://localhost:18300/player/",
+    "version": "Version front/back 1.5/2.0 - 22 February 2022",
+    "playerUrl": "https://kerjean:3000/player/",
     "stationKey": "10",
     "volume": 25
 }

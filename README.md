@@ -13,6 +13,8 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Changelog
 | Date         | Changes |
 |--------------|---------|
+| 20 January 2022| Progress on TLS configurations |
+| 11 January 2022 | First attempt to make a proper installation on each hosts |
 | 27 April 2021 | The frontend is now served by nginx |
 | 02 December 2020 | The backend can also be used by RadioK |
 | 23 November 2020 | Code cleaned up |
@@ -30,6 +32,7 @@ Here is a brief summary in english of what is detailed in the full web site.
 ### Bugs
 * It is still hard to master the bluetooth connection on the raspberry. Actually it seems that there is a difficulty with the on-board bt device which stops working randomly after an unpredictable period of time. After having spent hours trying to fix the problem with the help of google I gave up and changed for an usb bt dongle.
 Updated : no more any problem with a dongle.
+* Udev rules are not fully understood on Rpi Ubuntu. Output bluetooth device mac address is not provided.
 * When the frontend server is accessed from different clients weird things may happen since the web pages are not kept in sync on these running clients.
 * Starting the application may take a long time since the code has to be recompiled. Message telling that the server is online is not correct.
 
@@ -56,6 +59,15 @@ The runtime configuration management is far from being perfect. Make sure that t
 The frontend configuration is defined in `assets/radiog-conf.json` which can be replaced by a file whose name is defined in `environment.ts`.
 
 To stop the application run `bin/stop.h`. This script kills with no mercy all RadioG processes.
+
+A new version will be available soon : connections to the servers will be managed over TLS. 
+
+## Updating
+```
+npm update
+npm audit fix [--force]
+git branch -a
+```
 
 ## Backend
 The backend server [README](https://github.com/jplf/radiog/tree/master/backend) gives more information.

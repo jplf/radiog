@@ -23,8 +23,9 @@ describe('LoggerService', () => {
         console.log = mockedLog;
 
         TestBed.configureTestingModule({
-            providers: [DatePipe]
-        });
+    providers: [DatePipe],
+    teardown: { destroyAfterEach: false }
+});
 
         service = TestBed.inject(LoggerService);
     });

@@ -72,6 +72,9 @@ openssl req -new -x509 -sha256 -newkey rsa:2048 -nodes \
 ```
 
 ### Updating
+
+It is strongly advised to update the code regularly, otherwise it is really hard to update a too old version to a recent one.
+
 ```bash
 # Checking version
 npm update

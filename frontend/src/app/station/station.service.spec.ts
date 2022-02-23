@@ -10,9 +10,9 @@ describe('StationService', () => {
 
     beforeEach(async () => {
         TestBed.configureTestingModule({
-
-            providers: [StationService, DatePipe, HttpClient, HttpHandler]
-        });
+    providers: [StationService, DatePipe, HttpClient, HttpHandler],
+    teardown: { destroyAfterEach: false }
+});
 
         service = TestBed.inject(StationService);
     });

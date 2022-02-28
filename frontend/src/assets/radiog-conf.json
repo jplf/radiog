@@ -1,6 +1,6 @@
 {
     "version": "Version front/back 1.5/2.0 - 22 February 2022",
-    "playerUrl": "https://herflux:3000/player/",
+    "playerUrl": "https://vellefaux.fonteny.org/backend/",
     "stationKey": "10",
     "volume": 35
 }

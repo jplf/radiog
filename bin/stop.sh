@@ -24,6 +24,12 @@ echo "Killing backend"
 $do_kill "node"
 # Now the frontend is managed by systemctl nginx 
 
+echo "Killing udev-proc"
+$do_kill "udev-proc"
+
+echo "Killing inotifywait"
+$do_kill "inotifywait"
+
 # Don't know why sound messes up with the keyboard
 if [ -f "$HOME/.keyboard" ]; then
     /usr/bin/xmodmap $HOME/.keyboard

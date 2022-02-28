@@ -33,7 +33,8 @@ async function bootstrap() {
     
     const app = await NestFactory.create(AppModule, {
         httpsOptions,
-        bufferLogs: true
+        bufferLogs: true,
+        cors: true
     });
 
     const config = new DocumentBuilder()

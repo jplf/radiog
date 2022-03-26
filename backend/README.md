@@ -98,6 +98,18 @@ Some rules are kept in the *etc* directoy and have to be installed in */etc/udev
 
 Finally the implementation is slightly different on a raspberry and on a deskop. Two files are available : one for a rpi - *51-bluetooth-rules* - and another one for a desktop - *50-bluetooth-rules*.
 
+Some useful commands :
+```
+To check that udev is working
+systemctl status udev
+# To guess the path of the on-board device
+udevadm info --path=/devices/platform/soc/3f201000.serial/tty/ttyAMA0/hci0 --attribute-walk
+# To update the set of rules
+udevadm control --reload
+# To see what happens when a device is connected or disconnected
+udevadm monitor
+```
+
 ### Testing
 
 First read the NestJs [documentation](https://docs.nestjs.com/fundamentals/testing) to have a presentation of the framework then look at the Jest [pages](https://jestjs.io/docs/en/getting-started) to start implementing tests. 

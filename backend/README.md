@@ -73,7 +73,7 @@ openssl req -new -x509 -sha256 -newkey rsa:2048 -nodes \
 
 ### Updating
 
-It is strongly advised to update the code regularly, otherwise it is really hard to update a too old version to a recent one.
+It is strongly advised to update the code regularly, otherwise it is really hard to migrate a too old version to a recent one.
 
 ```bash
 # Checking version
@@ -97,6 +97,18 @@ With a correct udev rule enabled it is no longer necessary to stop manually both
 Some rules are kept in the *etc* directoy and have to be installed in */etc/udev/rules.d*. To help debugging messages are printed in the *run* directory. See also *udev(7)* to find out which commands may be of interest.
 
 Finally the implementation is slightly different on a raspberry and on a deskop. Two files are available : one for a rpi - *51-bluetooth-rules* - and another one for a desktop - *50-bluetooth-rules*.
+
+Some useful commands :
+```
+To check that udev is working
+systemctl status udev
+# To guess the path of the on-board device
+udevadm info --path=/devices/platform/soc/3f201000.serial/tty/ttyAMA0/hci0 --attribute-walk
+# To update the set of rules
+udevadm control --reload
+# To see what happens when a device is connected or disconnected
+udevadm monitor
+```
 
 ### Testing
 
@@ -143,7 +155,7 @@ Once the output device is configured it is possible to use the player:
 
 ```
 curl -sk https://localhost:3000/player/station?key=11
-curl -sk https://ocalhost:3000/player/on
+curl -sk https://localhost:3000/player/on
 curl -sk https://localhost:3000/player/play?file=10/Miles_Davis-Doxy.mp3
 curl -sk https://localhost:3000/player/off
 curl -sk https://localhost:3000/player/listen/10
@@ -154,18 +166,14 @@ If the audio system is already configured there is nothing special to do. Howeve
 
 It is the difficult part. This application is designed to send the audio output to loud speakers or headset connected via bluetooth to a raspberry computer. Of course it can work on any linux box with different kind of audio device. In these cases it is likely much easier to set up the system.
 
-On RPi it is a nightmare to make the on-board bluetooth and the pulseaudio server working reliably together. When the configuration seems to be ok the connection to the audio device randomly falls down after a certain period of time. Without a full reboot it is impossible to reenable the audio system. After hours of googling the problem it turns out that the only robust solution is not to use the embedded bt device but to take a usb dongle instead. It's what I did and I managed to get something working without trouble. In the future with a new version of the RPi we may hope to have something usable.
+On RPi it was a nightmare to make the on-board bluetooth and the pulseaudio server working reliably together. Nowadays it's much easier.
 
-Actually with another RPi it was the contrary : the connections stop working randomly with a dongle but stay stable with the on-board component.
-
-To avoid having more than one bt controller the boot config has to be fixed :
+To avoid having more than one bt controller the boot config may be fixed :
 ```
 # To disable the on-board wifi and bluetooth
 echo "dtoverlay=disable-wifi" >> /boot/config.txt
 echo "dtoverlay=disable-bt"  >> /boot/config.txt
 ```
-After reboot `bluetoothctl` presents only one controller : the one from the usb dongle which is defined as the default.
-*But this paragraph is no longer true* : using *systemctl* commands on ubuntu it is easier to control the devices.
 
 There is not good modern API to manage the bluetooth connection. To interact with the system from a javascript application it is necessary to spawn a unix command like :
 ```

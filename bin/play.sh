@@ -2,7 +2,9 @@
 #______________________________________________________________________________
 
 # Script used to start the player.
-# It kills an existing player and launches mpg123(1).
+# It kills an existing player and launches mpg321(1).
+
+# Take care of player's name : mpg321 or mpg123
 
 # Try : play.sh $RADIOG_HOME/etc/far_from_love.mp3
 
@@ -16,8 +18,9 @@ if [ -z "$1" ]; then
     exit 1;
 fi
 
-/bin/killall -9 mpg123 2>/dev/null
+# Check 321 or 123
+/bin/killall -9 mpg321 2>/dev/null
 
-/usr/bin/mpg123 -q $1 2>/dev/null
+/usr/bin/mpg321 -q $1 2>/dev/null
 
 #______________________________________________________________________________

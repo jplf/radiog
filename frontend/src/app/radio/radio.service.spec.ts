@@ -11,8 +11,9 @@ describe('RadioService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [RadioService, DatePipe, HttpClient, HttpHandler]
-        });
+    providers: [RadioService, DatePipe, HttpClient, HttpHandler],
+    teardown: { destroyAfterEach: false }
+});
 
         service = TestBed.inject(RadioService);
     });

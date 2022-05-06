@@ -18,6 +18,13 @@ This application was my first attempt to build something useful with the new ver
 It is meant to be the user interface to the [backend server](https://github.com/jplf/radiog/blob/master/backend/README.md).
 This backend provides services which can be accessed by http requests.
 
+### Build and run
+
+Run [`ng build`](https://angular.io/cli/build) to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+The content may be served by nginx or an apache http server.
+
+Do not forget to update the current version of angular regularly.
+
 ### Installation
 
 This application can run on any computer running the linux operating system.
@@ -60,18 +67,22 @@ npm install @angular-devkit/architect \
 @angular/compiler-cli tslib @angular/compiler  \
 bootstrap bootswatch
 ```
-Finally try `ng build` to build the application with is found in the directory _dist_. A http server just needs to mention the location of the content.
+Finally try `ng build` to build the application with what is found in the directory _dist_. A http server just needs to mention the location of the content.
 The new version is now served by a <a href="https://www.nginx.com/">nginx server</a>.
 
 ### Updating
 
-It is a nightmare to update angular ! it is necessary to upgrade each release one by one, i.e. from 9, 10, 11, 12 to 13 forcing update when dependies are screwed up.
+It is important to update the frontend code very often to avoid troubles with the angular framework.
+
+It is a nightmare to update angular !
+If the current version is too old it is necessary to upgrade each release one by one, i.e. from 9, 10, 11, 12 to 13 forcing update when dependies are screwed up.
+It seems necessary to commit changes after each update.
+
 ```
 npm config set legacy-peer-deps true
 
-git stash --include-untracked
+git commit -am "Angular update"
 ng update --force @angular/cli@nn
-git stash --include-untracked
 ng update --force @angular/core@nn
 ng update
 ng --version
@@ -88,11 +99,6 @@ At this point the available components are :
 * `messages` is used to display messages when necessary.
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-### Build and run
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-The content may be served by nginx or a apache http server.
 
 #### Components
 

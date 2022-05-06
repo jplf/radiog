@@ -31,7 +31,7 @@ cd $RADIOG_HOME/run
 
 echo "Check the configured values"
 cat $RADIOG_CONF
-cat $RADIOG_HOME/frontend/src/assets/radiog-conf.json
+# cat $RADIOG_HOME/frontend/src/assets/radiog-conf.json
 
 # Check the current time to make comparison possible with timestamp.0
 touch timestamp.0

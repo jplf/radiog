@@ -8,8 +8,9 @@ describe('RadioComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RadioComponent ]
-    })
+    declarations: [RadioComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   }));
 

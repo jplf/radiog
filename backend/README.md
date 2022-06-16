@@ -84,7 +84,7 @@ npm view jest version
 # Install ncu
 npm install -g npm-check-updates
 
-# Update the packages in in backend directory
+# Update the packages in backend directory
 ncu
 ncu -u
 npm install

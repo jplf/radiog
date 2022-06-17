@@ -18,8 +18,8 @@ cd $RADIOG_HOME/run
 do_kill="pkill -u lefevre --signal 9"
 
 # Choose 321 or 123
-echo "Killing mpg321"
-$do_kill "mpg321"
+echo "Killing mpg123"
+$do_kill "mpg123"
 
 echo "Killing backend"
 $do_kill "node"

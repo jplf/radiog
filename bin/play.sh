@@ -19,8 +19,8 @@ if [ -z "$1" ]; then
 fi
 
 # Check 321 or 123
-/bin/killall -9 mpg321 2>/dev/null
+/bin/killall -9 mpg123 2>/dev/null
 
-/usr/bin/mpg321 -q $1 2>/dev/null
+/usr/bin/mpg123 -q $1 2>/dev/null
 
 #______________________________________________________________________________

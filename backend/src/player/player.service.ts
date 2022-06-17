@@ -124,7 +124,7 @@ export class PlayerService {
         this.player.switchedOn = false;
 
         // Make sure the path to killall is correct
-        cp.spawn('/bin/killall', ['-9', 'mpg321'], {
+        cp.spawn('/bin/killall', ['-9', 'mpg123'], {
             stdio: ['ignore', 'ignore', 'ignore']
         });
     }

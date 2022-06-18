@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 #______________________________________________________________________________
 
 # Script used to start the backend server.
@@ -33,6 +33,9 @@ echo "Check the configured values"
 cat $RADIOG_CONF
 # cat $RADIOG_HOME/frontend/src/assets/radiog-conf.json
 
+# Clean up any remaining timestamps.
+rm -f timestamp.?
+
 # Check the current time to make comparison possible with timestamp.0
 touch timestamp.0
 
@@ -40,9 +43,10 @@ rm -f screenlog.? 2>/dev/null
 mv -f *.log ../tmp/  2>/dev/null
 
 # Launch the backend server.
+env | tee ../run/backend.log
 
 cd $RADIOG_HOME/backend
-echo "Backend server is being started, be patient !" | tee ../run/backend.log
+echo "Backend server is being started, be patient !" | tee -a ../run/backend.log
 
 npm run start 1>>../run/backend.log 2>../run/backend.err &
 

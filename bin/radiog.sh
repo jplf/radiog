@@ -1,25 +1,17 @@
-#! /bin/sh
+#! /bin/bash
 #______________________________________________________________________________
 
-# Script used to start the server
-# Jean-Paul Le Fèvre - March 2020
+# Script used to start the server in a screen session
+# Jean-Paul Le Fèvre - June 2022
 #______________________________________________________________________________
 
-export NODE_PATH=/usr/local/lib/node_modules
-export RADIOG_HOME=$HOME/work/git/misc/radiog
-export PATH=/bin:/usr/bin:/usr/local/bin:$HOME/bin:$RADIOG_HOME/bin
+export RADIOG_HOME=$HOME/work/hub/radiog
+export RADIOG_URL=https://localhost:3000
+export RADIOG_CONF=/home/lefevre/etc/radiog.conf
 
-cd $RADIOG_HOME/run
+screen -ls RadioG
+screen -wipe RadioG
 
-# Clean up any remaining timestamps.
-rm -f timestamp.?
-# Note the current time.
-# On the RPi the time is not locally kept. Clock is set by the ntp program
-# and one must make sure that this initialization is properly performed.
-# This may be checked by comparing the timestamp created in start.sh
-touch timestamp.0
-
-sleep 300
-$RADIOG_HOME/bin/start.sh
+screen -LmdS RadioG bash -c '$RADIOG_HOME/bin/start.sh; exec bash'
 
 #______________________________________________________________________________

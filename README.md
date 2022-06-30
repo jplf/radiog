@@ -63,11 +63,16 @@ To stop the application run `bin/stop.h`. This script kills with no mercy all Ra
 
 A new version will be available soon : connections to the servers will be managed over TLS. 
 
-## Updating
+## General Updating
+
+After a reboot. As root :
 ```
-npm update
-npm audit fix [--force]
-git branch -a
+apt update
+apt list --upgradable
+apt upgrade
+apt autoremove
+apt clean
+
 ```
 
 ## Backend

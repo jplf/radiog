@@ -99,6 +99,21 @@ cd frontend/
 ncu
 ng update
 ```
+Check the configuration:
+```
+echo $RADIOG_URL
+cd $RADIOG_HOME/frontend/src/assets
+more local-conf.json
+# check playerUrl
+```
+Make sure that the audio stuff is ok:
+```
+systemctl status pulseaudio
+bluetoothctl
+  connect GG:4E:FD:4D:XX:NN
+mpg123 far_from_love.mp3
+
+```
 
 ## Backend
 The backend server [README](https://github.com/jplf/radiog/tree/master/backend) gives more information.

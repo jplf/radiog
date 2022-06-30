@@ -75,7 +75,7 @@ apt clean
 reboot
 systemctl --failed
 ufw status verbose
-service  --status-all
+service --status-all
 ```
 Then, also as root, update the nodejs system libraries:
 ```
@@ -83,6 +83,21 @@ npm cache clean -f
 n latest
 npm update
 reboot
+```
+As myself:
+```
+cd $RADIOG_HOME
+git pull
+# 
+cd backend/
+npm update
+ncu
+ncu -u
+npm install
+#
+cd frontend/
+ncu
+ng update
 ```
 
 ## Backend

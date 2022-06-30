@@ -112,7 +112,7 @@ systemctl status pulseaudio
 bluetoothctl
   connect GG:4E:FD:4D:XX:NN
 mpg123 far_from_love.mp3
-
+curl -sk $RADIOG_URL/player/listen/10
 ```
 
 ## Backend

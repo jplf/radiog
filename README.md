@@ -65,14 +65,24 @@ A new version will be available soon : connections to the servers will be manage
 
 ## General Updating
 
-After a reboot. As root :
+After a reboot, as root update the distrib:
 ```
 apt update
 apt list --upgradable
 apt upgrade
 apt autoremove
 apt clean
-
+reboot
+systemctl --failed
+ufw status verbose
+service  --status-all
+```
+Then, also as root, update the nodejs system libraries:
+```
+npm cache clean -f
+n latest
+npm update
+reboot
 ```
 
 ## Backend

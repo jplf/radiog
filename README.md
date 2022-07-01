@@ -63,11 +63,56 @@ To stop the application run `bin/stop.h`. This script kills with no mercy all Ra
 
 A new version will be available soon : connections to the servers will be managed over TLS. 
 
-## Updating
+## General Updating
+
+After a reboot, as root update the distrib:
 ```
+apt update
+apt list --upgradable
+apt upgrade
+apt autoremove
+apt clean
+reboot
+systemctl --failed
+ufw status verbose
+service --status-all
+```
+Then, also as root, update the nodejs system libraries:
+```
+npm cache clean -f
+n latest
 npm update
-npm audit fix [--force]
-git branch -a
+reboot
+```
+As myself:
+```
+cd $RADIOG_HOME
+git pull
+# 
+cd backend/
+npm update
+ncu
+ncu -u
+npm install
+#
+cd frontend/
+ncu
+ng update
+```
+Check the configuration:
+```
+echo $RADIOG_URL
+cd $RADIOG_HOME/frontend/src/assets
+more local-conf.json
+# check playerUrl
+```
+Make sure that the audio stuff is ok:
+```
+systemctl status pulseaudio
+bluetoothctl
+  connect GG:4E:FD:4D:XX:NN
+mpg123 far_from_love.mp3
+curl -sk $RADIOG_URL/player/listen/10
 ```
 
 ## Backend

@@ -45,11 +45,6 @@ mv -f *.log ../tmp/  2>/dev/null
 # Launch the backend server.
 env | tee ../run/backend.log
 
-cd $RADIOG_HOME/backend
-echo "Backend server is being started, be patient !" | tee -a ../run/backend.log
-
-npm run start 1>>../run/backend.log 2>../run/backend.err &
-
 cd $RADIOG_HOME/run
 touch timestamp.1
 
@@ -59,14 +54,18 @@ if [ ! -f /etc/slackware-version ]; then
     $RADIOG_HOME/bin/udev-proc.sh &
 fi
 
+echo "Backend server is being started, be patient !" | tee -a ../run/backend.log
+
+cd $RADIOG_HOME/backend
+npm run start 1>>$RADIOG_HOME/run/backend.log 2>$RADIOG_HOME/run/backend.err
 
 # Make sure the server is ready.
 sleep 30
 
 echo "Backend server is now accepting requests !" | tee -a ../run/backend.log
 curlopt="-sk"
-curl $curlopt $RADIOG_URL/player | jq
-curl $curlopt $RADIOG_URL/output/info | jq
+curl $curlopt $RADIOG_URL/player | jq | tee -a ../run/backend.log
+curl $curlopt $RADIOG_URL/output/info | jq | tee -a ../run/backend.log
 
 echo "Try something like :"
 echo "curl $curlopt $RADIOG_URL/player/set?volume=30"

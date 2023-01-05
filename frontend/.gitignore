@@ -47,5 +47,4 @@ testem.log
 Thumbs.db
 sonar-project.js
 .browserslistrc
-package-lock.json
-package.json
+

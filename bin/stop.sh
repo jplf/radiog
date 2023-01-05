@@ -29,11 +29,6 @@ if [ ! -f /etc/slackware-version ]; then
     $do_kill "inotifywait"
 fi
 
-# Don't know why sound messes up with the keyboard
-if [ -f "$HOME/.keyboard" ]; then
-    /usr/bin/xmodmap $HOME/.keyboard
-fi
-
 exit 0
 
 #______________________________________________________________________________

@@ -33,5 +33,3 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.jsontmp
 tmp
-package-lock.json
-package.json

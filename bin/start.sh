@@ -54,7 +54,7 @@ if [ ! -f /etc/slackware-version ]; then
     $RADIOG_HOME/bin/udev-proc.sh &
 fi
 
-echo "Backend server is being started, be patient !" | tee -a ../run/backend.log
+echo "Backend is being started on $HOSTNAME, be patient !" | tee -a ../run/backend.log
 
 cd $RADIOG_HOME/backend
 npm run start 1>>$RADIOG_HOME/run/backend.log 2>$RADIOG_HOME/run/backend.err
